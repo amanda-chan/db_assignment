@@ -33,8 +33,9 @@ class Restaurant(sql_db.Model):
     operating_hours = sql_db.Column(sql_db.String(50), nullable=False)
     operating_days = sql_db.Column(sql_db.String(50), nullable=False)
     address = sql_db.Column(sql_db.String(500), nullable=False)
-    contact_number = sql_db.Column(sql_db.Integer, nullable=False)
-    email = sql_db.Column(sql_db.String(150), unique=True, nullable=False)
+    contact_number = sql_db.Column(sql_db.Integer)
+    email = sql_db.Column(sql_db.String(150), unique=True)
+    price = sql_db.Column(sql_db.Varchar(10), nullable=False)
     oid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('owner.oid'))
 
 
