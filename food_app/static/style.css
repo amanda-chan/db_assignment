@@ -1,0 +1,98 @@
+html {
+    font-family: 'Inter', sans-serif;
+    color: #212B36;
+    background-color: #F7F8FA;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: #212B36;
+    background-color: #F7F8FA;
+}
+
+h1 {
+    font-weight: 600;
+}
+
+.btn-primary {
+    background-color: #EA580C;
+    border: none;
+}
+
+.btn-primary:active,
+.btn-primary:focus, .btn:first-child:active, :not(.btn-check)+.btn:active {
+    background-color: #EA580C;
+}
+
+.btn-primary:hover {
+    background-color: #C2410C;
+}
+
+
+/* Navbar */
+.nav-link-style {
+    color: #212B36;
+    font-weight: 500;
+}
+
+.nav-link-style:hover, .nav-link-style:focus {
+    color: #EA580C;
+}
+
+.nav-link-style:active {
+    color: #C2410C;
+}
+
+
+.logout-item {
+    color: #EF4444;
+}
+
+.logout-item:hover, .logout-item:active {
+    color: #EF4444;
+}
+
+.logout-item:focus {
+    color: white;
+    background-color: #EA580C;
+}
+
+.my-dd-item:focus {
+    color: white;
+    background-color: #EA580C;
+}
+
+
+/* forms */
+.form-label {
+    font-weight: 500;
+}
+
+.custom-form-box {
+    background-color: white;
+    border-radius: 1rem;
+    margin: auto;
+    width: 60%;
+    padding: 4rem 7.6rem;
+    box-shadow: 0px 10px 35px 0px rgba(0, 0, 0, 0.05);
+}
+
+.custom-link {
+    color: #EA580C;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.custom-link:hover {
+    color: #EA580C;
+    text-decoration: underline;
+}
+
+.custom-link:focus {
+    color: #EA580C;
+}
+
+.custom-link:active {
+    color: #C2410C;
+    text-decoration: none;
+}

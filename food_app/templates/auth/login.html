@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block navbar %}{% include 'navbar_noauth.html' %}{% endblock %}
+
+{% block content %}
+<div class="custom-form-box mt-4">
+    <div class="text-center mb-5">
+        <h1>Welcome Back</h1>
+        <p>No account? <a href="#" class="custom-link">Create one</a></p>
+    </div>
+    <form action="#" method="post">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password">
+        </div>
+        <div class="mb-5">
+            <a href="#" class="custom-link">Forgot password?</a>
+        </div>
+        <div class="col-12 mb-3">
+            <div class="row mx-1">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
