@@ -28,3 +28,8 @@ pip install -r requirements.txt
 ```bash
 flask --app food_app --debug run
 ```
+
+## Reuse navbar.html code accross all pages (include this in the <head> tag or start of <body> tag
+```bash
+<script src="<%= url_for('static', 'js/navbar.js') %>"></script>
+```
