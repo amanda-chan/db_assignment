@@ -10,6 +10,7 @@ import pandas as pd
 
 sql_db = SQLAlchemy()
 migrate = Migrate()
+mongo_db = pymongo.MongoClient()
 
 
 def relational_db_setup():

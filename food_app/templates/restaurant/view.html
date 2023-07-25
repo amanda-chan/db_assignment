@@ -1,47 +1,77 @@
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Restaurant{% endblock %}
 
 {% block navbar %}{% include 'navbar.html' %}{% endblock %}
 
 {% block content %}
-<div class="custom-form-box mt-4">
-    <form action="#" method="post">
-        <div class="ui form">
-            <span class="ui inline fields">
-                <div class="field">
-                <label for="cuisine" class="form-label">Cuisines </label><br>
-                <select name="cuisine" class="ui dropdown">
-                    <option value="{{cuisine_types[0]}}" selected>{{cuisine_types[0]}}</option>
-                    {% for c in cuisine_types[1:] %}
-                        <option value="{{c}}">{{c}}</option>
-                    {% endfor %}
-                </select>
+<form class="row g-3" action="{{ url_for('restaurant.view')}}" method="post">
+    <div class="col-md-4">
+        <label for="price" class="form-label">Price Range</label><br>
+        <select name="price" class="form-select">
+            <option value="" selected>Select a price range</option>
+            <option value="$">$</option>
+            <option value="$$">$$</option>
+            <option value="$$$">$$$</option>
+            <option value="$$$$">$$$$</option>
+            <option value="$$$$$">$$$$$</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="letter" class="form-label">Start with...</label><br>
+        <select name="letter" class="form-select">
+            <option value="" selected>Select a character</option>
+            <option value="1">1</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
+            <option value="I">I</option>
+            <option value="J">J</option>
+            <option value="K">K</option>
+            <option value="L">L</option>
+            <option value="M">M</option>
+            <option value="N">N</option>
+            <option value="O">O</option>
+            <option value="P">P</option>
+            <option value="Q">Q</option>
+            <option value="R">R</option>
+            <option value="X">X</option>
+            <option value="Y">Y</option>
+            <option value="Z">Z</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="cuisine" class="form-label">Cuisines</label><br>
+        <select name="cuisine" class="form-select">
+            <option value="" selected>Select a cuisine</option>
+            {% for c in cuisine_types %}
+                <option value="{{c}}">{{c}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+<br>
+<div class="row">
+    <h2>Restaurants</h2>
+    <div class="card-deck mt-2">
+        {% for r in restaurant_list %}
+            <div class="card text-left">
+                <div class="card-body">
+                <h5 class="card-title">{{r['name']}}</h5>
+                <p class="card-text">{{r['price']}} {{r['cuisine']}}</p>
+                <a href="#" class="btn btn-primary">View Restaurant</a>
                 </div>
-                <div class="field">
-                <label for="sites">Add sites to user</label><br>
-                <select id="sites" class="ui dropdown">
-                    <option value="">Sites</option>
-                    <option value="Role1">Site 1</option>
-                    <option value="Role2">Site 2</option>
-                    <option value="Role3">Site 3</option>
-                </select>
-                </div>
-            </span>
-        </div>
-        <div class="mb-5">
-
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password">
-        </div>
-        <div class="mb-5">
-            <a href="#" class="custom-link">Forgot password?</a>
-        </div>
-        <div class="col-12 mb-3">
-            <div class="row mx-1">
-                <button type="submit" class="btn btn-primary">Login</button>
             </div>
-        </div>
-    </form>
+            <br>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
