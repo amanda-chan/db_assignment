@@ -45,3 +45,4 @@ Update the db based on the latest migration
 ```bash
 flask --app food_app db upgrade
 ```
+If it dose not work, it means you have to manually add the changes into the db yourself TT (Eventhough this was supposed to help with it)
