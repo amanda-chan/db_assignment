@@ -8,6 +8,8 @@ import mysql.connector
 import pandas as pd
 
 sql_db = SQLAlchemy()
+migrate = Migrate()
+
 
 def db_setup():
     # Create connection object - change credentials accordingly
@@ -31,7 +33,7 @@ def db_setup():
         cursor.execute("CREATE USER 'db_project'@'localhost' IDENTIFIED BY 'password';") 
         cursor.execute("GRANT ALL ON foodappdb.* TO 'db_project'@'localhost';")
 
-def restraunt_setup(sql_db, Restaurant):
+def restaurant_setup(sql_db, Restaurant):
 
     # Count number of rows in the Restaurant table
     count = Restaurant.query.count()
@@ -86,7 +88,7 @@ def create_app():
     sql_db.init_app(app)
 
     # migration - for any changes in the db
-    migrate = Migrate(app, sql_db)
+    migrate.init_app(app, sql_db)
 
 
     # import blueprints
@@ -102,7 +104,7 @@ def create_app():
 
     with app.app_context():
         sql_db.create_all()
-        restraunt_setup(sql_db, Restaurant)
+        restaurant_setup(sql_db, Restaurant)
 
     login_manager = LoginManager()
     login_manager.login_view = "auth.login"
