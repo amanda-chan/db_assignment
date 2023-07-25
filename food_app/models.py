@@ -23,20 +23,20 @@ class Owner(sql_db.Model):
     contact_number = sql_db.Column(sql_db.Integer, nullable=False)
     created_at = sql_db.Column(sql_db.DateTime(timezone=True), default=func.now())
     updated_at = sql_db.Column(sql_db.DateTime(timezone=True))
-    restaurants = sql_db.relationship('Restaurant', backref='owner', passive_deletes=True)
+    # restaurants = sql_db.relationship('Restaurant', backref='owner', passive_deletes=True)
 
 
 class Restaurant(sql_db.Model):
     rid = sql_db.Column(sql_db.Integer, primary_key=True)
     name = sql_db.Column(sql_db.String(225), unique=True, nullable=False)
     cuisine = sql_db.Column(sql_db.String(500), nullable=False)
-    operating_hours = sql_db.Column(sql_db.String(50), nullable=False)
+    operating_hours = sql_db.Column(sql_db.String(100), nullable=False)
     operating_days = sql_db.Column(sql_db.String(50), nullable=False)
     address = sql_db.Column(sql_db.String(500), nullable=False)
     contact_number = sql_db.Column(sql_db.Integer)
-    email = sql_db.Column(sql_db.String(150), unique=True)
-    price = sql_db.Column(sql_db.Varchar(10), nullable=False)
-    oid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('owner.oid'))
+    email = sql_db.Column(sql_db.String(150))
+    price = sql_db.Column(sql_db.String(10), nullable=False)
+    # oid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('owner.oid'))
 
 
 class Booking(sql_db.Model):
