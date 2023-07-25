@@ -5,11 +5,12 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import mysql.connector
+import pymongo
 import pandas as pd
 
 sql_db = SQLAlchemy()
 
-def db_setup():
+def relational_db_setup():
     # Create connection object - change credentials accordingly
     mydb = mysql.connector.connect(
         host = "localhost",
@@ -31,6 +32,17 @@ def db_setup():
         cursor.execute("CREATE USER 'db_project'@'localhost' IDENTIFIED BY 'password';") 
         cursor.execute("GRANT ALL ON foodappdb.* TO 'db_project'@'localhost';")
 
+def nonrelational_db_setup():
+
+    # Connect Non-relational Database to LocalHost
+    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+
+    # Init database
+    mydb = myclient["db_project"]
+
+    return mydb
+
+
 def restraunt_setup(sql_db, Restaurant):
 
     # Count number of rows in the Restaurant table
@@ -45,14 +57,11 @@ def restraunt_setup(sql_db, Restaurant):
         # Replace NaN values in the 'email' column with an empty string
         df['email'].fillna('', inplace=True)
 
+        # Replace NaN values in the 'contact_number' column with 0
+        df['contact_number'].fillna('0', inplace=True)
+
         # Insert data rows into the table
         for index, row in df.iterrows():
-
-            try:
-                contact_no = int(row['contact_number'])
-            
-            except:
-                contact_no = 0 # Contact number does not exists
 
             new_res = Restaurant(rid=int(row['rid']),
                                  name=row['name'],
@@ -60,7 +69,7 @@ def restraunt_setup(sql_db, Restaurant):
                                  operating_hours=row['operating_hours'],
                                  operating_days=row['operating_days'],
                                  address=row['address'],
-                                 contact_number=contact_no,
+                                 contact_number=int(row['contact_number']),
                                  email=row['email'],
                                  price=row['price'])
             
@@ -73,7 +82,8 @@ def restraunt_setup(sql_db, Restaurant):
 def create_app():
 
     # Setup db if not yet
-    db_setup()
+    relational_db_setup()
+    mongo_db = nonrelational_db_setup()
 
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -88,20 +98,22 @@ def create_app():
     # migration - for any changes in the db
     migrate = Migrate(app, sql_db)
 
-
     # import blueprints
     from .auth import auth_bp
     from .home import home_bp
     from .profile import profile_bp
+    from .restaurant import restaurant_bp
     app.register_blueprint(auth_bp, url_prefix='/')
     app.register_blueprint(home_bp, url_prefix='/')
     app.register_blueprint(profile_bp)
+    app.register_blueprint(restaurant_bp)
 
     # create tables in the db
     from .models import Customer, Owner, Booking, Order, Restaurant
 
     with app.app_context():
         sql_db.create_all()
+        # Initialise data
         restraunt_setup(sql_db, Restaurant)
 
     login_manager = LoginManager()

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block navbar %}{% include 'navbar.html' %}{% endblock %}
+
+{% block content %}
+<div class="custom-form-box mt-4">
+    <form action="#" method="post">
+        <div class="ui form">
+            <span class="ui inline fields">
+                <div class="field">
+                <label for="cuisine" class="form-label">Cuisines </label><br>
+                <select name="cuisine" class="ui dropdown">
+                    <option value="{{cuisine_types[0]}}" selected>{{cuisine_types[0]}}</option>
+                    {% for c in cuisine_types[1:] %}
+                        <option value="{{c}}">{{c}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+                <div class="field">
+                <label for="sites">Add sites to user</label><br>
+                <select id="sites" class="ui dropdown">
+                    <option value="">Sites</option>
+                    <option value="Role1">Site 1</option>
+                    <option value="Role2">Site 2</option>
+                    <option value="Role3">Site 3</option>
+                </select>
+                </div>
+            </span>
+        </div>
+        <div class="mb-5">
+
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password">
+        </div>
+        <div class="mb-5">
+            <a href="#" class="custom-link">Forgot password?</a>
+        </div>
+        <div class="col-12 mb-3">
+            <div class="row mx-1">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
