@@ -122,13 +122,8 @@ def view():
         else:
             restaurant_list = filtered__restaurants(letter, cuisine, price)
 
-        return render_template("restaurant/view.html", cuisine_types = cuisine_types, restaurant_list = restaurant_list)
+        return render_template("restaurant/view.html", cuisine_types = cuisine_types, restaurant_list = restaurant_list, user = current_user)
     
-    return render_template("restaurant/view.html", cuisine_types = cuisine_types, restaurant_list = restaurant_list)
+    return render_template("restaurant/view.html", cuisine_types = cuisine_types, restaurant_list = restaurant_list, user = current_user)
 
-
-@restaurant_bp.route("/edit", methods=["GET", "POST"])
-def edit():
-    # add login required ^
-    return render_template("profile/edit.html", user=current_user)
 
