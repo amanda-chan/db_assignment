@@ -9,28 +9,28 @@ profile_bp = Blueprint("profile", __name__, url_prefix="/profile")
 @profile_bp.route("/")
 def profile():
     # add login required ^
-    render_template("profile/profile.html", user=current_user)
+    return render_template("profile/profile.html", user=current_user)
 
 
 @profile_bp.route("/edit", methods=["GET", "POST"])
 def edit():
     # add login required ^
-    render_template("profile/edit.html", user=current_user)
+    return render_template("profile/edit.html", user=current_user)
 
 
 @profile_bp.route("/reviews")
 def reviews():
     # add login required ^
-    render_template("profile/reviews.html", user=current_user, reviews=reviews)
+    return render_template("profile/reviews.html", user=current_user, reviews=reviews)
 
 
 @profile_bp.route("/bookings")
 def bookings():
     # add login required ^
-    render_template("profile/bookings.html", user=current_user, bookings=bookings)
+    return render_template("profile/bookings.html", user=current_user, bookings=bookings)
 
 
 @profile_bp.route("/orders")
 def orders():
     # add login required ^
-    render_template("profile/orders.html", user=current_user, orders=orders)
+    return render_template("profile/orders.html", user=current_user, orders=orders)

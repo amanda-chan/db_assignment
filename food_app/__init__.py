@@ -9,6 +9,8 @@ import pymongo
 import pandas as pd
 
 sql_db = SQLAlchemy()
+migrate = Migrate()
+
 
 def relational_db_setup():
     # Create connection object - change credentials accordingly
@@ -96,7 +98,7 @@ def create_app():
     sql_db.init_app(app)
 
     # migration - for any changes in the db
-    migrate = Migrate(app, sql_db)
+    migrate.init_app(app, sql_db)
 
     # import blueprints
     from .auth import auth_bp
