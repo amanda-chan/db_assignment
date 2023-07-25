@@ -7,10 +7,13 @@ from flask_migrate import Migrate
 import mysql.connector
 import pymongo
 import pandas as pd
+import json
+from werkzeug.security import generate_password_hash
 
 sql_db = SQLAlchemy()
 migrate = Migrate()
-mongo_db = pymongo.MongoClient()
+myclient = pymongo.MongoClient()
+mongo_db = myclient["db_project"]
 
 
 def relational_db_setup():
@@ -52,7 +55,7 @@ def restraunt_setup(sql_db, Restaurant):
     count = Restaurant.query.count()
 
     if count == 0: # No existing data in the table, hence, populate the table
-        print("Inserting data into the restaurants table...")
+        print("Inserting data into the restaurant table...")
 
         # Extract data from the excel sheet
         df = pd.read_excel("food_app/data/restaurant_data.xlsx")
@@ -81,7 +84,68 @@ def restraunt_setup(sql_db, Restaurant):
         # Commit the changes to the database
         sql_db.session.commit()
 
-    
+def owner_setup(sql_db, Owner):
+
+    # Count number of rows in the Owner table
+    count = Owner.query.count()
+
+    if count == 0: # No existing data in the table, hence, populate the table
+        print("Inserting data into the owner table...")
+
+        # Extract data from the excel sheet
+        df = pd.read_excel("food_app/data/owner_data.xlsx")
+
+        # Insert data rows into the table
+        for index, row in df.iterrows():
+            new_owner = Owner(oid=int(row['oid']),
+                              email=row['email'],
+                              first_name=row['first_name'],
+                              last_name=row['last_name'],
+                              password=generate_password_hash(row['password'], method='sha256'),
+                              contact_number=row['contact_number'])
+            
+            sql_db.session.add(new_owner)
+
+        # Commit the changes to the database
+        sql_db.session.commit()
+
+def menu_setup(mongo_db):
+
+    # Create or switch to menu collection
+    menu = mongo_db["menu"]
+
+    # Get the first document
+    result = menu.find_one()
+
+    if result == None: # No existing data in the collection, hence populate data
+        print("Inserting data into the menu collection...")
+
+        # Extract data from json file
+        with open("food_app/data/menu_data.json") as file:
+            file_data = json.load(file)
+
+        # Insert menu data into menu collection
+        menu.insert_many(file_data)
+
+def reviews_setup(mongo_db):
+
+    # Create or switch to reviews collection
+    reviews = mongo_db["reviews"]
+
+    # Get the first document
+    result = reviews.find_one()
+
+    if result == None: # No existing data in the collection, hence populate data
+        print("Inserting data into the reviews collection...")
+
+        # Extract data from json file
+        with open("food_app/data/review_data.json") as file:
+            file_data = json.load(file)
+
+        # Insert review data into reviews collection
+        reviews.insert_many(file_data) 
+
+
 def create_app():
 
     # Setup db if not yet
@@ -106,10 +170,12 @@ def create_app():
     from .home import home_bp
     from .profile import profile_bp
     from .restaurant import restaurant_bp
+    from .order import order_bp
     app.register_blueprint(auth_bp, url_prefix='/')
     app.register_blueprint(home_bp, url_prefix='/')
     app.register_blueprint(profile_bp)
     app.register_blueprint(restaurant_bp)
+    app.register_blueprint(order_bp)
 
     # create tables in the db
     from .models import Customer, Owner, Booking, Order, Restaurant
@@ -117,7 +183,10 @@ def create_app():
     with app.app_context():
         sql_db.create_all()
         # Initialise data
+        owner_setup(sql_db, Owner)
         restraunt_setup(sql_db, Restaurant)
+        menu_setup(mongo_db)
+        reviews_setup(mongo_db)
 
     login_manager = LoginManager()
     login_manager.init_app(app)

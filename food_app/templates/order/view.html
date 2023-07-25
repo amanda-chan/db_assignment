@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Order{% endblock %}
+
+{% block navbar %}{% include 'navbar.html' %}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h2>Available Restaurants</h2>
+    <div class="card-deck mt-2">
+        {% for r in restaurant_list %}
+            <div class="card text-left">
+                <div class="card-body">
+                <h5 class="card-title">{{r['name']}}</h5>
+                <p class="card-text">{{r['price']}} {{r['cuisine']}}</p>
+                <a href="#" class="btn btn-primary">Order</a>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

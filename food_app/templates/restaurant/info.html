@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Restaurant - Info{% endblock %}
+
+{% block navbar %}{% include 'navbar.html' %}{% endblock %}
+
+{% block content %}
+<div class="card mb-3">
+    <img class="card-img-top" src="{{ url_for('static', filename='images/food.jpg') }}" alt="food image">
+    <div class="card-body">
+      <h5 class="card-title">{{restaurant.name}}</h5>
+      <p class="card-text">Cuisine: {{restaurant.cuisine}}</p>
+      <p class="card-text">Operating Hours: {{restaurant.operating_hours}}</p>
+      <p class="card-text">Operating Days: {{restaurant.operating_days}}</p>
+      <p class="card-text">Address: {{restaurant.address}}</p>
+      <p class="card-text">Contact: {{restaurant.contact_number}}</p>
+      <p class="card-text">Email: {{restaurant.email}}</p>
+      <p class="card-text"><small class="text-muted">Price: {{restaurant.price}}</small></p>
+      <a href="#" class="btn btn-primary">Make Booking</a>
+    </div>
+</div>
+<div class="row">
+    <h3>Reviews</h3>
+    <div class="card text-center">
+        <div class="card-header">
+            Featured
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            2 days ago
+        </div>
+    </div>
+</div>
+{% endblock %}

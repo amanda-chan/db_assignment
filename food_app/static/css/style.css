@@ -10,10 +10,31 @@ body {
     background-color: #F7F8FA;
 }
 
-h1 {
-    font-weight: 600;
+p {
+    font-weight: 400;
+    color: #637381;
 }
 
+h1 {
+    font-weight: 700;
+    font-size: 2.25rem
+}
+
+h2 {
+    font-weight: 700;
+    font-size: 1.75rem;
+}
+
+.breadcrumb {
+    font-weight: 500;
+}
+
+.breadcrumb-item a {
+    text-decoration: none;
+}
+
+
+/* buttons */
 .btn-primary {
     background-color: #EA580C;
     border: none;
@@ -26,6 +47,24 @@ h1 {
 
 .btn-primary:hover {
     background-color: #C2410C;
+}
+
+.btn-light {
+    background-color: #F7F8FA;
+    color: #EA580C;
+    border: none;
+    font-weight: 500;
+}
+
+.btn-light:active,
+.btn-light:focus, :not(.btn-check)+.btn:active, .btn:first-child:active {
+    background-color: #F7F8FA;
+    color: #EA580C;
+}
+
+.btn-light:hover {
+    background-color: #EA580C;
+    color: #F7F8FA;
 }
 
 
@@ -65,7 +104,7 @@ h1 {
 
 /* forms */
 .form-label {
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .custom-form-box {
@@ -95,4 +134,17 @@ h1 {
 .custom-link:active {
     color: #C2410C;
     text-decoration: none;
+}
+
+.form-control-plaintext {
+    color: #637381;
+}
+
+
+/* profile */
+.custom-box {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 2rem 4rem;
+    box-shadow: 0px 10px 35px 0px rgba(0, 0, 0, 0.05);
 }

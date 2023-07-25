@@ -126,4 +126,10 @@ def view():
     
     return render_template("restaurant/view.html", cuisine_types = cuisine_types, restaurant_list = restaurant_list, user = current_user)
 
+@restaurant_bp.route("/info")
+def info():
+    rid = request.args.get('rid')
+    restaurant = Restaurant.query.get(rid)
 
+    return render_template("restaurant/info.html", restaurant = restaurant, user = current_user)
+    

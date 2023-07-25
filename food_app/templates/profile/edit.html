@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('profile.profile') }}">Profile</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
+    </ol>
+</nav>
+
+<h1>Edit Profile</h1>
+
+<div class="container mt-4">
+    <div class="custom-box">
+        {% include 'error.html' %}
+        <form method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username"
+                    value="{{ user.username }}">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email"
+                    value="{{ user.email }}">
+            </div>
+            <div class="mb-3">
+                <label for="contact-number" class="form-label">Contact Number</label>
+                <input type="tel" class="form-control" id="contact-number"
+                    name="contact-number" value="{{ user.contact_number }}">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -70,4 +70,4 @@ Update the db based on the latest migration
 ```bash
 flask --app food_app db upgrade
 ```
-If it does not work, it means you have to manually add the changes into the db yourself TT (Even though this was supposed to help with it). Then run upgrade command:D
+If it does not work, it means you have to manually add the changes into the db yourself TT (or delete the db in sql and run the app again which will initialise everything again) (Even though this was supposed to help with it). Then run upgrade command :D

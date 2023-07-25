@@ -3,5 +3,83 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<p>Profile</p>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Profile</li>
+    </ol>
+</nav>
+
+<h1>My Profile</h1>
+
+<div class="container mt-4">
+    <div class="row">
+
+        <!-- profile info -->
+        <div class="col-sm-4">
+            <div class="custom-box">
+                <form>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" readonly class="form-control-plaintext" id="username" name="username" value="{{ user.username }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" readonly class="form-control-plaintext" id="email" name="email" value="{{ user.email }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contact-number" class="form-label">Contact Number</label>
+                        <input type="tel" readonly class="form-control-plaintext" id="contact-number" name="contact-number" value="{{ user.contact_number }}">
+                    </div>
+                    <div class="mb-3">
+                        <a href="{{ url_for('profile.edit') }}">
+                            <button type="button" class="btn btn-light">Edit <i class="fa-solid fa-pen-to-square"></i></button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- reviews, bookings, orders -->
+        <div class="col-sm-8">
+            <div class="custom-box mb-3">
+                <div class="d-flex justify-content-between mb-2">
+                    <h2>My Reviews</h2>
+                    <button type="button" class="btn btn-light">View More <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                
+                {% if reviews is defined and reviews|length > 0 %}
+                    <!-- print top 3 -->
+                {% else %}
+                    <p>You do not have any reviews yet.</p>
+                {% endif %}
+            </div>
+            <div class="custom-box mb-3">
+                <div class="d-flex justify-content-between mb-2">
+                    <h2>My Bookings</h2>
+                    <button type="button" class="btn btn-light">View More <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                
+                {% if bookings is defined and bookings|length > 0 %}
+                    <!-- print top 3 -->
+                {% else %}
+                    <p>You do not have any bookings yet.</p>
+                {% endif %}
+            </div>
+            <div class="custom-box mb-3">
+                <div class="d-flex justify-content-between mb-2">
+                    <h2>My Orders</h2>
+                    <button type="button" class="btn btn-light">View More <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                
+                {% if orders is defined and orders|length > 0 %}
+                    <!-- print top 3 -->
+                {% else %}
+                    <p>You do not have any orders yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
 {% endblock %}
