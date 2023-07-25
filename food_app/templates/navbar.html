@@ -24,7 +24,7 @@
                     <i class="fa-solid fa-circle-user"></i>
                 </a>
                 <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item my-dd-item" href="#">Hi, {{ user.username }}</a></li>
+                    <li><a class="dropdown-item my-dd-item" href="{{ url_for('profile.profile') }}">Hi, {{ user.username }}</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
