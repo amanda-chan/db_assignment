@@ -27,7 +27,7 @@ class Owner(sql_db.Model):
     contact_number = sql_db.Column(sql_db.Integer, nullable=False)
     created_at = sql_db.Column(sql_db.DateTime(timezone=True), default=func.now())
     updated_at = sql_db.Column(sql_db.DateTime(timezone=True))
-    # restaurants = sql_db.relationship('Restaurant', backref='owner', passive_deletes=True)
+    restaurants = sql_db.relationship('Restaurant', backref='owner', passive_deletes=True)
 
 
 class Restaurant(sql_db.Model):
@@ -40,7 +40,7 @@ class Restaurant(sql_db.Model):
     contact_number = sql_db.Column(sql_db.Integer)
     email = sql_db.Column(sql_db.String(150))
     price = sql_db.Column(sql_db.String(10), nullable=False)
-    # oid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('owner.oid'))
+    oid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('owner.oid'))
 
 
 class Booking(sql_db.Model):

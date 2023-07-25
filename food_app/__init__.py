@@ -8,6 +8,7 @@ import mysql.connector
 import pymongo
 import pandas as pd
 import json
+from werkzeug.security import generate_password_hash
 
 sql_db = SQLAlchemy()
 migrate = Migrate()
@@ -83,6 +84,31 @@ def restraunt_setup(sql_db, Restaurant):
         # Commit the changes to the database
         sql_db.session.commit()
 
+def owner_setup(sql_db, Owner):
+
+    # Count number of rows in the Owner table
+    count = Owner.query.count()
+
+    if count == 0: # No existing data in the table, hence, populate the table
+        print("Inserting data into the owner table...")
+
+        # Extract data from the excel sheet
+        df = pd.read_excel("food_app/data/owner_data.xlsx")
+
+        # Insert data rows into the table
+        for index, row in df.iterrows():
+            new_owner = Owner(oid=int(row['oid']),
+                              email=row['email'],
+                              first_name=row['first_name'],
+                              last_name=row['last_name'],
+                              password=generate_password_hash(row['password'], method='sha256'),
+                              contact_number=row['contact_number'])
+            
+            sql_db.session.add(new_owner)
+
+        # Commit the changes to the database
+        sql_db.session.commit()
+
 def menu_setup(mongo_db):
 
     # Create or switch to menu collection
@@ -139,6 +165,7 @@ def create_app():
     with app.app_context():
         sql_db.create_all()
         # Initialise data
+        owner_setup(sql_db, Owner)
         restraunt_setup(sql_db, Restaurant)
         menu_setup(mongo_db)
 
