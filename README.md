@@ -40,6 +40,9 @@ if installed any new python packages, update requirements.txt
 pip freeze > requirements.txt
 ```
 
+## Update on html
+navbar.html is included in base.html, don't need to add in individual pages anymore!
+
 
 ## Run app
 

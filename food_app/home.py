@@ -7,8 +7,6 @@ from flask_sqlalchemy import SQLAlchemy
 home_bp = Blueprint("home", __name__)
 
 
-@home_bp.route("/")
 @home_bp.route("/home")
-# @login_required
 def home():
-    return render_template("home/index.html")
+    return render_template("home/index.html", user=current_user)
