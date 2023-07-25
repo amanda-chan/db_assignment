@@ -6,20 +6,24 @@ from sqlalchemy.sql import func
 class Customer(sql_db.Model, UserMixin):
     cid = sql_db.Column(sql_db.Integer, primary_key=True)
     email = sql_db.Column(sql_db.String(150), unique=True, nullable=False)
-    username = sql_db.Column(sql_db.String(150), unique=True, nullable=False)
-    password = sql_db.Column(sql_db.String(20), nullable=False)
+    username = sql_db.Column(sql_db.String(20), unique=True, nullable=False)
+    password = sql_db.Column(sql_db.String(225), nullable=False)
     contact_number = sql_db.Column(sql_db.Integer, nullable=False)
     created_at = sql_db.Column(sql_db.DateTime(timezone=True), default=func.now())
     updated_at = sql_db.Column(sql_db.DateTime(timezone=True))
-    bookings = sql_db.relationship('Booking', backref='customer', passive_deletes=True)
-    orders = sql_db.relationship('Order', backref='customer', passive_deletes=True)
+    bookings = sql_db.relationship("Booking", backref="customer", passive_deletes=True)
+    orders = sql_db.relationship("Order", backref="customer", passive_deletes=True)
+
+    def get_id(self):
+        return self.cid
 
 
 class Owner(sql_db.Model):
     oid = sql_db.Column(sql_db.Integer, primary_key=True)
     email = sql_db.Column(sql_db.String(150), unique=True, nullable=False)
-    username = sql_db.Column(sql_db.String(150), unique=True, nullable=False)
-    password = sql_db.Column(sql_db.String(20), nullable=False)
+    first_name = sql_db.Column(sql_db.String(20), unique=True, nullable=False)
+    last_name = sql_db.Column(sql_db.String(20), unique=True, nullable=False)
+    password = sql_db.Column(sql_db.String(225), nullable=False)
     contact_number = sql_db.Column(sql_db.Integer, nullable=False)
     created_at = sql_db.Column(sql_db.DateTime(timezone=True), default=func.now())
     updated_at = sql_db.Column(sql_db.DateTime(timezone=True))
@@ -47,8 +51,8 @@ class Booking(sql_db.Model):
     special_request = sql_db.Column(sql_db.String(500))
     created_at = sql_db.Column(sql_db.DateTime(timezone=True), default=func.now())
     updated_at = sql_db.Column(sql_db.DateTime(timezone=True))
-    rid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('restaurant.rid'))
-    cid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('customer.cid'))
+    rid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey("restaurant.rid"))
+    cid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey("customer.cid"))
 
 
 class Order(sql_db.Model):
@@ -58,6 +62,5 @@ class Order(sql_db.Model):
     food_items = sql_db.Column(sql_db.String(225), nullable=False)
     special_request = sql_db.Column(sql_db.String(500))
     created_at = sql_db.Column(sql_db.DateTime(timezone=True), default=func.now())
-    rid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('restaurant.rid'))
-    cid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey('customer.cid'))
-    
+    rid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey("restaurant.rid"))
+    cid = sql_db.Column(sql_db.Integer, sql_db.ForeignKey("customer.cid"))

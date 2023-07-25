@@ -6,7 +6,7 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto ms-2 mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 nav-link-style">Home</a></li>
+                <li><a href="{{ url_for('home.home') }}" class="nav-link px-2 nav-link-style">Home</a></li>
                 <li><a href="#" class="nav-link px-2 nav-link-style">Restaurants</a></li>
                 <li><a href="#" class="nav-link px-2 nav-link-style">Reviews</a></li>
                 <li><a href="#" class="nav-link px-2 nav-link-style">Bookings</a></li>
@@ -16,13 +16,14 @@
                 <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
             </form>
 
+            {% if user.is_authenticated %}
             <div class="dropdown text-end">
                 <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-circle-user"></i>
                 </a>
                 <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item my-dd-item" href="#">Hi, Username</a></li>
+                    <li><a class="dropdown-item my-dd-item" href="#">Hi, {{ user.username }}</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -32,9 +33,15 @@
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item logout-item" href="#">Logout</a></li>
+                    <li><a class="dropdown-item logout-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
                 </ul>
             </div>
+            {% else %}
+            <div class="text-end">
+                <a href="{{ url_for('auth.login') }}"><button type="button" class="btn btn-light me-2">Login</button></a>
+                <a href="{{ url_for('auth.register') }}"><button type="button" class="btn btn-primary">Register</button></a>
+            </div>
+            {% endif %}
         </div>
     </div>
 </header>
