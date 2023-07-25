@@ -1,0 +1,212 @@
+[
+    {
+      "item_id": 1,
+      "RID": 5,
+      "MenuItem": "Iberico Hoho Don",
+      "Description": "Grilled Iberico pork jowl, shimeji mushrooms on rice",
+      "Price": 18
+    },
+    {
+      "item_id": 2,
+      "RID": 5,
+      "MenuItem": "Premium Buta Bara Don",
+      "Description": "Grilled premium pork belly, shimeji mushrooms on rice",
+      "Price": 18
+    },
+    {
+      "item_id": 3,
+      "RID": 5,
+      "MenuItem": "Premium Wagyu Jyu",
+      "Description": "Premium A4-A5 Miyazaki Wagyu, shimeji mushrooms on rice",
+      "Price": 38
+    },
+    {
+      "item_id": 4,
+      "RID": 8,
+      "MenuItem": "Smoked Bacon Pizza",
+      "Description": "Creme Fraiche, Red Onion, Cheese",
+      "Price": 22
+    },
+    {
+      "item_id": 5,
+      "RID": 8,
+      "MenuItem": "Aglio Olio with Shrimp",
+      "Description": "Olive Oil, Roasted Garlic, Chilli, Chopped Parsley, Parmesan",
+      "Price": 25
+    },
+    {
+      "item_id": 6,
+      "RID": 8,
+      "MenuItem": "Salmon with Nori Onigirl",
+      "Description": "Seared Salmon Fillet, Japnese Pearl Rice, Nori Glaze, Charred Broccoli",
+      "Price": 30
+    },
+    {
+      "item_id": 7,
+      "RID": 12,
+      "MenuItem": "Ayam Bua Kuluak",
+      "Description": "Chicken braised with Indonesian bua kuluak nut, spices and assam gravy",
+      "Price": 16.95
+    },
+    {
+      "item_id": 8,
+      "RID": 12,
+      "MenuItem": "BBQ Sotong",
+      "Description": "Grilled Squid with Sambal",
+      "Price": 13.9
+    },
+    {
+      "item_id": 9,
+      "RID": 12,
+      "MenuItem": "Kueh Pai Ti (6pcs)",
+      "Description": "Top Hat Shell filled with Shredded Turnips, garnished with Prawns, Sweet Sauce & Chilli Sauce. Served in 6pcs.",
+      "Price": 10.9
+    },
+    {
+      "item_id": 10,
+      "RID": 13,
+      "MenuItem": "Chilli Crab Bread Bowl",
+      "Description": "2 Live Sri Lankan Carb (each approx. 700g), served on Bread Bowl",
+      "Price": 128
+    },
+    {
+      "item_id": 11,
+      "RID": 13,
+      "MenuItem": "Black Pepper Crab",
+      "Description": "2 Live Sri Lankan Carb (each approx. 700g), served with Steamed Corn",
+      "Price": 128
+    },
+    {
+      "item_id": 12,
+      "RID": 13,
+      "MenuItem": "Live Lobster Roll with Spicy Cajun Fries",
+      "Description": "",
+      "Price": 56.8
+    },
+    {
+      "item_id": 13,
+      "RID": 17,
+      "MenuItem": "Smoked Duck Cucumber Wrap",
+      "Description": "Smoked duck wrapped in cucumber slice",
+      "Price": 10
+    },
+    {
+      "item_id": 14,
+      "RID": 17,
+      "MenuItem": "Karubi [Shio/Tare]",
+      "Description": "US Prime Short Rib: Tender and very juicy, karubi has more marbling than roast cuts do.",
+      "Price": 28.9
+    },
+    {
+      "item_id": 15,
+      "RID": 17,
+      "MenuItem": "Yakitori",
+      "Description": "Grilled Chicken Skewers",
+      "Price": 12
+    },
+    {
+      "item_id": 16,
+      "RID": 21,
+      "MenuItem": "Nalli Nihari",
+      "Description": "Lamb shank cooked overnight in curry served with khamiri roti (nut free)",
+      "Price": 26
+    },
+    {
+      "item_id": 17,
+      "RID": 21,
+      "MenuItem": "Bombay Bhel",
+      "Description": "Puffed rice tossed with chutney",
+      "Price": 8
+    },
+    {
+      "item_id": 18,
+      "RID": 21,
+      "MenuItem": "Butter Chicken",
+      "Description": "Chicken tikka dipped in creamy tomato gravy served with naan",
+      "Price": 22
+    },
+    {
+      "item_id": 19,
+      "RID": 23,
+      "MenuItem": "Caramelized Banana Pancake",
+      "Description": "Pancakes served with delicious combination of nuts and sweet caramelized banana. (Ice cream not included)",
+      "Price": 16.9
+    },
+    {
+      "item_id": 20,
+      "RID": 23,
+      "MenuItem": "Mixed Fruits Pancakes",
+      "Description": "Pancakes served with an assortment of fruits, topped with sweet Crème Anglaise and chocolate sauce. (Ice cream not included)",
+      "Price": 17.9
+    },
+    {
+      "item_id": 21,
+      "RID": 23,
+      "MenuItem": "Lotus Biscuit Premium Pancakes",
+      "Description": "Served with fresh strawberries, lotus crumbles & topped with biscuit",
+      "Price": 20.9
+    },
+    {
+      "item_id": 22,
+      "RID": 26,
+      "MenuItem": "Cabonara",
+      "Description": "Bacon | Onsen egg | Parmesan",
+      "Price": 13.9
+    },
+    {
+      "item_id": 23,
+      "RID": 26,
+      "MenuItem": "Spicy Meatballs Marinara",
+      "Description": "Homemade tomato base | Herbs",
+      "Price": 17.9
+    },
+    {
+      "item_id": 24,
+      "RID": 26,
+      "MenuItem": "Prawn Bisque Pasta",
+      "Description": "King prawns | 6hr Stewed prawn broth",
+      "Price": 20.9
+    },
+    {
+      "item_id": 25,
+      "RID": 28,
+      "MenuItem": "Wagyu Beef Kinoko Salad",
+      "Description": "Stir fried Wagyu beef and assorted mushrooms with wasabi dressing",
+      "Price": 20
+    },
+    {
+      "item_id": 26,
+      "RID": 28,
+      "MenuItem": "Katatsu Sashimi",
+      "Description": "Premium 3 combination platter with the finest slices of salmon, bluefin tuna and yellow tail",
+      "Price": 26
+    },
+    {
+      "item_id": 27,
+      "RID": 28,
+      "MenuItem": "Chutoro Sashimi",
+      "Description": "Semi-fat Bluefin Tuna",
+      "Price": 45
+    },
+    {
+      "item_id": 28,
+      "RID": 1,
+      "MenuItem": "Black Truffle Egg Pizza",
+      "Description": "Heavenly aromatic black truffle oil drizzles on wild mixed mushroom, Mozzarella & Parmesan cheese. Topped with egg.",
+      "Price": 23.8
+    },
+    {
+      "item_id": 29,
+      "RID": 1,
+      "MenuItem": "Fish & Chips",
+      "Description": "Deep fried to a golden crisp, juicy on the insid, creamy tartare, french fries and potato wedges",
+      "Price": 20.8
+    },
+    {
+      "item_id": 30,
+      "RID": 1,
+      "MenuItem": "White Wine Mussels",
+      "Description": "Pasta Lightly tossed in delicate white wine sauce, fresh mussels and a splash of white wine vinegar",
+      "Price": 17.8
+    }
+  ]

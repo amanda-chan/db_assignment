@@ -42,6 +42,7 @@ def register():
         email = request.form.get('email')
         username = request.form.get('username')
         password = request.form.get('password')
+        print(password)
         confirm_password = request.form.get('confirm-password')
         contact_number = request.form.get('contact-number')
 

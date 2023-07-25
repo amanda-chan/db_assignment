@@ -7,10 +7,12 @@ from flask_migrate import Migrate
 import mysql.connector
 import pymongo
 import pandas as pd
+import json
 
 sql_db = SQLAlchemy()
 migrate = Migrate()
-mongo_db = pymongo.MongoClient()
+myclient = pymongo.MongoClient()
+mongo_db = myclient["db_project"]
 
 
 def relational_db_setup():
@@ -52,7 +54,7 @@ def restraunt_setup(sql_db, Restaurant):
     count = Restaurant.query.count()
 
     if count == 0: # No existing data in the table, hence, populate the table
-        print("Inserting data into the restaurants table...")
+        print("Inserting data into the restaurant table...")
 
         # Extract data from the excel sheet
         df = pd.read_excel("food_app/data/restaurant_data.xlsx")
@@ -81,7 +83,25 @@ def restraunt_setup(sql_db, Restaurant):
         # Commit the changes to the database
         sql_db.session.commit()
 
-    
+def menu_setup(mongo_db):
+
+    # Create or switch to menu collection
+    menu = mongo_db["menu"]
+
+    # Get the first document
+    result = menu.find_one()
+
+    if result == None: # No existing data in the collection, hence populate data
+        print("Inserting data into the menu collecetion...")
+
+        # Extract data from json file
+        with open("food_app/data/menu_data.json") as file:
+            file_data = json.load(file)
+
+        # Insert menu data into menu collection
+        menu.insert_many(file_data) 
+
+
 def create_app():
 
     # Setup db if not yet
@@ -106,10 +126,12 @@ def create_app():
     from .home import home_bp
     from .profile import profile_bp
     from .restaurant import restaurant_bp
+    from .order import order_bp
     app.register_blueprint(auth_bp, url_prefix='/')
     app.register_blueprint(home_bp, url_prefix='/')
     app.register_blueprint(profile_bp)
     app.register_blueprint(restaurant_bp)
+    app.register_blueprint(order_bp)
 
     # create tables in the db
     from .models import Customer, Owner, Booking, Order, Restaurant
@@ -118,6 +140,7 @@ def create_app():
         sql_db.create_all()
         # Initialise data
         restraunt_setup(sql_db, Restaurant)
+        menu_setup(mongo_db)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
