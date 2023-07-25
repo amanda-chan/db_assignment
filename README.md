@@ -1,6 +1,7 @@
 # db_assignment
 
-<a href="https://www.figma.com/file/U2bY5qkUmypBeqRf6U22C0/db-assignment?type=design&node-id=0%3A1&t=RIGuVeDA5wz7yWGq-1">Figma Link</a>
+### Figma
+<a href="https://www.figma.com/file/U2bY5qkUmypBeqRf6U22C0/db-assignment?type=design&node-id=0%3A1&t=RIGuVeDA5wz7yWGq-1">figma link</a>
 
 
 ## Database setup
@@ -36,7 +37,16 @@ Reuse navbar code accross all pages (include this in the head tag or start of bo
 ```
 
 ## Flask Migration
-For new updates to the mysql db model
+For new updates to the mysql db model:
+Ensure that you have installed "Flask-Migration"
 ```bash
-<script src="<%= url_for('static', 'js/navbar.js') %>"></script>
+pip install Flask-Migrate
+```
+To create a new migration (scan any changes in models.py)
+```bash
+flask --app food_app db migrate -m '<migration name>'
+```
+Update the db based on the latest migration
+```bash
+flask --app food_app db upgrade
 ```
