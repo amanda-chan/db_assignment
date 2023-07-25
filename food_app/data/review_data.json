@@ -1,0 +1,102 @@
+[
+    {
+      "review_id": 1,
+      "CID": 1,
+      "RID": 1,
+      "BID": 1,
+      "Review": "Fresh beer straight from the tap. Surprisingly tasty bar snacks which exceeded my expectations. Large space with mixed variety of customers. Will definitely visit again if I’m around Farrer Park.",
+      "Rating": 5,
+      "CreatedDateTime": "26/07/2023 01:15:26",
+      "Comment": []
+    },
+    {
+      "review_id": 2,
+      "CID": 2,
+      "RID": 1,
+      "BID": 1,
+      "Review": "Ordered pizza, fish nuggets, wings, cheese mushroom. All were fab. Highly recommended for small gatherings. Music was a little loud on a weekday nite, but maybe cuz less crowd.",
+      "Rating": 5,
+      "CreatedDateTime": "26/07/2023 01:15:26",
+      "Comment": []
+    },
+    {
+      "review_id": 3,
+      "CID": 1,
+      "RID": 4,
+      "BID": 1,
+      "Review": "Wonderful beef rendang with nicely cooked briyani rice paired with homemade acar!",
+      "Rating": 5,
+      "CreatedDateTime": "26/07/2023 01:15:26",
+      "Comment": []
+    },
+    {
+      "review_id": 4,
+      "CID": 2,
+      "RID": 4,
+      "BID": 1,
+      "Review": "If you are around the area and love Croissants, you CANNOT miss this. Absolutely the most buttery, fragrant and innovative ways of pairing with your Croissant in SG ever! Not only are their Croissant crispy on the outside and perfectly baked on the inside, your appetite will be further satiated by their 'special sauce' which is a savory and crunchy or their fusion take on the chilli crab sauce.",
+      "Rating": 5,
+      "CreatedDateTime": "26/07/2023 01:15:26",
+      "Comment": []
+    },
+    {
+      "review_id": 5,
+      "CID": 1,
+      "RID": 8,
+      "BID": 1,
+      "Review": "First time here with a group of friends. Ordered a few plates for sharing - salmon pizza, mushroom pizza, honey pork ribs and half chicken. The menu can look a little underwhelming and the skewers are not available before 5pm. However, the food taste much better than what we had imagine. Overall a nice experience.",
+      "Rating": 4,
+      "CreatedDateTime": "26/07/2023 01:15:26",
+      "Comment": []
+    },
+    {
+      "review_id": 6,
+      "CID": 2,
+      "RID": 8,
+      "BID": 1,
+      "Review": "Good vibes, but food variety, presentation and services are lackluster. The onion soup is unique but tasted a bit too strong, the pizza is okay and the prawns tasted good. Overall still worth a try, especially if you like strong tasting onion soups.",
+      "Rating": 3,
+      "CreatedDateTime": "26/07/2023 01:15:26",
+      "Comment": []
+    },
+    {
+      "review_id": 7,
+      "CID": 1,
+      "RID": 13,
+      "BID": 1,
+      "Review": "Overpriced in my opinion. Taste could be improved, for example the lobster roll was very disappointing. Professionalism of some service staff could be improved too, shall not go into the specifics here. Although to be fair, some of the better service staff acceded to requests made by difficult customers. Given the overall experience we had, probably won’t return again. Perhaps it would have been better if we had tried their crab.",
+      "Rating": 2,
+      "CreatedDateTime": "26/07/2023 01:15:26",
+      "Comment": []
+    },
+    {
+      "review_id": 8,
+      "CID": 2,
+      "RID": 13,
+      "BID": 1,
+      "Review": "Awesome crew and thanks for the surprise and thoughtful birthday celebration for my best friend.  We would like to thank all the staff there, especially Mr Jess, He is extremely helpful and so hospitable and friendly. Thank you for the wonderful service and delicious food recommendations. We enjoyed it to the max and have a splendid time in your restaurant.",
+      "Rating": 5,
+      "CreatedDateTime": "26/07/2023 01:15:26",
+      "Comment": []
+    },
+    {
+      "review_id": 9,
+      "CID": 1,
+      "RID": 19,
+      "BID": 1,
+      "Review": "The new head chef has planned a menu that’s more underwhelming than 2 years before. Food definitely was good but portion and exquisiteness has declined. I definitely left feeling underwhelmed despite the flavourful taste",
+      "Rating": 3,
+      "CreatedDateTime": "26/07/2023 01:15:26",
+      "Comment": []
+    },
+    {
+      "review_id": 10,
+      "CID": 2,
+      "RID": 19,
+      "BID": 1,
+      "Review": "Well-deserving of all their accolades! The service was attentive and considerate. We had their lunch set meal that was so good value for money. It seems that every dish others ordered also looked so good. They even surprised us with a complimentary dessert for our anniversary. Will definitely be back for more!",
+      "Rating": 5,
+      "CreatedDateTime": "26/07/2023 01:15:26",
+      "Comment": []
+    }
+  ]

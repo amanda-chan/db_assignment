@@ -118,14 +118,32 @@ def menu_setup(mongo_db):
     result = menu.find_one()
 
     if result == None: # No existing data in the collection, hence populate data
-        print("Inserting data into the menu collecetion...")
+        print("Inserting data into the menu collection...")
 
         # Extract data from json file
         with open("food_app/data/menu_data.json") as file:
             file_data = json.load(file)
 
         # Insert menu data into menu collection
-        menu.insert_many(file_data) 
+        menu.insert_many(file_data)
+
+def reviews_setup(mongo_db):
+
+    # Create or switch to reviews collection
+    reviews = mongo_db["reviews"]
+
+    # Get the first document
+    result = reviews.find_one()
+
+    if result == None: # No existing data in the collection, hence populate data
+        print("Inserting data into the reviews collection...")
+
+        # Extract data from json file
+        with open("food_app/data/review_data.json") as file:
+            file_data = json.load(file)
+
+        # Insert review data into reviews collection
+        reviews.insert_many(file_data) 
 
 
 def create_app():
@@ -168,6 +186,7 @@ def create_app():
         owner_setup(sql_db, Owner)
         restraunt_setup(sql_db, Restaurant)
         menu_setup(mongo_db)
+        reviews_setup(mongo_db)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
