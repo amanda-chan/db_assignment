@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Display Reviews{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>My Reviews</h1>
+    <br>
+    <a href="{{ url_for('review.make') }}" class="btn btn-primary btn-lg">Make a Review</a>
+    <button type="button" class="btn btn-primary btn-lg">Review</button>
+</div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Make a Review{% endblock %}
+
+{% block content %}
+
+<div class = "container">
+    <h1>My Reviews</h1>
+    <br>
+   
+    <!-- Rate the restruant basing on a scale of 1 to 10 -->
+    
+    <div class="form-floating">
+        <select class="form-select" id="floatingSelectDisabled" aria-label="Floating label disabled select example" disabled>
+            <option selected>Open this select menu</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        <label for="floatingSelectDisabled">Restruant Ratings</label>
+    </div>
+
+    <!-- text area to leave review for the resturant -->
+    <div class="form-floating mb-3">
+        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2Disabled" style="height: 100px" disabled></textarea>
+        <label for="floatingTextarea2Disabled">Comments</label>
+    </div>
+
+    <a href="" class="btn btn-primary btn-lg">Make a Review</a>
+    <button type="button" class="btn btn-primary btn-lg">Review</button>
+<!-- <button type="button" class="btn btn-secondary btn-lg">Large button</button> -->
+</div>
+
+
+{% endblock %}

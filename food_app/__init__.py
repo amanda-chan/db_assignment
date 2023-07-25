@@ -171,11 +171,14 @@ def create_app():
     from .profile import profile_bp
     from .restaurant import restaurant_bp
     from .order import order_bp
+    from .review import review_bp
     app.register_blueprint(auth_bp, url_prefix='/')
     app.register_blueprint(home_bp, url_prefix='/')
     app.register_blueprint(profile_bp)
     app.register_blueprint(restaurant_bp)
     app.register_blueprint(order_bp)
+    app.register_blueprint(review_bp)
+
 
     # create tables in the db
     from .models import Customer, Owner, Booking, Order, Restaurant
