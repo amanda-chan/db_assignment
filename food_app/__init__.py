@@ -171,6 +171,56 @@ def reviews_setup(mongo_db):
         # Insert review data into reviews collection
         reviews.insert_many(file_data) 
 
+# def bookingHistory_setup(mongo_db):
+
+#     # Create or switch to reviews collection
+#     bookings = mongo_db["bookingHistory"]
+
+#     # Get the first document
+#     result = bookings.find_one()
+
+#     if result == None: # No existing data in the collection, hence populate data
+#         print("Inserting data into the reviews collection...")
+
+#         # Extract data from json file
+#         with open("food_app/data/bookingHistory_data.json") as file:
+#             file_data = json.load(file)
+
+#         # Insert review data into reviews collection
+#         bookings.insert_many(file_data) 
+
+
+def bookings_setup(sql_db, Bookings):
+
+    # Count number of rows in the Restaurant table
+    count = Bookings.query.count()
+
+    if count == 0: # No existing data in the table, hence, populate the table
+        print("Inserting data into the restaurant table...")
+
+        # Extract data from the excel sheet
+        df = pd.read_excel("food_app/data/booking_data.xlsx")
+
+        # Replace NaN values in the 'email' column with an empty string
+        df['special_request'].fillna('', inplace=True)
+        df['updated_at'].fillna('', inplace=True)
+        # Insert data rows into the table
+        for index, row in df.iterrows():
+
+            new_booking = Bookings(bid=int(row['bid']),
+                                 date=row['date'],
+                                 time=row['time'],
+                                 pax=int(row['pax']),
+                                 special_request=row['special_request'],
+                                 created_at=row['created_at'],
+                                 updated_at=row['updated_at'])
+            
+            sql_db.session.add(new_booking)
+
+        # Commit the changes to the database
+        sql_db.session.commit()
+
+
 
 def create_app():
 
