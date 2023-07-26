@@ -5,14 +5,14 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import mysql.connector
-import pymongo
+from pymongo import MongoClient
 import pandas as pd
 import json
 from werkzeug.security import generate_password_hash
 
 sql_db = SQLAlchemy()
 migrate = Migrate()
-myclient = pymongo.MongoClient()
+myclient = MongoClient()
 mongo_db = myclient["db_project"]
 
 
@@ -41,12 +41,15 @@ def relational_db_setup():
 def nonrelational_db_setup():
 
     # Connect Non-relational Database to LocalHost
-    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+    myclient = MongoClient("mongodb://localhost:27017/")
 
     # Init database
     mydb = myclient["db_project"]
 
     return mydb
+
+
+
 
 
 def restraunt_setup(sql_db, Restaurant):
@@ -144,7 +147,6 @@ def reviews_setup(mongo_db):
 
         # Insert review data into reviews collection
         reviews.insert_many(file_data) 
-
 
 def create_app():
 
