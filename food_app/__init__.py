@@ -21,7 +21,7 @@ def relational_db_setup():
     mydb = mysql.connector.connect(
         host = "localhost",
         user = "root", 
-        password = "root"
+        password = "R00tpwd@1234"
     )
 
     cursor = mydb.cursor()

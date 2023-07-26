@@ -11,10 +11,11 @@ review_bp = Blueprint("review", __name__, url_prefix="/review")
 def make():
     # add login required
     #maybe need to add like booking = current booking then can, but now just try try to create
-    return render_template("profile/review/makeReview.html", user=current_user)
+    return render_template("review/makeReview.html", user=current_user)
 
 
-
+# there is a review tab in navbar, can view all reviews on that page:)
+# user can see which review is positive then view that restaurant (idea you can consider)
 
 # @review_bp.route("/")
 # def review():
