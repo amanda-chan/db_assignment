@@ -65,3 +65,4 @@ def bookings():
 def orders():
     # add login required ^
     return render_template("profile/orders.html", user=current_user, orders=orders)
+
