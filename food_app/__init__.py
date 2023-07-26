@@ -5,14 +5,14 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import mysql.connector
-from pymongo import MongoClient
+import pymongo
 import pandas as pd
 import json
 from werkzeug.security import generate_password_hash
 
 sql_db = SQLAlchemy()
 migrate = Migrate()
-myclient = MongoClient()
+myclient = pymongo.MongoClient()
 mongo_db = myclient["db_project"]
 
 
@@ -41,7 +41,7 @@ def relational_db_setup():
 def nonrelational_db_setup():
 
     # Connect Non-relational Database to LocalHost
-    myclient = MongoClient("mongodb://localhost:27017/")
+    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 
     # Init database
     mydb = myclient["db_project"]
@@ -49,13 +49,10 @@ def nonrelational_db_setup():
     return mydb
 
 
-
-
-
-def restraunt_setup(sql_db, Restaurant):
+def restraunt_setup(sql_db, Restaurants):
 
     # Count number of rows in the Restaurant table
-    count = Restaurant.query.count()
+    count = Restaurants.query.count()
 
     if count == 0: # No existing data in the table, hence, populate the table
         print("Inserting data into the restaurant table...")
@@ -72,7 +69,7 @@ def restraunt_setup(sql_db, Restaurant):
         # Insert data rows into the table
         for index, row in df.iterrows():
 
-            new_res = Restaurant(rid=int(row['rid']),
+            new_res = Restaurants(rid=int(row['rid']),
                                  name=row['name'],
                                  cuisine=row['cuisine'],
                                  operating_hours=row['operating_hours'],
@@ -87,10 +84,10 @@ def restraunt_setup(sql_db, Restaurant):
         # Commit the changes to the database
         sql_db.session.commit()
 
-def owner_setup(sql_db, Owner):
+def owner_setup(sql_db, Owners):
 
     # Count number of rows in the Owner table
-    count = Owner.query.count()
+    count = Owners.query.count()
 
     if count == 0: # No existing data in the table, hence, populate the table
         print("Inserting data into the owner table...")
@@ -100,7 +97,7 @@ def owner_setup(sql_db, Owner):
 
         # Insert data rows into the table
         for index, row in df.iterrows():
-            new_owner = Owner(oid=int(row['oid']),
+            new_owner = Owners(oid=int(row['oid']),
                               email=row['email'],
                               first_name=row['first_name'],
                               last_name=row['last_name'],
@@ -148,6 +145,7 @@ def reviews_setup(mongo_db):
         # Insert review data into reviews collection
         reviews.insert_many(file_data) 
 
+
 def create_app():
 
     # Setup db if not yet
@@ -183,13 +181,13 @@ def create_app():
 
 
     # create tables in the db
-    from .models import Customer, Owner, Booking, Order, Restaurant
+    from .models import Customers, Owners, Bookings, Orders, Restaurants
 
     with app.app_context():
         sql_db.create_all()
         # Initialise data
-        owner_setup(sql_db, Owner)
-        restraunt_setup(sql_db, Restaurant)
+        owner_setup(sql_db, Owners)
+        restraunt_setup(sql_db, Restaurants)
         menu_setup(mongo_db)
         reviews_setup(mongo_db)
 
@@ -199,7 +197,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(cid):
-        return Customer.query.get(int(cid))
+        return Customers.query.get(int(cid))
 
     return app
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from .models import Customer, Booking, Order, Restaurant
+from .models import Customers, Bookings, Orders, Restaurants
 from . import sql_db
 from . import mongo_db
 from pymongo import MongoClient

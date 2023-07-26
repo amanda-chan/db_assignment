@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from .models import Restaurant
+from .models import Restaurants
 from . import sql_db, mongo_db
 
 order_bp = Blueprint("order", __name__, url_prefix="/order")
@@ -16,7 +16,7 @@ def get_restaurants():
 
     # Gather restaurant found in rid_list
     for rid in rid_list:
-        restaurant = Restaurant.query.filter_by(rid=rid).all()
+        restaurant = Restaurants.query.filter_by(rid=rid).all()
         for r in restaurant: # Since data returned is in a list
             data = {
                 'rid': r.rid,

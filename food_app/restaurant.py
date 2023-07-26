@@ -1,13 +1,13 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from .models import Restaurant
+from .models import Restaurants
 from . import sql_db
 
 restaurant_bp = Blueprint("restaurant", __name__, url_prefix="/restaurant")
 
 def retrieve_cusines():
     cuisine_types = []
-    cuisines = Restaurant.query.with_entities(Restaurant.cuisine).distinct().all() # Gather all the different cuisine types
+    cuisines = Restaurants.query.with_entities(Restaurants.cuisine).distinct().all() # Gather all the different cuisine types
     for c in cuisines:
         # Restraunt contains more than 1 cuisine type
         if ", " in c[0]:
@@ -26,7 +26,7 @@ def retrieve_cusines():
 
 def retrieve_restaurants():
     restaurant_list = []
-    all_restaurants = Restaurant.query.all() # Gather all restaurants and their data
+    all_restaurants = Restaurants.query.all() # Gather all restaurants and their data
 
     for r in all_restaurants:
         data = {
@@ -51,34 +51,34 @@ def filtered__restaurants(letter, cuisine, price):
         if cuisine != "": 
             # Letter, Cuisine & Price exists
             if price != "":
-                restaurants_filtered = Restaurant.query.filter_by(price=price).filter(Restaurant.name.like(f'{letter}%'), Restaurant.cuisine.like(f'%{cuisine}%')).all()
+                restaurants_filtered = Restaurants.query.filter_by(price=price).filter(Restaurants.name.like(f'{letter}%'), Restaurants.cuisine.like(f'%{cuisine}%')).all()
 
             # Letter & Cusine exists
             else:
-                restaurants_filtered = Restaurant.query.filter(Restaurant.name.like(f'{letter}%'), Restaurant.cuisine.like(f'%{cuisine}%')).all()
+                restaurants_filtered = Restaurants.query.filter(Restaurants.name.like(f'{letter}%'), Restaurants.cuisine.like(f'%{cuisine}%')).all()
 
         else:
             # Letter & Price exists
             if price != "":
-                restaurants_filtered = Restaurant.query.filter_by(price=price).filter(Restaurant.name.like(f'{letter}%')).all()
+                restaurants_filtered = Restaurants.query.filter_by(price=price).filter(Restaurants.name.like(f'{letter}%')).all()
 
             # Only Letter Exists
             else:
-                restaurants_filtered = Restaurant.query.filter(Restaurant.name.like(f'{letter}%')).all()
+                restaurants_filtered = Restaurants.query.filter(Restaurants.name.like(f'{letter}%')).all()
 
     else:
         if cuisine != "": 
             # Cuisine & Price exists
             if price != "":
-                restaurants_filtered = Restaurant.query.filter_by(price=price).filter(Restaurant.cuisine.like(f'%{cuisine}%')).all()
+                restaurants_filtered = Restaurants.query.filter_by(price=price).filter(Restaurants.cuisine.like(f'%{cuisine}%')).all()
 
             # Only Cuisine exists
             else:
-                restaurants_filtered = Restaurant.query.filter(Restaurant.cuisine.like(f'%{cuisine}%')).all()
+                restaurants_filtered = Restaurants.query.filter(Restaurants.cuisine.like(f'%{cuisine}%')).all()
         
         else:
             # Only Price exists
-            restaurants_filtered = Restaurant.query.filter_by(price=price).all()
+            restaurants_filtered = Restaurants.query.filter_by(price=price).all()
 
     for r in restaurants_filtered:
         data = {
@@ -129,7 +129,7 @@ def view():
 @restaurant_bp.route("/info")
 def info():
     rid = request.args.get('rid')
-    restaurant = Restaurant.query.get(rid)
+    restaurant = Restaurants.query.get(rid)
 
     return render_template("restaurant/info.html", restaurant = restaurant, user = current_user)
     

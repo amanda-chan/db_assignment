@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from datetime import datetime
-from .models import Customer, Booking, Order, Restaurant
+from .models import Customers, Bookings, Orders, Restaurants
 from . import sql_db
 import re
 
@@ -31,7 +31,7 @@ def edit():
         username = request.form.get("username")
         contact_number = request.form.get("contact-number")
 
-        customer = sql_db.session.query(Customer).get(current_user.get_id())
+        customer = sql_db.session.query(Customers).get(current_user.get_id())
         if len(email) < 3:
             flash("Email must be at least 3 characters.", category="error")
         elif len(username) < 3:

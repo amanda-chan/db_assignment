@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import Customer
+from .models import Customers
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import sql_db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -14,7 +14,7 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
 
-        user = Customer.query.filter_by(email=email).first()
+        user = Customers.query.filter_by(email=email).first()
 
         if user:
             if check_password_hash(user.password, password):
@@ -45,7 +45,7 @@ def register():
         confirm_password = request.form.get("confirm-password")
         contact_number = request.form.get("contact-number")
 
-        user = Customer.query.filter_by(email=email).first()
+        user = Customers.query.filter_by(email=email).first()
         if user:
             flash("Email already exists.", category="error")
         elif len(email) < 3:
@@ -59,7 +59,7 @@ def register():
         elif re.search("^[89][0-9]{7}$", str(contact_number)) is None:
             flash("Please enter a valid local phone number.", category="error")
         else:
-            new_user = Customer(
+            new_user = Customers(
                 email=email,
                 username=username,
                 password=generate_password_hash(password, method="sha256"),
