@@ -3,6 +3,8 @@ from flask_login import login_required, current_user
 from .models import Customer, Booking, Order, Restaurant
 from . import sql_db
 from . import mongo_db
+from pymongo import MongoClient
+import json
 
 review_bp = Blueprint("review", __name__, url_prefix="/review")
 
@@ -14,8 +16,27 @@ def make():
     return render_template("profile/review/makeReview.html", user=current_user)
 
 
+@review_bp.route("/", methods=['GET', 'POST'])
+def dsiplay():
+
+    review_list = retrieve_review()
+    return render_template("profile/review.showReviews.html", reviews=review_list)
+    
 
 
+def retrieve_review():
+    #retrieve all for testing first
+    myclient = MongoClient("mongodb://localhost:27017/")
+    db = myclient["db_project"]
+    reviews_col = db["reviews"]
+    query = reviews_col.find({})
+    
+    review_list = []
+    for record in query:
+        print(record)
+        review_list.append(record)
+
+    return review_list
 # @review_bp.route("/")
 # def review():
 #     # add login required ^
