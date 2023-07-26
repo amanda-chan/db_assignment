@@ -21,7 +21,7 @@ def relational_db_setup():
     mydb = mysql.connector.connect(
         host = "localhost",
         user = "root", 
-        password = "root"
+        password = "R00tpwd@1234"
     )
 
     cursor = mydb.cursor()
@@ -84,6 +84,7 @@ def restraunt_setup(sql_db, Restaurants):
         # Commit the changes to the database
         sql_db.session.commit()
 
+
 def owner_setup(sql_db, Owners):
 
     # Count number of rows in the Owner table
@@ -108,6 +109,31 @@ def owner_setup(sql_db, Owners):
 
         # Commit the changes to the database
         sql_db.session.commit()
+
+
+def customer_setup(sql_db, Customers):
+    # Count number of rows in the Customers table
+    count = Customers.query.count()
+
+    if count < 50: # No existing data in the table, hence, populate the table
+        print("Inserting data into the customer table...")
+
+        # Extract data from the excel sheet
+        df = pd.read_excel("food_app/data/customer_data.xlsx")
+
+        # Insert data rows into the table
+        for index, row in df.iterrows():
+            customer = Customers(cid=int(row['cid']),
+                              email=row['email'],
+                              username=row['username'],
+                              password=generate_password_hash(row['password'], method='sha256'),
+                              contact_number=row['contact_number'])
+            
+            sql_db.session.add(customer)
+
+        # Commit the changes to the database
+        sql_db.session.commit()
+
 
 def menu_setup(mongo_db):
 
@@ -188,6 +214,7 @@ def create_app():
         # Initialise data
         owner_setup(sql_db, Owners)
         restraunt_setup(sql_db, Restaurants)
+        customer_setup(sql_db, Customers)
         menu_setup(mongo_db)
         reviews_setup(mongo_db)
 
