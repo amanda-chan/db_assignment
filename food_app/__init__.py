@@ -77,7 +77,8 @@ def restraunt_setup(sql_db, Restaurants):
                                  address=row['address'],
                                  contact_number=int(row['contact_number']),
                                  email=row['email'],
-                                 price=row['price'])
+                                 price=row['price'],
+                                 oid=row['oid'])
             
             sql_db.session.add(new_res)
 
