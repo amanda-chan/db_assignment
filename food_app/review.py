@@ -19,7 +19,7 @@ def make():
 @review_bp.route("/display", methods=["GET", "POST"])
 def display():
     review_list = retrieve_review()
-    return render_template("profile/review.showReviews.html", reviews=review_list)
+    return render_template("review/showReviews.html", user=current_user, reviews=review_list)
 
 
 # there is a review tab in navbar, can view all reviews on that page:)

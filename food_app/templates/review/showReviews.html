@@ -5,13 +5,13 @@
 {% block content %}
 
 <div class="container">
-    <h1>My Reviews</h1>
+    <h1>All Reviews</h1>
     <br>
-    <a href="{{ url_for('review.make') }}" class="btn btn-primary btn-lg">Make a Review</a>
-    <button type="button" class="btn btn-primary btn-lg">Review</button>
+    <!-- <a href="{{ url_for('review.make') }}" class="btn btn-primary btn-lg">Make a Review</a>
+    <button type="button" class="btn btn-primary btn-lg">Review</button> -->
 </div>
 <!-- Loop through each review in the reviews list and display its data -->
-<!-- {% for review in reviews %}
+{% for review in reviews %}
 <div class="container">
     <h3>Review ID: {{ review.review_id }}</h3>
     <p>CID: {{ review.CID }}</p>
@@ -23,6 +23,6 @@
     <p>Comment: {{ review.Comment }}</p>
     <hr>
 </div>
-{% endfor %} -->
+{% endfor %}
 
 {% endblock %}
