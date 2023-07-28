@@ -67,7 +67,7 @@
                 <div class="card-body">
                 <h5 class="card-title">{{r['name']}}</h5>
                 <p class="card-text">{{r['price']}} {{r['cuisine']}}</p>
-                <a href="{{ url_for('restaurant.info', rid=review.RID) }}" class="btn btn-primary">View Restaurant</a>
+                <a href="{{ url_for('restaurant.info', rid=r.RID) }}" class="btn btn-primary">View Restaurant</a>
                 </div>
             </div>
             <br>
