@@ -45,11 +45,31 @@
             <div class="custom-box mb-3">
                 <div class="d-flex justify-content-between mb-2">
                     <h2>My Reviews</h2>
-                    <button type="button" class="btn btn-light">View More <i class="fa-solid fa-arrow-right"></i></button>
+                    <a href="{{ url_for('profile.reviews') }}">
+                        <button type="button" class="btn btn-light">View More <i class="fa-solid fa-arrow-right"></i></button>
+                    </a>
                 </div>
                 
                 {% if reviews is defined and reviews|length > 0 %}
                     <!-- print top 3 -->
+                    {% for review in reviews %}
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            {% for star in range(5) %}
+                            {% if star < review.Rating %} 
+                            <i class="fa-solid fa-star" style="color: #ea580c;"></i>
+                            {% else %}
+                            <i class="fa-regular fa-star" style="color: #ea580c;"></i>
+                            {% endif %}
+                            {% endfor %}
+
+                            <p class="long-text mt-3">{{ review.Review }}</p>
+
+                            {% set date = review.CreatedDateTime.split(' ') %}
+                            <p class="mb-2"><small>{{ date[0] }}</small></p>
+                        </div>
+                    </div>
+                    {% endfor %}
                 {% else %}
                     <p>You do not have any reviews yet.</p>
                 {% endif %}
@@ -57,19 +77,36 @@
             <div class="custom-box mb-3">
                 <div class="d-flex justify-content-between mb-2">
                     <h2>My Bookings</h2>
-                    <button type="button" class="btn btn-light">View More <i class="fa-solid fa-arrow-right"></i></button>
+                    <a href="{{ url_for('profile.bookings') }}">
+                        <button type="button" class="btn btn-light">View More <i class="fa-solid fa-arrow-right"></i></button>
+                    </a>
                 </div>
                 
                 {% if bookings is defined and bookings|length > 0 %}
-                    <!-- print top 3 -->
+                <!-- print top 3 -->
+                {% for booking in bookings %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        {% for restaurant in restaurants %}
+                        {% if restaurant['rid'] == booking['rid'] %}
+                        <p class="card-title"><strong>{{ restaurant['name'] }}</strong></p>   
+                        {% endif %}             
+                        {% endfor %}             
+                        <p class="mb-2 card-text"><small><i class="fa-regular fa-calendar"></i>  {{ booking['date'] }}</small></p>
+                        <p class="mb-2 card-text"><small><i class="fa-regular fa-clock"></i>  {{ booking['time'].strftime("%I:%M %p") }}</small></p>
+                    </div>
+                </div>
+                {% endfor %}
                 {% else %}
-                    <p>You do not have any bookings yet.</p>
+                <p>You do not have any bookings yet.</p>
                 {% endif %}
             </div>
             <div class="custom-box mb-3">
                 <div class="d-flex justify-content-between mb-2">
                     <h2>My Orders</h2>
-                    <button type="button" class="btn btn-light">View More <i class="fa-solid fa-arrow-right"></i></button>
+                    <a href="{{ url_for('profile.orders') }}">
+                        <button type="button" class="btn btn-light">View More <i class="fa-solid fa-arrow-right"></i></button>
+                    </a>
                 </div>
                 
                 {% if orders is defined and orders|length > 0 %}

@@ -5,24 +5,69 @@
 {% block content %}
 
 <div class="container">
-    <h1>My Reviews</h1>
+    <h1>All Reviews</h1>
     <br>
-    <a href="{{ url_for('review.make') }}" class="btn btn-primary btn-lg">Make a Review</a>
-    <button type="button" class="btn btn-primary btn-lg">Review</button>
+    <!-- <a href="{{ url_for('review.make') }}" class="btn btn-primary btn-lg">Make a Review</a>
+    <button type="button" class="btn btn-primary btn-lg">Review</button> -->
 </div>
 <!-- Loop through each review in the reviews list and display its data -->
 <!-- {% for review in reviews %}
-<div class="container">
-    <h3>Review ID: {{ review.review_id }}</h3>
-    <p>CID: {{ review.CID }}</p>
+<div class="container"> -->
+    <!-- <h3>Review ID: {{ review.review_id }}</h3> -->
+    <!-- <p>CID: {{ review.CID }}</p>
     <p>RID: {{ review.RID }}</p>
-    <p>BID: {{ review.BID }}</p>
-    <p>Review: {{ review.Review }}</p>
+    <p>BID: {{ review.BID }}</p> -->
+    <!-- <p>Review: {{ review.Review }}</p>
     <p>Rating: {{ review.Rating }}</p>
-    <p>CreatedDateTime: {{ review.CreatedDateTime }}</p>
-    <p>Comment: {{ review.Comment }}</p>
-    <hr>
+    <p>CreatedDateTime: {{ review.CreatedDateTime }}</p> -->
+    <!-- <p>Comment: {{ review.Comment }}</p> -->
+    <!-- <hr>
 </div>
 {% endfor %} -->
+<div class="row">
+    <div class="card-deck mt-2">
+        {% for review in reviews %}
+            <div class="card text-left">
+                <div class="card-body">
+                <!-- <h5 class="card-title">Rating: {{ review.Rating }}</h5> -->
+                <h5 class="card-title">Rating:
+                    {% for i in range(5) %}
+                        {% if i < review.Rating %}
+                            <i class="fas fa-star"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </h5>
+                <p class="card-text">{{ review.Review }}</p>   
+                <p class="card-text"></p>{{ review.CreatedDateTime }}</p>  
+                <a href="{{ url_for('restaurant.info', rid=review.RID) }}" class="btn btn-primary btn-sm">View Restaurant</a>         
+            </div>
 
+       
+            </div>       
+            <br>
+            
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row">
+    <h2>Restaurants</h2>
+    <div class="card-deck mt-2">
+        {% for r in restaurant_list %}
+            <div class="card text-left">
+                <div class="card-body">
+                <h5 class="card-title">{{r['name']}}</h5>
+                <p class="card-text">{{r['price']}} {{r['cuisine']}}</p>
+                <a href="
+                " class="btn btn-primary">View Restaurant</a>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
+
+
