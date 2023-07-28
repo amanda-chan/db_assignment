@@ -31,8 +31,12 @@
                 <div class="card-body">
                 <!-- <h5 class="card-title">Rating: {{ review.Rating }}</h5> -->
                 <h5 class="card-title">Rating:
-                    {% for i in range(review.Rating) %}
-                        <i class="fas fa-star"></i>
+                    {% for i in range(5) %}
+                        {% if i < review.Rating %}
+                            <i class="fas fa-star"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
                     {% endfor %}
                 </h5>
                 <p class="card-text">{{ review.Review }}</p>
