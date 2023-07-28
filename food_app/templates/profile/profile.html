@@ -84,6 +84,19 @@
                 
                 {% if bookings is defined and bookings|length > 0 %}
                 <!-- print top 3 -->
+                {% for booking in bookings %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        {% for restaurant in restaurants %}
+                        {% if restaurant['rid'] == booking['rid'] %}
+                        <p class="card-title"><strong>{{ restaurant['name'] }}</strong></p>   
+                        {% endif %}             
+                        {% endfor %}             
+                        <p class="mb-2 card-text"><small><i class="fa-regular fa-calendar"></i>  {{ booking['date'] }}</small></p>
+                        <p class="mb-2 card-text"><small><i class="fa-regular fa-clock"></i>  {{ booking['time'].strftime("%I:%M %p") }}</small></p>
+                    </div>
+                </div>
+                {% endfor %}
                 {% else %}
                 <p>You do not have any bookings yet.</p>
                 {% endif %}

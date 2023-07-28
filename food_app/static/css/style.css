@@ -39,6 +39,10 @@ h2 {
     text-overflow: ellipsis;
 }
 
+.card-title {
+    color: #212B36;
+}
+
 
 /* buttons */
 .btn-primary {
@@ -156,4 +160,10 @@ h2 {
     border-radius: 1rem;
     padding: 2rem 4rem;
     box-shadow: 0px 10px 35px 0px rgba(0, 0, 0, 0.05);
+}
+
+
+/* table */
+.table>:not(caption, thead)>*>* {
+    color: #637381;
 }

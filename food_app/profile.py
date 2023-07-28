@@ -11,25 +11,55 @@ profile_bp = Blueprint("profile", __name__, url_prefix="/profile")
 @profile_bp.route("/")
 @login_required
 def profile():
-    r_list = []
-    b_list = []
-    o_list = []
+    review_list = []
+    booking_list = []
+    order_list = []
+    restaurant_list = []
 
+    # get top 3 reviews (if available)
     reviews_col = mongo_db["reviews"]
 
     if len(list(reviews_col.find({"CID": current_user.get_id()}))) <= 3:
-        for row in reviews_col.find({"CID": current_user.get_id()}).sort("CreatedDateTime", -1):
-            r_list.append(row)
+        for row in reviews_col.find({"CID": current_user.get_id()}).sort(
+            "CreatedDateTime", -1
+        ):
+            review_list.append(row)
     else:
-        for row in reviews_col.find({"CID": current_user.get_id()}).limit(3).sort("CreatedDateTime", -1):
-            r_list.append(row)
+        for row in (
+            reviews_col.find({"CID": current_user.get_id()})
+            .limit(3)
+            .sort("CreatedDateTime", -1)
+        ):
+            review_list.append(row)
+
+    # get top 3 bookings (if available)
+    booking = Bookings.query.filter_by(cid=current_user.get_id()).limit(3).all()
+
+    for b in booking:
+        data = {
+            "bid": b.rid,
+            "date": b.date,
+            "time": b.time,
+            "pax": b.pax,
+            "special_request": b.special_request,
+            "rid": b.rid,
+            "created_at": b.created_at,
+            "updated_at": b.updated_at,
+        }
+        print(data)
+        booking_list.append(data)
+
+    if booking_list != None:
+        getRestaurantNames(restaurant_list)
+    
 
     return render_template(
         "profile/profile.html",
         user=current_user,
-        reviews=r_list,
-        bookings=b_list,
-        orders=o_list,
+        reviews=review_list,
+        bookings=booking_list,
+        orders=order_list,
+        restaurants=restaurant_list
     )
 
 
@@ -72,10 +102,8 @@ def reviews():
 
     for row in query:
         review_list.append(row)
-        restaurant = Restaurants.query.filter_by(rid=row["RID"]).all()
-        for r in restaurant:
-            data = {"rid": r.rid, "name": r.name}
-            restaurant_list.append(data)
+    
+    getRestaurantNames(restaurant_list)
 
     return render_template(
         "profile/reviews.html",
@@ -88,12 +116,48 @@ def reviews():
 @profile_bp.route("/bookings")
 def bookings():
     # add login required ^
+    booking_list = []
+    restaurant_list = []
+
+    booking = Bookings.query.filter_by(cid=current_user.get_id()).all()
+
+    for b in booking:
+        data = {
+            "bid": b.rid,
+            "date": b.date,
+            "time": b.time,
+            "pax": b.pax,
+            "special_request": b.special_request,
+            "rid": b.rid,
+            "created_at": b.created_at,
+            "updated_at": b.updated_at,
+        }
+        print(data)
+        booking_list.append(data)
+
+    getRestaurantNames(restaurant_list)
+
     return render_template(
-        "profile/bookings.html", user=current_user, bookings=bookings
+        "profile/bookings.html",
+        user=current_user,
+        bookings=booking_list,
+        restaurants=restaurant_list,
     )
 
 
 @profile_bp.route("/orders")
 def orders():
     # add login required ^
-    return render_template("profile/orders.html", user=current_user, orders=orders)
+    order_list = []
+    return render_template("profile/orders.html", user=current_user, orders=order_list)
+
+
+# get all restaurant names
+def getRestaurantNames(restaurant_list):
+    restaurant = Restaurants.query.all()
+    for r in restaurant:
+        data = {
+            "rid": r.rid,
+            "name": r.name
+        }
+        restaurant_list.append(data)

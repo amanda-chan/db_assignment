@@ -13,6 +13,7 @@
 
 <h1>My Reviews</h1>
 
+{% if reviews is defined and reviews|length > 0 %}
 <div class="container mt-4">
     {% for review in reviews %}
     <div class="custom-box mb-4">
@@ -48,4 +49,9 @@
     </div>
     {% endfor %}
 </div>
+{% else %}
+<div class="mt-4">
+    <p>You do not have any reviews yet.</p>
+</div>
+{% endif %}
 {% endblock %}
