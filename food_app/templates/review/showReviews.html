@@ -11,18 +11,37 @@
     <button type="button" class="btn btn-primary btn-lg">Review</button> -->
 </div>
 <!-- Loop through each review in the reviews list and display its data -->
-{% for review in reviews %}
-<div class="container">
-    <h3>Review ID: {{ review.review_id }}</h3>
-    <p>CID: {{ review.CID }}</p>
+<!-- {% for review in reviews %}
+<div class="container"> -->
+    <!-- <h3>Review ID: {{ review.review_id }}</h3> -->
+    <!-- <p>CID: {{ review.CID }}</p>
     <p>RID: {{ review.RID }}</p>
-    <p>BID: {{ review.BID }}</p>
-    <p>Review: {{ review.Review }}</p>
+    <p>BID: {{ review.BID }}</p> -->
+    <!-- <p>Review: {{ review.Review }}</p>
     <p>Rating: {{ review.Rating }}</p>
-    <p>CreatedDateTime: {{ review.CreatedDateTime }}</p>
-    <p>Comment: {{ review.Comment }}</p>
-    <hr>
+    <p>CreatedDateTime: {{ review.CreatedDateTime }}</p> -->
+    <!-- <p>Comment: {{ review.Comment }}</p> -->
+    <!-- <hr>
 </div>
-{% endfor %}
-
+{% endfor %} -->
+<div class="row">
+    <div class="card-deck mt-2">
+        {% for review in reviews %}
+            <div class="card text-left">
+                <div class="card-body">
+                <!-- <h5 class="card-title">Rating: {{ review.Rating }}</h5> -->
+                <h5 class="card-title">Rating:
+                    {% for i in range(review.Rating) %}
+                        <i class="fas fa-star"></i>
+                    {% endfor %}
+                </h5>
+                <p class="card-text">{{ review.Review }}</p>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
+
+
