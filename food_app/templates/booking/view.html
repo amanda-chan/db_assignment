@@ -11,7 +11,7 @@
 </nav>
 
 <h1>My Bookings</h1>
-
+{% include 'error.html' %}
 <div class="mt-4">
     {% if bookings_list is defined and bookings_list|length > 0 %}
     <div class="table-responsive custom-box">

@@ -116,6 +116,7 @@ def edit():
         booking.updated_at = datetime.now()
 
         sql_db.session.commit()
+        flash("Changes saved successfully!", category="success")
         return redirect(url_for("booking.view"))
     return render_template("booking/edit.html",booking = booking, restaurants = restaurant_list, user = current_user)
 
@@ -133,6 +134,7 @@ def delete():
         sql_db.session.delete(booking)
 
         sql_db.session.commit()
+        flash("Deleted booking!", category="success")
         return redirect(url_for("booking.view"))
 
     return render_template("booking/delete.html", booking = booking, restaurants = restaurant_list, user = current_user)
