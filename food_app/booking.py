@@ -94,7 +94,7 @@ def make():
 
 #Update
 @booking_bp.route("/edit", methods=["GET", "POST"])
-#@login_required
+@login_required
 def edit():
     bid = request.args.get('bid')
     booking = Bookings.query.get(bid)
@@ -122,7 +122,7 @@ def edit():
 
 #Delete
 @booking_bp.route("/delete", methods=["GET", "POST"])
-#@login_required
+@login_required
 def delete():
     bid = request.args.get('bid')
     booking = Bookings.query.get(bid)
