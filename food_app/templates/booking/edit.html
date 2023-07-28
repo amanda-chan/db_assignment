@@ -26,21 +26,21 @@
                 {% endfor %}
             </div>
             <div style="display: flex;">
-            <div class="mb-3" style="flex: 1;">
+            <div class="mb-3" style="flex: 1; margin-right: 10%">
                 <label for="date" class="form-label">Date</label>
                 <input type="date" class="form-control" id="date" name="date"
-                    value="{{ booking.date }}" min= datetime.now()>
+                    value="{{ booking.date }}">
             </div>
-            <div class="mb-3" style="flex: 1;">
+            <div class="mb-3" style="flex: 1; margin-right: 10%">
                 <label for="time" class="form-label">Time</label>
                 <input type="time" class="form-control" id="time" name="time"
                     value="{{ booking.time }}">
             </div>
-            </div>
-            <div class="mb-3">
+            <div class="mb-3"style="flex: 1;">
                 <label for="pax" class="form-label">Pax</label>
                 <input type="number" class="form-control" id="pax"
-                    name="pax" value="{{ booking.pax }}">
+                    name="pax" value="{{ booking.pax }}" min= 1>
+            </div>
             </div>
             <div class="mb-3">
                 <label for="special_request" class="form-label">Special Request</label>
