@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from datetime import datetime
 from .models import Customers, Bookings, Orders, Restaurants
-from . import sql_db
+from . import sql_db, mongo_db
 import re
 
 profile_bp = Blueprint("profile", __name__, url_prefix="/profile")
@@ -14,6 +14,16 @@ def profile():
     r_list = []
     b_list = []
     o_list = []
+
+    reviews_col = mongo_db["reviews"]
+
+    if len(list(reviews_col.find({"CID": current_user.get_id()}))) <= 3:
+        for row in reviews_col.find({"CID": current_user.get_id()}).sort("CreatedDateTime", -1):
+            r_list.append(row)
+    else:
+        for row in reviews_col.find({"CID": current_user.get_id()}).limit(3).sort("CreatedDateTime", -1):
+            r_list.append(row)
+
     return render_template(
         "profile/profile.html",
         user=current_user,
@@ -49,20 +59,41 @@ def edit():
 
 
 @profile_bp.route("/reviews")
+@login_required
 def reviews():
-    # add login required ^
-    # this is review history of current customer (please don't change)
-    return render_template("profile/reviews.html", user=current_user, reviews=reviews)
+    review_list = []
+    restaurant_list = []
+
+    # Get reviews collections from the db
+    reviews_col = mongo_db["reviews"]
+
+    # Gather reviews by current user
+    query = reviews_col.find({"CID": current_user.get_id()}).sort("CreatedDateTime", -1)
+
+    for row in query:
+        review_list.append(row)
+        restaurant = Restaurants.query.filter_by(rid=row["RID"]).all()
+        for r in restaurant:
+            data = {"rid": r.rid, "name": r.name}
+            restaurant_list.append(data)
+
+    return render_template(
+        "profile/reviews.html",
+        user=current_user,
+        reviews=review_list,
+        restaurants=restaurant_list,
+    )
 
 
 @profile_bp.route("/bookings")
 def bookings():
     # add login required ^
-    return render_template("profile/bookings.html", user=current_user, bookings=bookings)
+    return render_template(
+        "profile/bookings.html", user=current_user, bookings=bookings
+    )
 
 
 @profile_bp.route("/orders")
 def orders():
     # add login required ^
     return render_template("profile/orders.html", user=current_user, orders=orders)
-
