@@ -45,7 +45,7 @@ def view():
     #List of bookings of a cid
     bookings_list = []
     restaurant_list = []
-    bookings_cid = Bookings.query.filter_by(cid=36).all()
+    bookings_cid = Bookings.query.filter_by(cid=current_user.get_id()).all()
 
     for b in bookings_cid:
         data = {
@@ -131,7 +131,7 @@ def delete():
 
         booking=Bookings.query.get(bid)
         sql_db.session.delete(booking)
-        
+
         sql_db.session.commit()
         return redirect(url_for("booking.view"))
 
