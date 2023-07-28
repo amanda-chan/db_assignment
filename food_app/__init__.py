@@ -200,7 +200,7 @@ def bookings_setup(sql_db, Bookings):
         print("Inserting data into the restaurant table...")
 
         # Extract data from the excel sheet
-        df = pd.read_excel("food_app/data/booking_data_v2.xlsx")
+        df = pd.read_excel("food_app/data/booking_data.xlsx")
 
         # Replace NaN values in the 'email' column with an empty string
         df["special_request"].fillna("", inplace=True)

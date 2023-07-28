@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from datetime import datetime
-from .models import Bookings
+from .models import Bookings, Restaurants
 from . import sql_db, mongo_db
 
 
@@ -25,41 +25,44 @@ def retrieve_bookings():
 
     return bookings_list
 
-def retrieve_booking_byCID(c):
-    bookings_list = []
-    bookings_cid = Bookings.query.filter_by(cid=c).all()
-
-    for b in bookings_cid:
+# get all restaurant names
+def getRestaurantNames(restaurant_list):
+    restaurant = Restaurants.query.all()
+    for r in restaurant:
         data = {
-            'bid': b.rid,
-            'date': b.date,
-            'time': b.time,
-            'pax': b.pax,
-            'special_request': b.special_request,
-            'created_at': b.created_at,
-            'updated_at': b.updated_at
+            "rid": r.rid,
+            "name": r.name
         }
-        bookings_list.append(data)
+        restaurant_list.append(data)
+    return restaurant_list
 
-    return bookings_list
+
 
 #View list of Bookings 
 @booking_bp.route("/")
 #@login_required
 def view():
     #List of bookings of a cid
-    bookings_list = retrieve_booking_byCID(current_user.get_id())
+    bookings_list = []
+    restaurant_list = []
+    bookings_cid = Bookings.query.filter_by(cid=36).all()
 
-    return render_template("booking/view.html", bookings_list = bookings_list, user = current_user)
+    for b in bookings_cid:
+        data = {
+            'bid': b.bid,
+            'date': b.date,
+            'time': b.time,
+            'pax': b.pax,
+            'special_request': b.special_request,
+            'created_at': b.created_at,
+            'updated_at': b.updated_at,
+            "rid": b.rid
+        }
+        print(data)
+        bookings_list.append(data)
+    getRestaurantNames(restaurant_list)
 
-#View a single booking info 
-@booking_bp.route("/info")
-#@login_required
-def info():
-    bid = request.args.get('bid')
-    booking = Bookings.query.get(bid)
-
-    return render_template("booking/info.html", booking = booking, user = current_user)
+    return render_template("booking/view.html", bookings_list = bookings_list, restaurants = restaurant_list, user = current_user)
 
 
 #Create a new booking 
@@ -93,14 +96,16 @@ def make():
 @booking_bp.route("/edit", methods=["GET", "POST"])
 #@login_required
 def edit():
-    
     bid = request.args.get('bid')
+    booking = Bookings.query.get(bid)
+    restaurant_list = []
+    getRestaurantNames(restaurant_list)
+
     if request.method == "POST":
         date = request.form.get("date")
         time = request.form.get("time")
         pax = request.form.get("pax")
         special_request = request.form.get("special_request")
-        restaurant = request.form.get("rid")
         
         booking = Bookings.query.get(bid)
         
@@ -108,20 +113,28 @@ def edit():
         booking.time = time
         booking.pax = pax
         booking.special_request = special_request
-        booking.rid = restaurant
         booking.updated_at = datetime.now()
 
         sql_db.session.commit()
-        #return redirect(url_for("booking.booking"))
-    return render_template("booking/edit.html", user = current_user)
+        return redirect(url_for("booking.view"))
+    return render_template("booking/edit.html",booking = booking, restaurants = restaurant_list, user = current_user)
 
 #Delete
-@booking_bp.route("/delete")
+@booking_bp.route("/delete", methods=["GET", "POST"])
 #@login_required
 def delete():
     bid = request.args.get('bid')
-    #delete function here
+    booking = Bookings.query.get(bid)
+    restaurant_list = []
+    getRestaurantNames(restaurant_list)
+    if request.method == "POST":
 
-    return render_template("booking/delete.html", user = current_user)
+        booking=Bookings.query.get(bid)
+        sql_db.session.delete(booking)
+        
+        sql_db.session.commit()
+        return redirect(url_for("booking.view"))
+
+    return render_template("booking/delete.html", booking = booking, restaurants = restaurant_list, user = current_user)
 
 

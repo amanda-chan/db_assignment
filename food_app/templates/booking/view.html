@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">My Bookings</li>
+    </ol>
+</nav>
+
+<h1>My Bookings</h1>
+
+<div class="mt-4">
+    {% if bookings_list is defined and bookings_list|length > 0 %}
+    <div class="table-responsive custom-box">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Restaurant</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Pax</th>
+                    <th scope="col">Special Request</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings_list %}
+                <tr>
+                    {% for restaurant in restaurants %}
+                    {% if restaurant['rid'] == booking['rid'] %}
+                    <td>{{ restaurant['name'] }}</td>
+                    {% endif %}
+                    {% endfor %}
+                    <td>{{ booking['date'].strftime("%e %B %G") }}</td>
+                    <td>{{ booking['time'].strftime("%I:%M %p") }}</td>
+                    <td>{{ booking['pax'] }}</td>
+                    <td>{{ booking['special_request'] }}</td>
+                    <td>
+                        <a href="{{ url_for('restaurant.info', rid=booking['rid']) }}" class="button-link">
+                            <button type="button" class="btn btn-light"><i class="fa-solid fa-shop"></i> View Restaurant</button>
+                        </a>
+                        <a href="{{ url_for('booking.edit', bid=booking['bid']) }}" class="button-link">
+                            <button type="button" class="btn btn-light"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                        </a>
+                        <a href="{{ url_for('booking.delete', bid=booking['bid']) }}" class="button-link">
+                            <button type="button" class="btn btn-light"><i class="fa-solid fa-trash"></i> Delete</button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>You do not have any bookings yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
