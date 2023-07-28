@@ -1,8 +1,56 @@
 {% extends 'base.html' %}
 
-{% block title %}My Orders{% endblock %}
+{% block title %}My Order History{% endblock %}
 
 {% block content %}
-<h1>My Orders</h1>
-<p>this is for the current user's order history</p>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('profile.profile') }}">Profile</a></li>
+        <li class="breadcrumb-item active" aria-current="page">My Order History</li>
+    </ol>
+</nav>
+
+<h1>My Order History</h1>
+
+<div class="mt-4">
+    {% if orders is defined and orders|length > 0 %}
+    <div class="table-responsive custom-box">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Restaurant</th>
+                    <th scope="col">Pickup Date</th>
+                    <th scope="col">Pickup Time</th>
+                    <th scope="col">Items Ordered</th>
+                    <th scope="col">Special Request</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    {% for restaurant in restaurants %}
+                    {% if restaurant['rid'] == order['rid'] %}
+                    <td>{{ restaurant['name'] }}</td>
+                    {% endif %}
+                    {% endfor %}
+                    <td>{{ order['date'] }}</td>
+                    <td>{{ order['pickup_time'].strftime("%I:%M %p") }}</td>
+                    <td>{{ order['food_items'] }}</td>
+                    <td>{{ order['special_request'] }}</td>
+                    <td>
+                        <a href="{{ url_for('profile.orderDetails', orid=order['orid']) }}" class="button-link">
+                            <button type="button" class="btn btn-light">View Order <i class="fa-solid fa-arrow-right"></i></button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>You do not have any orders yet.</p>
+    {% endif %}
+</div>
 {% endblock %}

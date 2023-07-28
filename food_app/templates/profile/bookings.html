@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}My Bookings{% endblock %}
+{% block title %}My Booking History{% endblock %}
 
 {% block content %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
         <li class="breadcrumb-item"><a href="{{ url_for('profile.profile') }}">Profile</a></li>
-        <li class="breadcrumb-item active" aria-current="page">My Bookings</li>
+        <li class="breadcrumb-item active" aria-current="page">My Booking History</li>
     </ol>
 </nav>
 
-<h1>My Bookings</h1>
+<h1>My Booking History</h1>
 
 <div class="mt-4">
     {% if bookings is defined and bookings|length > 0 %}
@@ -43,9 +43,6 @@
                         <a href="{{ url_for('restaurant.info', rid=booking['rid']) }}" class="button-link">
                             <button type="button" class="btn btn-light"><i class="fa-solid fa-shop"></i> View Restaurant</button>
                         </a>
-                        <a href="#" class="button-link">
-                            <button type="button" class="btn btn-light"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
-                        </a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -53,7 +50,7 @@
         </table>
     </div>
     {% else %}
-    <p>You do not have any bookings yet.</p>
+    <p>You do not have any bookings that passed yet.</p>
     {% endif %}
 </div>
 {% endblock %}

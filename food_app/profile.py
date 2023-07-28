@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from datetime import datetime
+from datetime import date, datetime, time
 from .models import Customers, Bookings, Orders, Restaurants
 from . import sql_db, mongo_db
 import re
@@ -33,7 +33,14 @@ def profile():
             review_list.append(row)
 
     # get top 3 bookings (if available)
-    booking = Bookings.query.filter_by(cid=current_user.get_id()).limit(3).all()
+    booking = (
+        Bookings.query.filter(
+            Bookings.cid == current_user.get_id(), Bookings.date < date.today()
+        )
+        .order_by(Bookings.date.desc())
+        .limit(3)
+        .all()
+    )
 
     for b in booking:
         data = {
@@ -49,9 +56,9 @@ def profile():
         print(data)
         booking_list.append(data)
 
+    # get restaurant names
     if booking_list != None:
         getRestaurantNames(restaurant_list)
-    
 
     return render_template(
         "profile/profile.html",
@@ -59,7 +66,7 @@ def profile():
         reviews=review_list,
         bookings=booking_list,
         orders=order_list,
-        restaurants=restaurant_list
+        restaurants=restaurant_list,
     )
 
 
@@ -102,7 +109,7 @@ def reviews():
 
     for row in query:
         review_list.append(row)
-    
+
     getRestaurantNames(restaurant_list)
 
     return render_template(
@@ -114,12 +121,18 @@ def reviews():
 
 
 @profile_bp.route("/bookings")
+@login_required
 def bookings():
-    # add login required ^
     booking_list = []
     restaurant_list = []
 
-    booking = Bookings.query.filter_by(cid=current_user.get_id()).all()
+    booking = (
+        Bookings.query.filter(
+            Bookings.cid == current_user.get_id(), Bookings.date < date.today()
+        )
+        .order_by(Bookings.date.desc())
+        .all()
+    )
 
     for b in booking:
         data = {
@@ -132,7 +145,6 @@ def bookings():
             "created_at": b.created_at,
             "updated_at": b.updated_at,
         }
-        print(data)
         booking_list.append(data)
 
     getRestaurantNames(restaurant_list)
@@ -146,18 +158,89 @@ def bookings():
 
 
 @profile_bp.route("/orders")
+@login_required
 def orders():
-    # add login required ^
     order_list = []
-    return render_template("profile/orders.html", user=current_user, orders=order_list)
+    restaurant_list = []
+
+    # get order history
+    order = (
+        Orders.query.filter(
+            Orders.cid == current_user.get_id(), Orders.date < date.today()
+        )
+        .order_by(Orders.date.desc())
+        .all()
+    )
+
+    for o in order:
+        data = {
+            "orid": o.rid,
+            "date": o.date,
+            "pickup_time": o.pickup_time,
+            "food_items": o.food_items,
+            "special_request": o.special_request,
+            "rid": o.rid,
+            "created_at": o.created_at,
+            "updated_at": o.updated_at,
+        }
+        order_list.append(data)
+
+    # for testing
+    o1 = {
+        "orid": 1,
+        "date": date.today(),
+        "pickup_time": datetime.now(),
+        "food_items": "idk a food",
+        "special_request": "this is a request",
+        "rid": 2,
+        "created_at": datetime.now(),
+    }
+    order_list.append(o1)
+
+    getRestaurantNames(restaurant_list)
+
+    return render_template(
+        "profile/orders.html",
+        user=current_user,
+        orders=order_list,
+        restaurants=restaurant_list,
+    )
+
+
+@profile_bp.route("/orders/<orid>")
+@login_required
+def orderDetails(orid):
+    order_item = Orders()
+    restaurant_list = []
+    order = Orders.query.filter_by(orid=orid).all()
+    for o in order:
+        order_item = Orders(
+            orid=o.orid,
+            date=o.date,
+            pickup_time=o.pickup_time,
+            food_items=o.food_items,
+            special_request=o.special_request,
+            rid=o.rid,
+        )
+
+    # for testing
+    order_item = Orders(
+            orid=1,
+            date=date.today(),
+            pickup_time=datetime.now(),
+            food_items="idk a food",
+            special_request="this is a request",
+            rid=2,
+        )
+
+    getRestaurantNames(restaurant_list)
+
+    return render_template("profile/orderDetails.html", user=current_user, order=order_item, restaurants=restaurant_list)
 
 
 # get all restaurant names
 def getRestaurantNames(restaurant_list):
     restaurant = Restaurants.query.all()
     for r in restaurant:
-        data = {
-            "rid": r.rid,
-            "name": r.name
-        }
+        data = {"rid": r.rid, "name": r.name}
         restaurant_list.append(data)

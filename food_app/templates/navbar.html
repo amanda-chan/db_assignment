@@ -28,9 +28,9 @@
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item my-dd-item" href="#">My Reviews</a></li>
-                    <li><a class="dropdown-item my-dd-item" href="#">My Bookings</a></li>
-                    <li><a class="dropdown-item my-dd-item" href="#">My Orders</a></li>
+                    <li><a class="dropdown-item my-dd-item" href="{{ url_for('profile.reviews') }}">My Reviews</a></li>
+                    <li><a class="dropdown-item my-dd-item" href="{{ url_for('profile.bookings') }}">Booking History</a></li>
+                    <li><a class="dropdown-item my-dd-item" href="{{ url_for('profile.orders') }}">Order History</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

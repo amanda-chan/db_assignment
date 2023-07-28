@@ -116,8 +116,9 @@ h2 {
 
 
 /* forms */
-.form-label {
+.form-label, .col-form-label {
     font-weight: 600;
+    color: #212B36;
 }
 
 .custom-form-box {
@@ -166,4 +167,22 @@ h2 {
 /* table */
 .table>:not(caption, thead)>*>* {
     color: #637381;
+}
+
+
+/* order details */
+.quantity {
+    color: #EA580C;
+    font-weight: 700;
+}
+
+.item-name {
+    color: #212B36;
+    font-weight: 600;
+}
+
+.section-name {
+    color: #212B36;
+    font-size: 1.15rem;
+    font-weight: 600;
 }
