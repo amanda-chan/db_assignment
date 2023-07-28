@@ -1,0 +1,302 @@
+[
+    {
+        "review_id": 1,
+        "CID": 7,
+        "RID": 5,
+        "BID": 1,
+        "Review": "The food was delicious and flavorful.",
+        "Rating": 5,
+        "CreatedDateTime": "8/1/2023 19:08:53",
+        "Comment": []
+    },
+    {
+        "review_id": 2,
+        "CID": 9,
+        "RID": 18,
+        "BID": 2,
+        "Review": "The presentation of the dish was impressive.",
+        "Rating": 4,
+        "CreatedDateTime": "7/31/2023 13:49:23",
+        "Comment": []
+    },
+    {
+        "review_id": 3,
+        "CID": 8,
+        "RID": 23,
+        "BID": 3,
+        "Review": "The dessert was a perfect ending to the meal.",
+        "Rating": 4,
+        "CreatedDateTime": "9/9/2023 07:14:12",
+        "Comment": []
+    },
+    {
+        "review_id": 4,
+        "CID": 24,
+        "RID": 5,
+        "BID": 4,
+        "Review": "I was disappointed with the portion size.",
+        "Rating": 2,
+        "CreatedDateTime": "7/10/2023 12:22:18",
+        "Comment": []
+    },
+    {
+        "review_id": 5,
+        "CID": 23,
+        "RID": 21,
+        "BID": 5,
+        "Review": "I was disappointed with the portion size.",
+        "Rating": 3,
+        "CreatedDateTime": "9/16/2023 06:54:29",
+        "Comment": []
+    },
+    {
+        "review_id": 6,
+        "CID": 18,
+        "RID": 29,
+        "BID": 6,
+        "Review": "I was disappointed with the portion size.",
+        "Rating": 2,
+        "CreatedDateTime": "7/10/2023 04:37:45",
+        "Comment": []
+    },
+    {
+        "review_id": 7,
+        "CID": 46,
+        "RID": 25,
+        "BID": 7,
+        "Review": "The flavors didn't quite come together in this dish.",
+        "Rating": 3,
+        "CreatedDateTime": "8/10/2023 01:28:24",
+        "Comment": []
+    },
+    {
+        "review_id": 8,
+        "CID": 4,
+        "RID": 7,
+        "BID": 8,
+        "Review": "The dessert was a perfect ending to the meal.",
+        "Rating": 5,
+        "CreatedDateTime": "9/11/2023 21:41:02",
+        "Comment": []
+    },
+    {
+        "review_id": 9,
+        "CID": 29,
+        "RID": 19,
+        "BID": 9,
+        "Review": "The dessert was a perfect ending to the meal.",
+        "Rating": 5,
+        "CreatedDateTime": "9/17/2023 05:23:03",
+        "Comment": []
+    },
+    {
+        "review_id": 10,
+        "CID": 15,
+        "RID": 6,
+        "BID": 10,
+        "Review": "I was disappointed with the portion size.",
+        "Rating": 3,
+        "CreatedDateTime": "8/9/2023 07:26:21",
+        "Comment": []
+    },
+    {
+        "review_id": 11,
+        "CID": 37,
+        "RID": 17,
+        "BID": 11,
+        "Review": "The dessert was a perfect ending to the meal.",
+        "Rating": 4,
+        "CreatedDateTime": "8/18/2023 14:42:28",
+        "Comment": []
+    },
+    {
+        "review_id": 12,
+        "CID": 22,
+        "RID": 14,
+        "BID": 12,
+        "Review": "The food was delicious and flavorful.",
+        "Rating": 5,
+        "CreatedDateTime": "9/30/2023 17:41:17",
+        "Comment": []
+    },
+    {
+        "review_id": 13,
+        "CID": 4,
+        "RID": 27,
+        "BID": 13,
+        "Review": "I was disappointed with the portion size.",
+        "Rating": 1,
+        "CreatedDateTime": "9/26/2023 14:39:56",
+        "Comment": []
+    },
+    {
+        "review_id": 14,
+        "CID": 36,
+        "RID": 23,
+        "BID": 14,
+        "Review": "The service was excellent and the staff was friendly.",
+        "Rating": 4,
+        "CreatedDateTime": "9/21/2023 14:46:06",
+        "Comment": []
+    },
+    {
+        "review_id": 15,
+        "CID": 36,
+        "RID": 1,
+        "BID": 15,
+        "Review": "The dessert was a perfect ending to the meal.",
+        "Rating": 4,
+        "CreatedDateTime": "7/4/2023 20:25:18",
+        "Comment": []
+    },
+    {
+        "review_id": 16,
+        "CID": 30,
+        "RID": 2,
+        "BID": 16,
+        "Review": "The service was excellent and the staff was friendly.",
+        "Rating": 4,
+        "CreatedDateTime": "9/3/2023 07:59:50",
+        "Comment": []
+    },
+    {
+        "review_id": 17,
+        "CID": 29,
+        "RID": 25,
+        "BID": 17,
+        "Review": "The service was excellent and the staff was friendly.",
+        "Rating": 4,
+        "CreatedDateTime": "8/12/2023 15:11:28",
+        "Comment": []
+    },
+    {
+        "review_id": 18,
+        "CID": 43,
+        "RID": 14,
+        "BID": 18,
+        "Review": "I was disappointed with the portion size.",
+        "Rating": 1,
+        "CreatedDateTime": "8/17/2023 01:27:23",
+        "Comment": []
+    },
+    {
+        "review_id": 19,
+        "CID": 11,
+        "RID": 23,
+        "BID": 19,
+        "Review": "The service was excellent and the staff was friendly.",
+        "Rating": 5,
+        "CreatedDateTime": "8/13/2023 08:31:46",
+        "Comment": []
+    },
+    {
+        "review_id": 20,
+        "CID": 24,
+        "RID": 17,
+        "BID": 20,
+        "Review": "The flavors didn't quite come together in this dish.",
+        "Rating": 2,
+        "CreatedDateTime": "9/9/2023 18:55:34",
+        "Comment": []
+    },
+    {
+        "review_id": 21,
+        "CID": 47,
+        "RID": 28,
+        "BID": 21,
+        "Review": "The dessert was a perfect ending to the meal.",
+        "Rating": 4,
+        "CreatedDateTime": "8/6/2023 19:09:14",
+        "Comment": []
+    },
+    {
+        "review_id": 22,
+        "CID": 27,
+        "RID": 21,
+        "BID": 22,
+        "Review": "I was disappointed with the portion size.",
+        "Rating": 1,
+        "CreatedDateTime": "9/4/2023 12:55:04",
+        "Comment": []
+    },
+    {
+        "review_id": 23,
+        "CID": 34,
+        "RID": 24,
+        "BID": 23,
+        "Review": "The service was excellent and the staff was friendly.",
+        "Rating": 4,
+        "CreatedDateTime": "9/16/2023 14:36:14",
+        "Comment": []
+    },
+    {
+        "review_id": 24,
+        "CID": 43,
+        "RID": 1,
+        "BID": 24,
+        "Review": "The dessert was a perfect ending to the meal.",
+        "Rating": 5,
+        "CreatedDateTime": "9/25/2023 04:38:14",
+        "Comment": []
+    },
+    {
+        "review_id": 25,
+        "CID": 31,
+        "RID": 8,
+        "BID": 25,
+        "Review": "The dessert was a perfect ending to the meal.",
+        "Rating": 5,
+        "CreatedDateTime": "8/11/2023 16:19:53",
+        "Comment": []
+    },
+    {
+        "review_id": 26,
+        "CID": 7,
+        "RID": 4,
+        "BID": 26,
+        "Review": "The dessert was a perfect ending to the meal.",
+        "Rating": 4,
+        "CreatedDateTime": "9/25/2023 10:11:58",
+        "Comment": []
+    },
+    {
+        "review_id": 27,
+        "CID": 3,
+        "RID": 18,
+        "BID": 27,
+        "Review": "The food was delicious and flavorful.",
+        "Rating": 3,
+        "CreatedDateTime": "8/26/2023 00:01:32",
+        "Comment": []
+    },
+    {
+        "review_id": 28,
+        "CID": 45,
+        "RID": 23,
+        "BID": 28,
+        "Review": "The food was delicious and flavorful.",
+        "Rating": 4,
+        "CreatedDateTime": "8/11/2023 20:36:41",
+        "Comment": []
+    },
+    {
+        "review_id": 29,
+        "CID": 15,
+        "RID": 14,
+        "BID": 29,
+        "Review": "The service was excellent and the staff was friendly.",
+        "Rating": 4,
+        "CreatedDateTime": "9/7/2023 03:42:00",
+        "Comment": []
+    },
+    {
+        "review_id": 30,
+        "CID": 1,
+        "RID": 7,
+        "BID": 33,
+        "Review": "I was disappointed with the portion size.",
+        "Rating": 2,
+        "CreatedDateTime": "9/10/2023 18:04:52",
+        "Comment": []
+    }
+]

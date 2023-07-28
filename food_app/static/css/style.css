@@ -33,6 +33,12 @@ h2 {
     text-decoration: none;
 }
 
+.long-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 /* buttons */
 .btn-primary {
@@ -67,6 +73,9 @@ h2 {
     color: #F7F8FA;
 }
 
+.button-link {
+    text-decoration: none;
+}
 
 /* Navbar */
 .nav-link-style {
