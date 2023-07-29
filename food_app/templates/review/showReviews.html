@@ -4,8 +4,18 @@
 
 {% block content %}
 
+<div class = "row">
+    <div class="col-md-4">
+        <h1>All Reviews</h1>
+    </div>
+    <div class="col-md-4">
+
+    </div>
+
+    
+</div>
 <div class="container">
-    <h1>All Reviews</h1>
+    
     <br>
     <form class="row g-3" action="{{ url_for('review.display')}}" method="post">
         <div class="col-md-4">
@@ -87,8 +97,17 @@
                         {% endfor %}
                     </h5>
                     <p class="card-text">{{ review.Review }}</p>   
-                    <p class="card-text"></p>{{ review.CreatedDateTime }}</p>  
-                    <a href="{{ url_for('restaurant.info', rid=review.RID) }}" class="btn btn-primary btn-sm">View Restaurant</a>         
+                    <p class="card-text"></p>{{ review.CreatedDateTime }}</p>
+                    <div class="row">
+                    <div class="col-md-4">
+                        <a href="{{ url_for('restaurant.info', rid=review.RID) }}" class="btn btn-primary">View Restaurant</a>  
+                    </div>
+                    <div class="col-md-4"></div>
+                   
+                    <div class="col-md-4">
+                        <a style="float: right;" href="{{ url_for('review.make', rid=review.RID)}}" class="btn btn-primary">Create Review</a>
+                    </div>    
+                </div>      
                 </div>
 
         

@@ -54,7 +54,19 @@ def make():
     restaurant = Restaurants.query.get(rid)
     restaurant = restaurant
     my_review = request.form.get("review")
-    my_rating =  request.form.get("rating")
+    my_rating_str =  request.form.get("rating")
+    my_rating = 0
+    if my_rating_str == "one":
+        my_rating = 1
+    elif my_rating_str == "two":
+        my_rating = 2
+    elif my_rating_str == "three":
+        my_rating = 3
+    elif my_rating_str == "four":
+        my_rating = 4
+    elif my_rating_str == "five":
+        my_rating = 5
+     
     now = datetime.now()
     c_time = now.strftime("%d/%m/%Y %H:%M:%S")
     reviewID = generate_newReviewID()
