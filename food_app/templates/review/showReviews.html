@@ -7,9 +7,56 @@
 <div class="container">
     <h1>All Reviews</h1>
     <br>
+    <form class="row g-3" action="{{ url_for('review.display')}}" method="post">
+        <div class="col-md-4">
+            <div class="custom-box">
+                <!--Sort by date, earliest or latest-->
+                <label for="rating" class="form-label">Sort By Ratings</label><br>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rating" value="high" id="high">
+                    <label class="form-check-label" for="high"> Highest </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rating" value="low" id="low">
+                    <label class="form-check-label" for="low"> Lowest </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="custom-box">
+                <!--Sort by date, earliest or latest-->
+                <label for="c_date" class="form-label">Sort By Date</label><br>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="c_datetime" value="latest" id="latest">
+                    <label class="form-check-label" for="latest"> Latest Review First </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="c_datetime" value="oldest" id="oldest">
+                    <label class="form-check-label" for="latest"> Oldest Review First </label>
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-md-4">
+            <div class="custom-box">
+                <label for="restaurant" class="form-label">Restaurant</label><br>
+                <select name="restaurant" class="form-select">
+                    <option value="" selected>Fliter by restaurant</option>
+                    {% for r in restaurants %}
+                        <option value="{{r.rid}}">{{r.name}}</option>
+                    {% endfor %}
+                </select>
+                
+            </div>
+        </div>    
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </div>
+    </form>
+    
     <!-- <a href="{{ url_for('review.make') }}" class="btn btn-primary btn-lg">Make a Review</a>
     <button type="button" class="btn btn-primary btn-lg">Review</button> -->
-</div>
+
 <!-- Loop through each review in the reviews list and display its data -->
 <!-- {% for review in reviews %}
 <div class="container"> -->
@@ -24,50 +71,41 @@
     <!-- <hr>
 </div>
 {% endfor %} -->
-<div class="row">
-    <div class="card-deck mt-2">
-        {% for review in reviews %}
-            <div class="card text-left">
-                <div class="card-body">
-                <!-- <h5 class="card-title">Rating: {{ review.Rating }}</h5> -->
-                <h5 class="card-title">Rating:
-                    {% for i in range(5) %}
-                        {% if i < review.Rating %}
-                            <i class="fas fa-star"></i>
-                        {% else %}
-                            <i class="far fa-star"></i>
-                        {% endif %}
-                    {% endfor %}
-                </h5>
-                <p class="card-text">{{ review.Review }}</p>   
-                <p class="card-text"></p>{{ review.CreatedDateTime }}</p>  
-                <a href="{{ url_for('restaurant.info', rid=review.RID) }}" class="btn btn-primary btn-sm">View Restaurant</a>         
-            </div>
-
-       
-            </div>       
-            <br>
-            
-        {% endfor %}
-    </div>
-</div>
-
-<div class="row">
-    <h2>Restaurants</h2>
-    <div class="card-deck mt-2">
-        {% for r in restaurant_list %}
-            <div class="card text-left">
-                <div class="card-body">
-                <h5 class="card-title">{{r['name']}}</h5>
-                <p class="card-text">{{r['price']}} {{r['cuisine']}}</p>
-                <a href="
-                " class="btn btn-primary">View Restaurant</a>
+    <div class="row">
+        <div class="card-deck mt-2">
+            {% for review in reviews %}
+                <div class="card text-left">
+                    <div class="card-body">
+                    <!-- <h5 class="card-title">Rating: {{ review.Rating }}</h5> -->
+                    <h5 class="card-title">Rating:
+                        {% for i in range(5) %}
+                            {% if i < review.Rating %}
+                                <i class="fas fa-star"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </h5>
+                    <p class="card-text">{{ review.Review }}</p>   
+                    <p class="card-text"></p>{{ review.CreatedDateTime }}</p>  
+                    <a href="{{ url_for('restaurant.info', rid=review.RID) }}" class="btn btn-primary btn-sm">View Restaurant</a>         
                 </div>
-            </div>
-            <br>
-        {% endfor %}
+
+        
+                </div>       
+                <br>
+                
+            {% endfor %}
+        </div>
+        
+        <!-- Debug Section -->
+    <div>
+        <h3>Debug - Reviews</h3>
+        <pre>{{ reviews | tojson }}</pre>
+    </div>
     </div>
 </div>
+
 {% endblock %}
 
 
