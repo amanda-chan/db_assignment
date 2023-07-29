@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block navbar %}{% include 'navbar.html' %}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-8">
+        <h2>My Orders</h2>
+    </div>
+    <div class="col-4">
+        <a style="float: right;" href="#" class="btn btn-primary">View Orders</a>
+    </div>
+</div>
+<br>
+{% include 'error.html' %}
+<br>
+<div class="card-deck mt-2">
+    {% for o in order_list %}
+        <div class="card text-left">
+            <div class="card-body">
+            <h5 class="card-title">#{{o['orid']}} - {{o['name']}}</h5>
+            <p class="card-text">Pickup: {{o['date']}}, {{o['time']}}</p>
+            <p class="card-text">Order:</p>
+            <ul>
+                {% for i in o['food_items'] %}
+                <li><p class="card-text">{{i['item']}}  x{{i['quantity']}} - ${{i['price']}}</p></li>
+                {% endfor %}
+            </ul>
+            <a href="{{ url_for('order.update', orid=o['orid']) }}" class="btn btn-primary">Update</a>
+            <a href="{{ url_for('order.delete', orid=o['orid']) }}" class="btn btn-primary">Delete</a>
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+</div>
+{% endblock %}

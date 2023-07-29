@@ -76,7 +76,7 @@
             </div>
             <div class="custom-box mb-3">
                 <div class="d-flex justify-content-between mb-2">
-                    <h2>My Bookings</h2>
+                    <h2>My Booking History</h2>
                     <a href="{{ url_for('profile.bookings') }}">
                         <button type="button" class="btn btn-light">View More <i class="fa-solid fa-arrow-right"></i></button>
                     </a>
@@ -84,13 +84,26 @@
                 
                 {% if bookings is defined and bookings|length > 0 %}
                 <!-- print top 3 -->
+                {% for booking in bookings %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        {% for restaurant in restaurants %}
+                        {% if restaurant['rid'] == booking['rid'] %}
+                        <p class="card-title"><strong>{{ restaurant['name'] }}</strong></p>   
+                        {% endif %}             
+                        {% endfor %}             
+                        <p class="mb-2 card-text"><small><i class="fa-regular fa-calendar"></i>  {{ booking['date'] }}</small></p>
+                        <p class="mb-2 card-text"><small><i class="fa-regular fa-clock"></i>  {{ booking['time'].strftime("%I:%M %p") }}</small></p>
+                    </div>
+                </div>
+                {% endfor %}
                 {% else %}
-                <p>You do not have any bookings yet.</p>
+                <p>You do not have any bookings that passed yet.</p>
                 {% endif %}
             </div>
             <div class="custom-box mb-3">
                 <div class="d-flex justify-content-between mb-2">
-                    <h2>My Orders</h2>
+                    <h2>My Order History</h2>
                     <a href="{{ url_for('profile.orders') }}">
                         <button type="button" class="btn btn-light">View More <i class="fa-solid fa-arrow-right"></i></button>
                     </a>
@@ -98,8 +111,22 @@
                 
                 {% if orders is defined and orders|length > 0 %}
                     <!-- print top 3 -->
+                    {% for order in orders %}
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            {% for restaurant in restaurants %}
+                            {% if restaurant['rid'] == order['rid'] %}
+                            <p class="card-title"><strong>{{ restaurant['name'] }}</strong></p>
+                            {% endif %}
+                            {% endfor %}
+                            <p class="mb-2 card-text"><small><i class="fa-regular fa-calendar"></i> {{ order['date'] }}</small></p>
+                            <p class="mb-2 card-text"><small><i class="fa-regular fa-clock"></i> {{ order['pickup_time'].strftime("%I:%M %p")
+                                    }}</small></p>
+                        </div>
+                    </div>
+                    {% endfor %}
                 {% else %}
-                    <p>You do not have any orders yet.</p>
+                    <p>You do not have any orders that passed yet.</p>
                 {% endif %}
             </div>
         </div>

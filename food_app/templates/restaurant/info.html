@@ -5,6 +5,14 @@
 {% block navbar %}{% include 'navbar.html' %}{% endblock %}
 
 {% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('restaurant.view') }}">Restaurants</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Restaurant Information</li>
+    </ol>
+</nav>
+
 <div class="card mb-3">
     <img class="card-img-top" src="{{ url_for('static', filename='images/food.jpg') }}" alt="food image">
     <div class="card-body">
@@ -16,7 +24,9 @@
       <p class="card-text">Contact: {{restaurant.contact_number}}</p>
       <p class="card-text">Email: {{restaurant.email}}</p>
       <p class="card-text"><small class="text-muted">Price: {{restaurant.price}}</small></p>
-      <a href="#" class="btn btn-primary">Make Booking</a>
+      <a href="{{ url_for('booking.create', rid = restaurant.rid) }}" class="button-link">
+        <button type="button" class="btn btn-primary">Make Booking</button>
+    </a>
     </div>
 </div>
 <div class="row">

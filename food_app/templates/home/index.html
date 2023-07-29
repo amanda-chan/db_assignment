@@ -3,5 +3,53 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<p>Home</p>
+<div id="carousel-home" class="carousel slide mt-4" data-bs-ride="carousel" style="height: 320px; border-radius: 1rem;">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{{ url_for('static', filename='images/carousel-1.jpg') }}" class="d-block mh-100 w-100" alt="">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='images/carousel-2.jpg') }}" class="d-block mh-100 w-100" alt="">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ url_for('static', filename='images/carousel-3.jpg') }}" class="d-block mh-100 w-100" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="mt-5 text-center">
+    <h1>Top Restaurant Picks</h1>
+    <div class="row row-cols-1 row-cols-md-2 g-4 my-3">
+        <!-- for loop (select top 5 average rating) -->
+        {% for restaurant in restaurants %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ restaurant['name'] }}</h5>
+                    <p class="card-text">{{ restaurant['cuisine'] }}</p>
+                    <p class="card-text"><i class="fa-regular fa-clock"></i> {{ restaurant['operating_hours'] }}</p>
+                    <p class="card-text"><i class="fa-regular fa-calendar"></i> {{ restaurant['operating_days'] }}</p>
+                    {% for rating in average_rating %}
+                    {% if rating._id == restaurant['rid'] %}
+                    <p class="card-text">
+                        {% for star in range(5) %}
+                        {% if rating.avgRating - star >= 1 %}
+                        <i class="fa-solid fa-star" style="color: #ea580c;"></i>
+                        {% elif rating.avgRating - star < 1 and rating.avgRating - star > 0 %}
+                        <i class="fa-regular fa-star-half-stroke" style="color: #ea580c;"></i>
+                        {% else %}
+                        <i class="fa-regular fa-star" style="color: #ea580c;"></i>
+                        {% endif %}
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+                    {% endfor %}
+                    <a href="{{ url_for('restaurant.info', rid=restaurant['rid']) }}" class="btn btn-light"><i class="fa-solid fa-shop"></i> View More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Make an order{% endblock %}
+
+{% block navbar %}{% include 'navbar.html' %}{% endblock %}
+
+{% block content %}
+
+{% include 'error.html' %}
+<div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{restaurant.name}}</h5>
+      <p class="card-text">Cuisine: {{restaurant.cuisine}}</p>
+      <p class="card-text">Operating Hours: {{restaurant.operating_hours}}</p>
+      <p class="card-text">Operating Days: {{restaurant.operating_days}}</p>
+      <p class="card-text">Address: {{restaurant.address}}</p>
+      <p class="card-text">Contact: {{restaurant.contact_number}}</p>
+      <p class="card-text">Email: {{restaurant.email}}</p>
+      <p class="card-text"><small class="text-muted">Price: {{restaurant.price}}</small></p>
+    </div>
+</div>
+<br>
+<div class="row">
+    <h4>Order</h4>
+</div>
+<br>
+<form action="{{ url_for('order.create', rid=restaurant['rid'])}}" method="post">
+    <div class="card-group">
+        {% for m in menu_items %}
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+            <h5 class="card-title"></h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{m['MenuItem']}}</h6>
+            <p class="card-text">{{m['Description']}}</p>
+            <p class="card-text">${{m['Price']}}</p>
+            <div class="form-group row">
+                <div class="col-9">
+                    <label for="{{m['item_id']}}" class="form-label">Quantity</label>
+                </div>
+                <div class="col-3">
+                    <select name="{{m['item_id']}}" class="form-select">
+                        <option value="0" selected>0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    <div class="order-form-box">
+        <div class="text-left mb-5">
+            <h4>Order Details</h4>
+        </div>
+        <div class="mb-3">
+            <label for="pickup-date" class="form-label">Pickup Date:</label>
+            <input type="date" class="form-control" id="pickup-date" name="pickup-date" min="{{ date_min }}" max="{{ date_max }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="pickup-time" class="form-label">Pickup Time:</label>
+            <select name="pickup-time" class="form-select" required>
+                <option value="" selected></option>
+                {% for time in timings_list %}
+                    <option value="{{ time }}">{{ time }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="special-request" class="form-label">Special Request</label>
+            <input type="text" class="form-control" name="special-request">
+        </div>
+        <div class="col-12 mt-5">
+            <div class="row mx-1">
+                <button type="submit" class="btn btn-primary">Order</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
