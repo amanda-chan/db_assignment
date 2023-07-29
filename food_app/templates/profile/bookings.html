@@ -31,16 +31,16 @@
                 {% for booking in bookings %}
                 <tr>
                     {% for restaurant in restaurants %}
-                    {% if restaurant['rid'] == booking['rid'] %}
+                    {% if restaurant['rid'] == booking['RID'] %}
                     <td>{{ restaurant['name'] }}</td>
                     {% endif %}
                     {% endfor %}
-                    <td>{{ booking['date'] }}</td>
-                    <td>{{ booking['time'].strftime("%I:%M %p") }}</td>
-                    <td>{{ booking['pax'] }}</td>
-                    <td>{{ booking['special_request'] }}</td>
+                    <td>{{ booking['Date'] }}</td>
+                    <td>{{ booking['Time'] }}</td>
+                    <td>{{ booking['Pax'] }}</td>
+                    <td>{{ booking['SpecialRequest'] }}</td>
                     <td>
-                        <a href="{{ url_for('restaurant.info', rid=booking['rid']) }}" class="button-link">
+                        <a href="{{ url_for('restaurant.info', rid=booking['RID']) }}" class="button-link">
                             <button type="button" class="btn btn-light"><i class="fa-solid fa-shop"></i> View Restaurant</button>
                         </a>
                     </td>
