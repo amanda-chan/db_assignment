@@ -4,6 +4,7 @@ from .models import Customers, Bookings, Orders, Restaurants
 from . import sql_db
 from . import mongo_db
 from pymongo import MongoClient
+from bson import json_util
 
 
 import json
@@ -33,8 +34,8 @@ def retrieve_review():
 
     review_list = []
     for record in query:
-
-        review_list.append(record)
+        sanitized_record = json.loads(json_util.dumps(record))
+        review_list.append(sanitized_record)
  
     return review_list
 
@@ -68,11 +69,11 @@ def filtered_res_reviews(restaurant):
     if restaurant != "":
         filter_query = {"RID": restaurant}
     
-    review_query = reviews_col.find(filter_query, {"_id": 0})
+    review_query = reviews_col.find(filter_query)
     review_f_list = []
     for record in review_query:   
-        # object_id_str = str(record["_id"])      
-        review_f_list.append(record)
+        sanitized_record = json.loads(json_util.dumps(record))     
+        review_f_list.append(sanitized_record)
         print(record)
     return review_f_list
 
