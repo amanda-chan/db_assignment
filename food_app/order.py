@@ -45,8 +45,8 @@ def generate_timings(operating_hours):
         for time in temp:
             # Seperate start and end timings
             time_temp = time.split("-")
-            start_time = datetime.strptime(time_temp[0], "%I:%M %p")
-            end_time = datetime.strptime(time_temp[1], "%I:%M %p")
+            start_time = datetime.strptime(time_temp[0].strip(), "%I:%M %p")
+            end_time = datetime.strptime(time_temp[1].strip(), "%I:%M %p")
 
             # Add 30 mins intervals between the pickup times during operating hours
             interval_time = start_time
@@ -57,8 +57,8 @@ def generate_timings(operating_hours):
     else:
         # Seperate start and end timings
         time_temp = operating_hours.split("-")
-        start_time = datetime.strptime(time_temp[0], "%I:%M %p")
-        end_time = datetime.strptime(time_temp[1], "%I:%M %p")
+        start_time = datetime.strptime(time_temp[0].strip(), "%I:%M %p")
+        end_time = datetime.strptime(time_temp[1].strip(), "%I:%M %p")
         
         # Check if the ending time is 12:00 AM - if so add one day
         if end_time.hour == 0 and end_time.minute == 0 and end_time.second == 0:
@@ -93,15 +93,30 @@ def validate_date(pickup_date, operating_days):
                     avail_days.append(week_days[index])
                     index += 1
 
+            elif "-" in day:
+                day_temp = day.split("-")
+                index = week_days.index(day_temp[0])
+                while index < len(week_days):
+                    avail_days.append(week_days[index])
+                    index += 1
+
             else:
                 avail_days.append(day)
 
     else:
-        day_temp = operating_days.split(" - ")
-        index = week_days.index(day_temp[0])
-        while index < len(week_days):
-            avail_days.append(week_days[index])
-            index += 1
+        if " - " in operating_days:
+            day_temp = operating_days.split(" - ")
+            index = week_days.index(day_temp[0])
+            while index < len(week_days):
+                avail_days.append(week_days[index])
+                index += 1
+
+        elif "-" in operating_days:
+            day_temp = operating_days.split("-")
+            index = week_days.index(day_temp[0])
+            while index < len(week_days):
+                avail_days.append(week_days[index])
+                index += 1
 
     if pickup_day in avail_days:
         return True
