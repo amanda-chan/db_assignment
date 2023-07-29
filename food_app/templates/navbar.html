@@ -13,9 +13,11 @@
                 <li><a href="{{ url_for('order.view') }}" class="nav-link px-2 nav-link-style">Order</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-            </form>
+            <div class="me-2">
+                <a href="{{ url_for('search.search') }}" class="custom-link">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+            </div>
 
             {% if user.is_authenticated %}
             <div class="dropdown text-end">

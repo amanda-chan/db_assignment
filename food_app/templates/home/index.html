@@ -19,17 +19,36 @@
 
 <div class="mt-5 text-center">
     <h1>Top Restaurant Picks</h1>
-    <div class="row row-cols-1 row-cols-md-3 g-4 my-3">
+    <div class="row row-cols-1 row-cols-md-2 g-4 my-3">
         <!-- for loop (select top 5 average rating) -->
+        {% for restaurant in restaurants %}
         <div class="col">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Name</h5>
-                    <p class="card-text">Restaurant details</p>
-                    <p class="card-text">Average rating</p>
+                    <h5 class="card-title">{{ restaurant['name'] }}</h5>
+                    <p class="card-text">{{ restaurant['cuisine'] }}</p>
+                    <p class="card-text"><i class="fa-regular fa-clock"></i> {{ restaurant['operating_hours'] }}</p>
+                    <p class="card-text"><i class="fa-regular fa-calendar"></i> {{ restaurant['operating_days'] }}</p>
+                    {% for rating in average_rating %}
+                    {% if rating._id == restaurant['rid'] %}
+                    <p class="card-text">
+                        {% for star in range(5) %}
+                        {% if rating.avgRating - star >= 1 %}
+                        <i class="fa-solid fa-star" style="color: #ea580c;"></i>
+                        {% elif rating.avgRating - star < 1 and rating.avgRating - star > 0 %}
+                        <i class="fa-regular fa-star-half-stroke" style="color: #ea580c;"></i>
+                        {% else %}
+                        <i class="fa-regular fa-star" style="color: #ea580c;"></i>
+                        {% endif %}
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+                    {% endfor %}
+                    <a href="{{ url_for('restaurant.info', rid=restaurant['rid']) }}" class="btn btn-light"><i class="fa-solid fa-shop"></i> View More</a>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 

@@ -55,7 +55,7 @@ def restraunt_setup(sql_db, Restaurants):
         print("Inserting data into the restaurant table...")
 
         # Extract data from the excel sheet
-        df = pd.read_excel("food_app/data/restaurant_data.xlsx")
+        df = pd.read_excel("food_app/data/restaurant_data_v3.xlsx")
 
         # Replace NaN values in the 'email' column with an empty string
         df["email"].fillna("", inplace=True)
@@ -92,7 +92,7 @@ def owner_setup(sql_db, Owners):
         print("Inserting data into the owner table...")
 
         # Extract data from the excel sheet
-        df = pd.read_excel("food_app/data/owner_data.xlsx")
+        df = pd.read_excel("food_app/data/owner_data_v2.xlsx")
 
         # Insert data rows into the table
         for index, row in df.iterrows():
@@ -205,7 +205,7 @@ def bookings_setup(sql_db, Bookings):
         # Replace NaN values in the 'email' column with an empty string
         df["special_request"].fillna("", inplace=True)
         df["updated_at"].fillna("", inplace=True)
-        df["updated_at"] = df["updated_at"].astype(str).replace({'NaT': None})
+        df["updated_at"] = df["updated_at"].astype(str).replace({"NaT": None})
         # Insert data rows into the table
         for index, row in df.iterrows():
             new_booking = Bookings(
@@ -215,7 +215,7 @@ def bookings_setup(sql_db, Bookings):
                 pax=int(row["pax"]),
                 special_request=row["special_request"],
                 created_at=row["created_at"],
-                updated_at=row['updated_at'],
+                updated_at=row["updated_at"],
                 rid=int(row["rid"]),
                 cid=int(row["cid"]),
             )
@@ -282,6 +282,7 @@ def create_app():
     from .order import order_bp
     from .review import review_bp
     from .booking import booking_bp
+    from .search import search_bp
 
     app.register_blueprint(auth_bp, url_prefix="/")
     app.register_blueprint(home_bp, url_prefix="/")
@@ -290,6 +291,7 @@ def create_app():
     app.register_blueprint(order_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(booking_bp)
+    app.register_blueprint(search_bp)
 
     # create tables in the db
     from .models import Customers, Owners, Bookings, Orders, Restaurants
