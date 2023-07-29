@@ -30,11 +30,7 @@
                 <tbody>
                     {% for booking in bookings_list %}
                     <tr>
-                        {% for restaurant in restaurants %}
-                        {% if restaurant['rid'] == booking['rid'] %}
-                        <td>{{ restaurant['name'] }}</td>
-                        {% endif %}
-                        {% endfor %}
+                        <td>{{ booking['name'] }}</td>
                         <td>{{ booking['date'].strftime("%e %B %G") }}</td>
                         <td>{{ booking['time'].strftime("%I:%M %p") }}</td>
                         <td>{{ booking['pax'] }}</td>

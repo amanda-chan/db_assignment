@@ -122,25 +122,22 @@ def validate_date(book_date, operating_days):
 def view():
     #List of bookings of a cid
     bookings_list = []
-    restaurant_list = []
-    bookings_cid = Bookings.query.filter_by(cid=current_user.get_id()).all()
+    bookings = sql_db.session.query(Bookings, Restaurants).join(Restaurants, Bookings.rid == Restaurants.rid).filter(Bookings.cid == current_user.cid).order_by(Bookings.date.asc()).all()
 
-    for b in bookings_cid:
+    # Get restaurant name and booking
+    for b, r in bookings:
         data = {
-            'bid': b.bid,
-            'date': b.date,
-            'time': b.time,
-            'pax': b.pax,
-            'special_request': b.special_request,
-            'created_at': b.created_at,
-            'updated_at': b.updated_at,
-            "rid": b.rid
+                'bid': b.bid,
+                'date': b.date,
+                'time': b.time,
+                'pax': b.pax,
+                'special_request': b.special_request,
+                "rid" : b.rid,
+                "name" : r.name
         }
-        print(data)
         bookings_list.append(data)
-    getRestaurantNames(restaurant_list)
 
-    return render_template("booking/view.html", bookings_list = bookings_list, restaurants = restaurant_list, user = current_user)
+    return render_template("booking/view.html", bookings_list = bookings_list, user = current_user)
 
 
 #Create a new booking 
@@ -188,9 +185,9 @@ def create():
 @login_required
 def edit():
     bid = request.args.get('bid')
-    rid = request.args.get('rid')
-    booking = Bookings.query.get(bid)
-    restaurant = Restaurants.query.get(rid)
+    booking_info = sql_db.session.query(Bookings, Restaurants).join(Restaurants, Bookings.rid == Restaurants.rid).filter(Bookings.bid == bid).first()
+    booking, restaurant = booking_info
+
 
     r = restaurant.name
     timings_list = generate_timings(restaurant.operating_hours)
@@ -199,7 +196,7 @@ def edit():
 
     if request.method == "POST":
         date = request.form.get("date")
-        bTime = request.form.get("time")
+        time = request.form.get("time")
         pax = request.form.get("pax")
         special_request = request.form.get("special_request")
         
@@ -210,8 +207,6 @@ def edit():
             flash("Restaurant is not open on that date, please select another date", category = "error")
 
         else: 
-            time = datetime.strptime(bTime, "%I:%M %p").time()
-            booking = Bookings.query.get(bid)
             booking.date = date
             booking.time = time
             booking.pax = pax
@@ -228,10 +223,9 @@ def edit():
 @login_required
 def delete():
     bid = request.args.get('bid')
-    rid = request.args.get('rid')
-    booking = Bookings.query.get(bid)
-    restaurant_list = []
-    r=getRestaurantName(restaurant_list, rid)
+    booking_info = sql_db.session.query(Bookings, Restaurants).join(Restaurants, Bookings.rid == Restaurants.rid).filter(Bookings.bid == bid).first()
+    booking, restaurant = booking_info
+    r = restaurant.name
 
     if request.method == "POST":
 

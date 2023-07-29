@@ -31,7 +31,7 @@
                 <label for="time" class="form-label">Time</label>
                 <select name="time" class="form-select"  required>
                     {% if booking.time %}
-                        <option value="{{ booking.time.strftime('%I:%M %p') }}" selected disabled hidden>{{ booking.time.strftime("%I:%M %p") }}</option>
+                        <option value="{{ booking.time }}" selected>{{ booking.time.strftime("%I:%M %p") }}</option>
                     {% endif %}
                     {% for time in timings_list %}
                         <option value="{{ time }}">{{ time}}</option>
