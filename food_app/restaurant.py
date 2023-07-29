@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from .models import Restaurants
-from . import sql_db
+from . import sql_db, mongo_db
 
 restaurant_bp = Blueprint("restaurant", __name__, url_prefix="/restaurant")
 
@@ -130,6 +130,10 @@ def view():
 def info():
     rid = request.args.get('rid')
     restaurant = Restaurants.query.get(rid)
+
+    reviews = mongo_db["reviews"]
+
+    
 
     return render_template("restaurant/info.html", restaurant = restaurant, user = current_user)
     
