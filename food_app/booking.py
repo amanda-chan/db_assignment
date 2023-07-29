@@ -36,11 +36,6 @@ def getRestaurantNames(restaurant_list):
         restaurant_list.append(data)
     return restaurant_list
 
-# get restaurant name
-def getRestaurantName(restaurant_list, rid):
-    restaurant = Restaurants.query.get(rid)
-    rName = restaurant.name
-    return rName
 
 def generate_timings(operating_hours):
     
@@ -143,9 +138,13 @@ def view():
 #Create a new booking 
 @booking_bp.route("/create", methods=["GET", "POST"])
 def create():
+    restaurant_list = []
     rid = request.args.get('rid')
     restaurant = Restaurants.query.get(rid)
-    rName = restaurant.name
+    selectedRname = restaurant.name
+    selectedRrid = restaurant.rid
+    getRestaurantNames(restaurant_list)
+
     timings_list = generate_timings(restaurant.operating_hours)
     days = restaurant.operating_days
 
@@ -178,7 +177,7 @@ def create():
             flash("Booked successfully!", category="success")
             return redirect(url_for("booking.view"))
 
-    return render_template("booking/create.html", rName = rName, rRid=rid, timings_list = timings_list, user = current_user)
+    return render_template("booking/create.html", selectedRid = selectedRrid, selectedName = selectedRname, rRid=rid, restaurants=restaurant_list, timings_list = timings_list, user = current_user)
 
 #Update
 @booking_bp.route("/edit", methods=["GET", "POST"])

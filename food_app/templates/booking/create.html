@@ -6,8 +6,6 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ url_for('restaurant.view') }}">Restaurants</a></li>
-        <li class="breadcrumb-item"><a href="{{ url_for('restaurant.info', rid=rRid) }}">Restaurant Information</a></li>
         <li class="breadcrumb-item active" aria-current="page">New Booking</li>
     </ol>
 </nav>
@@ -21,8 +19,14 @@
             <form method="post">
                 <div class="mb-3">
                     <label for="restaurant" class="form-label">Restaurant</label>
-                    <input type="text" class="form-control" id="restaurant" name="restaurant"
-                        value="{{ rName}}" readonly>
+                    <select name="restaurant" class="form-select" required>
+                        {% if selectedRid is defined%}
+                        <option value="{{ selectedRid }}" selected>{{ selectedName }}</option>
+                        {% endif %}
+                        {% for r in restaurants %}
+                            <option value="{{ r.rid }}">{{ r.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div style="display: flex;">
                 <div class="mb-3" style="flex: 1; margin-right: 10%">
@@ -50,7 +54,7 @@
                         name="special_request" rows="4" cols="50"></textarea>
                 </div>
                 <div class="mb-3">
-                    <button class="btn btn-primary">Book</button>
+                    <button class="btn btn-primary">Book!</button>
                 </div>
             </form>
         </div>
