@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from datetime import datetime
-from .models import Bookings
+from .models import Bookings, Restaurants
 from . import sql_db, mongo_db
 
 
@@ -25,53 +25,63 @@ def retrieve_bookings():
 
     return bookings_list
 
-def retrieve_booking_byCID(c):
+# get all restaurant names
+def getRestaurantNames(restaurant_list):
+    restaurant = Restaurants.query.all()
+    for r in restaurant:
+        data = {
+            "rid": r.rid,
+            "name": r.name
+        }
+        restaurant_list.append(data)
+    return restaurant_list
+
+# get restaurant name
+def getRestaurantName(restaurant_list, rid):
+    restaurant = Restaurants.query.get(rid)
+    rName = restaurant.name
+    return rName
+    
+    
+#View list of Bookings 
+@booking_bp.route("/")
+def view():
+    #List of bookings of a cid
     bookings_list = []
-    bookings_cid = Bookings.query.filter_by(cid=c).all()
+    restaurant_list = []
+    bookings_cid = Bookings.query.filter_by(cid=current_user.get_id()).all()
 
     for b in bookings_cid:
         data = {
-            'bid': b.rid,
+            'bid': b.bid,
             'date': b.date,
             'time': b.time,
             'pax': b.pax,
             'special_request': b.special_request,
             'created_at': b.created_at,
-            'updated_at': b.updated_at
+            'updated_at': b.updated_at,
+            "rid": b.rid
         }
+        print(data)
         bookings_list.append(data)
+    getRestaurantNames(restaurant_list)
 
-    return bookings_list
-
-#View list of Bookings 
-@booking_bp.route("/")
-#@login_required
-def view():
-    #List of bookings of a cid
-    bookings_list = retrieve_booking_byCID(current_user.get_id())
-
-    return render_template("booking/view.html", bookings_list = bookings_list, user = current_user)
-
-#View a single booking info 
-@booking_bp.route("/info")
-#@login_required
-def info():
-    bid = request.args.get('bid')
-    booking = Bookings.query.get(bid)
-
-    return render_template("booking/info.html", booking = booking, user = current_user)
+    return render_template("booking/view.html", bookings_list = bookings_list, restaurants = restaurant_list, user = current_user)
 
 
 #Create a new booking 
-@booking_bp.route("/create-booking", methods=["GET", "POST"])
-#@login_required
-def make():
+@booking_bp.route("/create", methods=["GET", "POST"])
+def create():
+    rid = request.args.get('rid')
+    restaurant_list = []
+    rName =getRestaurantName(restaurant_list, rid)
+
     if request.method == "POST":
         date = request.form.get("date")
         time = request.form.get("time")
         pax = request.form.get("pax")
         special_request = request.form.get("special_request")
-        restaurant = request.form.get("rid")
+        restaurant = rid
 
         new_booking = Bookings(
             date=date,
@@ -79,28 +89,31 @@ def make():
             pax=pax,
             special_request = special_request,
             created_at = datetime.now(),
-            #add rid
             rid = restaurant,
             cid = current_user.get_id(),
         )
         sql_db.session.add(new_booking)
         sql_db.session.commit()
-        #return redirect(url_for("booking.booking"))
+        flash("Booked successfully!", category="success")
+        return redirect(url_for("booking.view"))
 
-    return render_template("booking/createBooking.html", user = current_user)
+    return render_template("booking/create.html", rName = rName, rRid=rid, user = current_user)
 
 #Update
 @booking_bp.route("/edit", methods=["GET", "POST"])
-#@login_required
+@login_required
 def edit():
-    
     bid = request.args.get('bid')
+    rid = request.args.get('rid')
+    booking = Bookings.query.get(bid)
+    restaurant_list = []
+    r=getRestaurantName(restaurant_list, rid)
+
     if request.method == "POST":
         date = request.form.get("date")
         time = request.form.get("time")
         pax = request.form.get("pax")
         special_request = request.form.get("special_request")
-        restaurant = request.form.get("rid")
         
         booking = Bookings.query.get(bid)
         
@@ -108,20 +121,32 @@ def edit():
         booking.time = time
         booking.pax = pax
         booking.special_request = special_request
-        booking.rid = restaurant
         booking.updated_at = datetime.now()
 
         sql_db.session.commit()
-        #return redirect(url_for("booking.booking"))
-    return render_template("booking/edit.html", user = current_user)
+        flash("Changes saved successfully!", category="success")
+        return redirect(url_for("booking.view"))
+    return render_template("booking/edit.html",booking = booking, rName = r, user = current_user)
 
 #Delete
-@booking_bp.route("/delete")
-#@login_required
+@booking_bp.route("/delete", methods=["GET", "POST"])
+@login_required
 def delete():
     bid = request.args.get('bid')
-    #delete function here
+    rid = request.args.get('rid')
+    booking = Bookings.query.get(bid)
+    restaurant_list = []
+    r=getRestaurantName(restaurant_list, rid)
 
-    return render_template("booking/delete.html", user = current_user)
+    if request.method == "POST":
+
+        booking=Bookings.query.get(bid)
+        sql_db.session.delete(booking)
+
+        sql_db.session.commit()
+        flash("Deleted booking!", category="success")
+        return redirect(url_for("booking.view"))
+
+    return render_template("booking/delete.html", booking = booking, rName = r, user = current_user)
 
 

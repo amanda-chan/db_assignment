@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking - Edit{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('booking.view') }}">My Bookings</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Booking</li>
+    </ol>
+</nav>
+
+<h1>Edit Booking</h1>
+
+<div class="container mt-4">
+    <div class="custom-box">
+        <form method="post">
+            <div class="mb-3">
+                <label for="restaurant" class="form-label">Restaurant</label>
+                <input type="text" class="form-control" id="restaurant" name="restaurant"
+                    value="{{ rName}}" readonly>
+            </div>
+            <div style="display: flex;">
+            <div class="mb-3" style="flex: 1; margin-right: 10%">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" class="form-control" id="date" name="date"
+                    value="{{ booking.date }}">
+            </div>
+            <div class="mb-3" style="flex: 1; margin-right: 10%">
+                <label for="time" class="form-label">Time</label>
+                <input type="time" class="form-control" id="time" name="time"
+                    value="{{ booking.time }}">
+            </div>
+            <div class="mb-3"style="flex: 1;">
+                <label for="pax" class="form-label">Pax</label>
+                <input type="number" class="form-control" id="pax"
+                    name="pax" value="{{ booking.pax }}" min= 1>
+            </div>
+            </div>
+            <div class="mb-3">
+                <label for="special_request" class="form-label">Special Request</label>
+                <textarea class="form-control" id="special_request"
+                    name="special_request" rows="4" cols="50" >{{ booking.special_request }}</textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    const currentDate = new Date();
+    const nextDay = new Date(currentDate);
+    nextDay.setDate(currentDate.getDate() + 1);
+    const nextDayFormatted = nextDay.toISOString().split('T')[0];
+    document.getElementById('date').min = nextDayFormatted;
+</script>
+{% endblock %}

@@ -3,6 +3,55 @@
 {% block title %}My Reviews{% endblock %}
 
 {% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('profile.profile') }}">Profile</a></li>
+        <li class="breadcrumb-item active" aria-current="page">My Reviews</li>
+    </ol>
+</nav>
+
 <h1>My Reviews</h1>
-<p>this is for the current user's review history</p>
+
+{% if reviews is defined and reviews|length > 0 %}
+<div class="container mt-4">
+    {% for review in reviews %}
+    <div class="custom-box mb-4">
+        <div class="d-flex justify-content-between mb-3">
+            <div>
+                {% for star in range(5) %}
+                {% if star < review.Rating %}
+                <i class="fa-solid fa-star" style="color: #ea580c;"></i>
+                {% else %}
+                <i class="fa-regular fa-star" style="color: #ea580c;"></i>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div class="d-grid gap-2 d-md-block">
+                <a href="{{ url_for('restaurant.info', rid=review.RID) }}" class="button-link">
+                    <button type="button" class="btn btn-light"><i class="fa-solid fa-shop"></i> View Restaurant</button>
+                </a>
+                <!-- <a href="#" class="button-link">
+                    <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Delete</button>
+                </a> -->
+            </div>
+        </div>
+        <p>{{ review.Review }}</p>
+        <div class="d-flex justify-content-between mt-3">
+            {% for restaurant in restaurants %}
+            {% if review.RID == restaurant.rid %}
+            <p><i class="fa-solid fa-location-dot"></i> {{ restaurant.name }}</p>
+            {% endif %}
+            {% endfor %}
+            {% set date = review.CreatedDateTime.split(' ') %}
+            <p>{{ date[0] }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="mt-4">
+    <p>You do not have any reviews yet.</p>
+</div>
+{% endif %}
 {% endblock %}

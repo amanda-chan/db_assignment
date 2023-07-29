@@ -5,6 +5,13 @@
 {% block navbar %}{% include 'navbar.html' %}{% endblock %}
 
 {% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Restaurants</li>
+    </ol>
+</nav>
+
 <form class="row g-3" action="{{ url_for('restaurant.view')}}" method="post">
     <div class="col-md-4">
         <label for="price" class="form-label">Price Range</label><br>
@@ -67,7 +74,9 @@
                 <div class="card-body">
                 <h5 class="card-title">{{r['name']}}</h5>
                 <p class="card-text">{{r['price']}} {{r['cuisine']}}</p>
-                <a href="{{ url_for('restaurant.info', rid=r['rid']) }}" class="btn btn-primary">View Restaurant</a>
+                <a href="{{ url_for('restaurant.info', rid=r['rid']) }}" class="button-link">
+                    <button type="button" class="btn btn-primary">View Restaurant</button>
+                </a>
                 </div>
             </div>
             <br>

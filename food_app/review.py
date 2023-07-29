@@ -16,15 +16,8 @@ def make():
     return render_template("review/makeReview.html", user=current_user)
 
 
-@review_bp.route("/display", methods=["GET", "POST"])
-def display():
-    review_list = retrieve_review()
-    return render_template("review/showReviews.html", user=current_user, reviews=review_list)
-
-
 # there is a review tab in navbar, can view all reviews on that page:)
 # user can see which review is positive then view that restaurant (idea you can consider)
-
 
 def retrieve_review():
     # retrieve all for testing first
@@ -37,11 +30,13 @@ def retrieve_review():
     for record in query:
         print(record)
         review_list.append(record)
-
+    print(review_list)
     return review_list
 
+@review_bp.route("/display", methods=["GET", "POST"])
+def display():
+    review_list = retrieve_review()
+   
+    return render_template("review/showReviews.html", user=current_user, reviews=review_list)
 
-# @review_bp.route("/")
-# def review():
-#     # add login required ^
-#     return render_template("profile/reviews.html", user=current_user)
+
