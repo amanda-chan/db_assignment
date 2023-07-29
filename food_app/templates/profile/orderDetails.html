@@ -31,7 +31,7 @@
         <div class="mb-3 row">
             <label for="time" class="col-sm-2 col-form-label">Pickup Time</label>
             <div class="col-sm-10">
-                <input type="text" readonly class="form-control-plaintext" id="time" value="{{ order['pickup_time'].strftime("%I:%M %p") }}">
+                <input type="text" readonly class="form-control-plaintext" id="time" value="{{ order['pickup_time'].strftime('%I:%M %p') }}">
             </div>
         </div>
         <div class="mb-3 row">
