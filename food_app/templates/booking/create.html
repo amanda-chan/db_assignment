@@ -13,10 +13,11 @@
 </nav>
 
 <h1>New Booking</h1>
-
+{% include 'error.html' %}
 <div class="container mt-4">
     {% if user.is_authenticated %}
         <div class="custom-box">
+
             <form method="post">
                 <div class="mb-3">
                     <label for="restaurant" class="form-label">Restaurant</label>
@@ -26,22 +27,27 @@
                 <div style="display: flex;">
                 <div class="mb-3" style="flex: 1; margin-right: 10%">
                     <label for="date" class="form-label">Date</label>
-                    <input type="date" class="form-control" id="date" name="date">
+                    <input type="date" class="form-control" id="date" name="date" required>
                 </div>
                 <div class="mb-3" style="flex: 1; margin-right: 10%">
                     <label for="time" class="form-label">Time</label>
-                    <input type="time" class="form-control" id="time" name="time">
+                    <select name="time" class="form-select" required>
+                        <option value="" selected></option>
+                        {% for time in timings_list %}
+                            <option value="{{ time }}">{{ time }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="mb-3"style="flex: 1;">
-                    <label for="pax" class="form-label">Pax</label>
+                    <label for="pax" class="form-label" >Pax</label>
                     <input type="number" class="form-control" id="pax"
-                        name="pax" min= 1>
+                        name="pax" min= 1 required>
                 </div>
                 </div>
                 <div class="mb-3">
                     <label for="special_request" class="form-label">Special Request</label>
                     <textarea class="form-control" id="special_request"
-                        name="special_request" rows="4" cols="50" ></textarea>
+                        name="special_request" rows="4" cols="50"></textarea>
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-primary">Book</button>

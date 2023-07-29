@@ -12,7 +12,7 @@
 </nav>
 
 <h1>Edit Booking</h1>
-
+{% include 'error.html' %}
 <div class="container mt-4">
     <div class="custom-box">
         <form method="post">
@@ -29,8 +29,14 @@
             </div>
             <div class="mb-3" style="flex: 1; margin-right: 10%">
                 <label for="time" class="form-label">Time</label>
-                <input type="time" class="form-control" id="time" name="time"
-                    value="{{ booking.time }}">
+                <select name="time" class="form-select"  required>
+                    {% if booking.time %}
+                        <option value="{{ booking.time.strftime('%I:%M %p') }}" selected disabled hidden>{{ booking.time.strftime("%I:%M %p") }}</option>
+                    {% endif %}
+                    {% for time in timings_list %}
+                        <option value="{{ time }}">{{ time}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="mb-3"style="flex: 1;">
                 <label for="pax" class="form-label">Pax</label>
