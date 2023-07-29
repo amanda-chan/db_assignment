@@ -55,7 +55,7 @@ def restraunt_setup(sql_db, Restaurants):
         print("Inserting data into the restaurant table...")
 
         # Extract data from the excel sheet
-        df = pd.read_excel("food_app/data/restaurant_data.xlsx")
+        df = pd.read_excel("food_app/data/restaurant_data_v3.xlsx")
 
         # Replace NaN values in the 'email' column with an empty string
         df["email"].fillna("", inplace=True)
@@ -92,7 +92,7 @@ def owner_setup(sql_db, Owners):
         print("Inserting data into the owner table...")
 
         # Extract data from the excel sheet
-        df = pd.read_excel("food_app/data/owner_data.xlsx")
+        df = pd.read_excel("food_app/data/owner_data_v2.xlsx")
 
         # Insert data rows into the table
         for index, row in df.iterrows():

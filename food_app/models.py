@@ -21,8 +21,8 @@ class Customers(sql_db.Model, UserMixin):
 class Owners(sql_db.Model):
     oid = sql_db.Column(sql_db.Integer, primary_key=True)
     email = sql_db.Column(sql_db.String(150), unique=True, nullable=False)
-    first_name = sql_db.Column(sql_db.String(20), unique=True, nullable=False)
-    last_name = sql_db.Column(sql_db.String(20), unique=True, nullable=False)
+    first_name = sql_db.Column(sql_db.String(20), nullable=False)
+    last_name = sql_db.Column(sql_db.String(20), nullable=False)
     password = sql_db.Column(sql_db.String(225), nullable=False)
     contact_number = sql_db.Column(sql_db.Integer, nullable=False)
     created_at = sql_db.Column(sql_db.DateTime(timezone=True), default=func.now())
