@@ -42,11 +42,6 @@ def retrieve_restaurants():
 
     return restaurant_list
 
-def getRestaurantName(restaurant_list, rid):
-    restaurant = Restaurants.query.get(rid)
-    
-    rName = restaurant.name
-    return rName
 @review_bp.route("/makeReview", methods=["GET", "POST"])
 
 def make():
