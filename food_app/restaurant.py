@@ -133,7 +133,11 @@ def info():
 
     reviews = mongo_db["reviews"]
 
-    
+    rid_query = { "RID" : int(rid) }
+    restaurant_reviews = reviews.find(rid_query)
 
-    return render_template("restaurant/info.html", restaurant = restaurant, user = current_user)
+    reviews_count = reviews.count_documents(rid_query)
+
+
+    return render_template("restaurant/info.html", restaurant = restaurant, reviews = restaurant_reviews, count = reviews_count, user = current_user)
     

@@ -166,7 +166,7 @@ def reviews_setup(mongo_db):
         print("Inserting data into the reviews collection...")
 
         # Extract data from json file
-        with open("food_app/data/review_data.json") as file:
+        with open("food_app/data/review_data_matchwithbooking.json") as file:
             file_data = json.load(file)
 
         # Insert review data into reviews collection
