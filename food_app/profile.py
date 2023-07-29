@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from datetime import date, datetime, time
-from .models import Customers, Bookings, Orders, Restaurants
+from datetime import date, datetime
+from .models import Customers, Orders, Restaurants
 from . import sql_db, mongo_db
 import re
 
@@ -28,9 +28,9 @@ def profile():
         review_list.append(row)
 
     count = 0
-    for row in booking_history_col.find({"CID": 3}):
+    for row in booking_history_col.find({"CID": current_user.get_id()}):
         for r in row["Bookings"]:
-            if count < 3:
+            if count < 3 and datetime.strptime(r["Date"], "%m/%d/%Y") < datetime.now():
                 print(r)
                 booking_list.append(r)
                 count += 1
@@ -109,8 +109,9 @@ def bookings():
 
     for row in booking_history_col.find({"CID": current_user.get_id()}):
         for r in row["Bookings"]:
-            print(r)
-            booking_list.append(r)
+            if datetime.strptime(r["Date"], "%m/%d/%Y") < datetime.now():
+                print(r)
+                booking_list.append(r)
 
     getRestaurantNames(restaurant_list)
 
