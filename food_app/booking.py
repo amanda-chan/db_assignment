@@ -36,8 +36,13 @@ def getRestaurantNames(restaurant_list):
         restaurant_list.append(data)
     return restaurant_list
 
-
-
+# get restaurant name
+def getRestaurantName(restaurant_list, rid):
+    restaurant = Restaurants.query.get(rid)
+    rName = restaurant.name
+    return rName
+    
+    
 #View list of Bookings 
 @booking_bp.route("/")
 #@login_required
@@ -66,15 +71,19 @@ def view():
 
 
 #Create a new booking 
-@booking_bp.route("/create-booking", methods=["GET", "POST"])
+@booking_bp.route("/create", methods=["GET", "POST"])
 #@login_required
-def make():
+def create():
+    rid = request.args.get('rid')
+    restaurant_list = []
+    rName =getRestaurantName(restaurant_list, rid)
+
     if request.method == "POST":
         date = request.form.get("date")
         time = request.form.get("time")
         pax = request.form.get("pax")
         special_request = request.form.get("special_request")
-        restaurant = request.form.get("rid")
+        restaurant = rid
 
         new_booking = Bookings(
             date=date,
@@ -82,24 +91,25 @@ def make():
             pax=pax,
             special_request = special_request,
             created_at = datetime.now(),
-            #add rid
             rid = restaurant,
             cid = current_user.get_id(),
         )
         sql_db.session.add(new_booking)
         sql_db.session.commit()
-        #return redirect(url_for("booking.booking"))
+        flash("Booked successfully!", category="success")
+        return redirect(url_for("booking.view"))
 
-    return render_template("booking/createBooking.html", user = current_user)
+    return render_template("booking/create.html", rName = rName, rRid=rid, user = current_user)
 
 #Update
 @booking_bp.route("/edit", methods=["GET", "POST"])
 @login_required
 def edit():
     bid = request.args.get('bid')
+    rid = request.args.get('rid')
     booking = Bookings.query.get(bid)
     restaurant_list = []
-    getRestaurantNames(restaurant_list)
+    r=getRestaurantName(restaurant_list, rid)
 
     if request.method == "POST":
         date = request.form.get("date")
@@ -118,16 +128,18 @@ def edit():
         sql_db.session.commit()
         flash("Changes saved successfully!", category="success")
         return redirect(url_for("booking.view"))
-    return render_template("booking/edit.html",booking = booking, restaurants = restaurant_list, user = current_user)
+    return render_template("booking/edit.html",booking = booking, rName = r, user = current_user)
 
 #Delete
 @booking_bp.route("/delete", methods=["GET", "POST"])
 @login_required
 def delete():
     bid = request.args.get('bid')
+    rid = request.args.get('rid')
     booking = Bookings.query.get(bid)
     restaurant_list = []
-    getRestaurantNames(restaurant_list)
+    r=getRestaurantName(restaurant_list, rid)
+
     if request.method == "POST":
 
         booking=Bookings.query.get(bid)
@@ -137,6 +149,6 @@ def delete():
         flash("Deleted booking!", category="success")
         return redirect(url_for("booking.view"))
 
-    return render_template("booking/delete.html", booking = booking, restaurants = restaurant_list, user = current_user)
+    return render_template("booking/delete.html", booking = booking, rName = r, user = current_user)
 
 
