@@ -50,7 +50,7 @@ def generate_timings(operating_hours):
 
             # Add 30 mins intervals between the pickup times during operating hours
             interval_time = start_time
-            while interval_time <= end_time:
+            while interval_time < end_time:
                 timings_list.append(interval_time.strftime("%I:%M %p"))
                 interval_time += timedelta(minutes = 30)
 
@@ -151,10 +151,12 @@ def create():
 
         for m in menu_items:
             item = m['MenuItem']
+            price = m['Price']
             quantity = int(request.form.get(str(m['item_id'])))
 
             if quantity > 0: # Customer ordered menu item
-                food_dict = { "item" : item, "quantity" : quantity}
+                price = price * quantity
+                food_dict = { "item" : item, "quantity" : quantity, "price" : price}
                 food_items.append(food_dict)
 
         pickup_date = request.form.get("pickup-date")
@@ -181,7 +183,9 @@ def create():
                                cid=current_user.cid)
             sql_db.session.add(new_order)
             sql_db.session.commit()
+
             flash("Order placed successfully!", category = "success")
+            return redirect(url_for("order.view_orders"))
 
         # Render menu again
         query_rid = { "RID" : int(rid) }
@@ -198,7 +202,7 @@ def view_orders():
     order_list = []
 
     # Get user's current orders
-    orders = Orders.query.filter_by(cid=current_user.cid).all()
+    orders = Orders.query.filter(Orders.cid == current_user.cid, Orders.date > datetime.today().date()).order_by(Orders.date.asc()).all()
 
     # Get restaurant name and order info
     for o in orders:
@@ -294,10 +298,12 @@ def update():
 
         for m in menu_items:
             item = m['MenuItem']
+            price = m['Price']
             quantity = int(request.form.get(str(m['item_id'])))
 
             if quantity > 0: # Customer ordered menu item
-                food_dict = { "item" : item, "quantity" : quantity}
+                price = price * quantity
+                food_dict = { "item" : item, "quantity" : quantity, "price" : price}
                 food_items.append(food_dict)
 
         pickup_date = request.form.get("pickup-date")

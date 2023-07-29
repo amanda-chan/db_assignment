@@ -181,21 +181,8 @@ def orders():
             "special_request": o.special_request,
             "rid": o.rid,
             "created_at": o.created_at,
-            "updated_at": o.updated_at,
         }
         order_list.append(data)
-
-    # for testing
-    o1 = {
-        "orid": 1,
-        "date": date.today(),
-        "pickup_time": datetime.now(),
-        "food_items": "idk a food",
-        "special_request": "this is a request",
-        "rid": 2,
-        "created_at": datetime.now(),
-    }
-    order_list.append(o1)
 
     getRestaurantNames(restaurant_list)
 
@@ -218,24 +205,19 @@ def orderDetails(orid):
             orid=o.orid,
             date=o.date,
             pickup_time=o.pickup_time,
-            food_items=o.food_items,
+            food_items=eval(o.food_items),
             special_request=o.special_request,
             rid=o.rid,
         )
 
-    # for testing
-    order_item = Orders(
-            orid=1,
-            date=date.today(),
-            pickup_time=datetime.now(),
-            food_items="idk a food",
-            special_request="this is a request",
-            rid=2,
-        )
+    # Get total amount
+    total = 0
+    for item in eval(o.food_items):
+        total += item['price']
 
     getRestaurantNames(restaurant_list)
 
-    return render_template("profile/orderDetails.html", user=current_user, order=order_item, restaurants=restaurant_list)
+    return render_template("profile/orderDetails.html", user=current_user, order=order_item, total=total, restaurants=restaurant_list)
 
 
 # get all restaurant names

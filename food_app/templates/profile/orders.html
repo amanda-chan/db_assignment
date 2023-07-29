@@ -22,7 +22,6 @@
                     <th scope="col">Restaurant</th>
                     <th scope="col">Pickup Date</th>
                     <th scope="col">Pickup Time</th>
-                    <th scope="col">Items Ordered</th>
                     <th scope="col">Special Request</th>
                     <th scope="col"></th>
                 </tr>
@@ -37,7 +36,6 @@
                     {% endfor %}
                     <td>{{ order['date'] }}</td>
                     <td>{{ order['pickup_time'].strftime("%I:%M %p") }}</td>
-                    <td>{{ order['food_items'] }}</td>
                     <td>{{ order['special_request'] }}</td>
                     <td>
                         <a href="{{ url_for('profile.orderDetails', orid=order['orid']) }}" class="button-link">

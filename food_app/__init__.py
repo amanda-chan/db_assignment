@@ -197,7 +197,7 @@ def bookings_setup(sql_db, Bookings):
     count = Bookings.query.count()
 
     if count == 0:  # No existing data in the table, hence, populate the table
-        print("Inserting data into the restaurant table...")
+        print("Inserting data into the bookings table...")
 
         # Extract data from the excel sheet
         df = pd.read_excel("food_app/data/booking_data.xlsx")
@@ -221,6 +221,36 @@ def bookings_setup(sql_db, Bookings):
             )
 
             sql_db.session.add(new_booking)
+
+        # Commit the changes to the database
+        sql_db.session.commit()
+
+def order_setup(sql_db, Orders):
+    # Count number of rows in the Orders table
+    count = Orders.query.count()
+
+    if count == 0:  # No existing data in the table, hence, populate the table
+        print("Inserting data into the orders table...")
+
+        # Extract data from the excel sheet
+        df = pd.read_excel("food_app/data/order_data.xlsx")
+
+        # Replace NaN values in the 'special_request' column with an empty string
+        df["special_request"].fillna("", inplace=True)
+
+        # Insert data rows into the table
+        for index, row in df.iterrows():
+            order = Orders(
+                orid=int(row["orid"]),
+                date=row["date"],
+                pickup_time=row["pickup_time"],
+                food_items=row["food_items"],
+                special_request=row["special_request"],
+                rid=int(row["rid"]),
+                cid=int(row["cid"]),
+                )
+
+            sql_db.session.add(order)
 
         # Commit the changes to the database
         sql_db.session.commit()
@@ -271,6 +301,7 @@ def create_app():
         restraunt_setup(sql_db, Restaurants)
         customer_setup(sql_db, Customers)
         bookings_setup(sql_db, Bookings)
+        order_setup(sql_db, Orders)
         menu_setup(mongo_db)
         reviews_setup(mongo_db)
 

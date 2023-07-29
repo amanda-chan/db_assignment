@@ -52,29 +52,28 @@
             </div>
         </div>
     </div>
-    
 
     <hr>
     <p class="mt-4 section-name">Items</p>
+    {% for item in order['food_items'] %}
     <div class="mb-3 row">
         <div class="col-sm-2">
-            <p class="quantity">1</p>
+            <p class="quantity">{{ item['quantity'] }}</p>
         </div>
         <div class="d-flex justify-content-between col-sm-10">
             <div class="col-auto">
-                <p class="item-name">Chicken Rice</p>
-                <p>+ egg</p>
+                <p class="item-name">{{ item['item'] }}</p>
             </div>
             <div class="col-auto text-sm-end">
-                <p class="item-name">$3.00</p>
-                <p>+$0.50</p>
+                <p class="item-name">${{ item['price'] }}</p>
             </div>
         </div>
     </div>
+    {% endfor %}
     <hr style="border-top: dotted 1px;" />
     <div class="d-flex justify-content-between mb-3">
         <p class="item-name">Total</p>
-        <p class="item-name">$3.50</p>
+        <p class="item-name">${{ total }}</p>
     </div>
 
     <hr>

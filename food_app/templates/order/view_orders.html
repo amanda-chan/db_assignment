@@ -25,7 +25,7 @@
             <p class="card-text">Order:</p>
             <ul>
                 {% for i in o['food_items'] %}
-                <li><p class="card-text">{{i['item']}} - {{i['quantity']}}</p></li>
+                <li><p class="card-text">{{i['item']}}  x{{i['quantity']}} - ${{i['price']}}</p></li>
                 {% endfor %}
             </ul>
             <a href="{{ url_for('order.update', orid=o['orid']) }}" class="btn btn-primary">Update</a>
