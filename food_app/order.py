@@ -216,17 +216,15 @@ def view_orders():
     
     order_list = []
 
-    # Get user's current orders
-    orders = Orders.query.filter(Orders.cid == current_user.cid, Orders.date > datetime.today().date()).order_by(Orders.date.asc()).all()
+    # Get user's current orders joining with restaurant information via rid
+    orders = sql_db.session.query(Orders, Restaurants).join(Restaurants, Orders.rid == Restaurants.rid).filter(Orders.cid == current_user.cid, Orders.date >= datetime.today().date()).order_by(Orders.date.asc()).all()
+
 
     # Get restaurant name and order info
-    for o in orders:
-
-        # Get restaurant information based on rid
-        restaurant = Restaurants.query.get(o.rid)
+    for o, r in orders:
 
         order_dict = {"orid" : o.orid,
-                      "name" : restaurant.name,
+                      "name" : r.name,
                       "date" : o.date,
                       "time" : o.pickup_time,
                       "food_items" : eval(o.food_items)}
@@ -242,11 +240,9 @@ def update():
     # Get order id
     orid = request.args.get('orid')
 
-    # Get order information
-    order = Orders.query.get(orid)
-
-    # Get restaurant information
-    restaurant = Restaurants.query.get(order.rid)
+    # Get order information and restaurant information
+    order_info = sql_db.session.query(Orders, Restaurants).join(Restaurants, Orders.rid == Restaurants.rid).filter(Orders.orid == orid).first()
+    order, restaurant = order_info
 
     # Get menu collections from the db
     menu = mongo_db["menu"]
@@ -354,11 +350,9 @@ def delete():
     # Get order id
     orid = request.args.get('orid')
 
-    # Get order information
-    order = Orders.query.get(orid)
-
-    # Get restaurant information
-    restaurant = Restaurants.query.get(order.rid)
+    # Get order information and restaurant information
+    order_info = sql_db.session.query(Orders, Restaurants).join(Restaurants, Orders.rid == Restaurants.rid).filter(Orders.orid == orid).first()
+    order, restaurant = order_info
 
     # Get menu collections from the db
     menu = mongo_db["menu"]
