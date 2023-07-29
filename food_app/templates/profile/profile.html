@@ -88,12 +88,12 @@
                 <div class="card mb-2">
                     <div class="card-body">
                         {% for restaurant in restaurants %}
-                        {% if restaurant['rid'] == booking['rid'] %}
+                        {% if restaurant['rid'] == booking['RID'] %}
                         <p class="card-title"><strong>{{ restaurant['name'] }}</strong></p>   
                         {% endif %}             
                         {% endfor %}             
-                        <p class="mb-2 card-text"><small><i class="fa-regular fa-calendar"></i>  {{ booking['date'] }}</small></p>
-                        <p class="mb-2 card-text"><small><i class="fa-regular fa-clock"></i>  {{ booking['time'].strftime("%I:%M %p") }}</small></p>
+                        <p class="mb-2 card-text"><small><i class="fa-regular fa-calendar"></i>  {{ booking['Date'] }}</small></p>
+                        <p class="mb-2 card-text"><small><i class="fa-regular fa-clock"></i>  {{ booking['Time'] }}</small></p>
                     </div>
                 </div>
                 {% endfor %}

@@ -173,23 +173,23 @@ def reviews_setup(mongo_db):
         reviews.insert_many(file_data)
 
 
-# def bookingHistory_setup(mongo_db):
+def booking_history_setup(mongo_db):
 
-#     # Create or switch to reviews collection
-#     bookings = mongo_db["bookingHistory"]
+    # Create or switch to booking history collection
+    bookings = mongo_db["bookingHistory"]
 
-#     # Get the first document
-#     result = bookings.find_one()
+    # Get the first document
+    result = bookings.find_one()
 
-#     if result == None: # No existing data in the collection, hence populate data
-#         print("Inserting data into the reviews collection...")
+    if result == None: # No existing data in the collection, hence populate data
+        print("Inserting data into the booking history collection...")
 
-#         # Extract data from json file
-#         with open("food_app/data/bookingHistory_data.json") as file:
-#             file_data = json.load(file)
+        # Extract data from json file
+        with open("food_app/data/booking_history_data.json") as file:
+            file_data = json.load(file)
 
-#         # Insert review data into reviews collection
-#         bookings.insert_many(file_data)
+        # Insert booking history data into booking history collection
+        bookings.insert_many(file_data)
 
 
 def bookings_setup(sql_db, Bookings):
@@ -306,6 +306,7 @@ def create_app():
         order_setup(sql_db, Orders)
         menu_setup(mongo_db)
         reviews_setup(mongo_db)
+        booking_history_setup(mongo_db)
 
     login_manager = LoginManager()
     login_manager.init_app(app)

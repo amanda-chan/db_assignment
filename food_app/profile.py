@@ -18,43 +18,22 @@ def profile():
 
     # get top 3 reviews (if available)
     reviews_col = mongo_db["reviews"]
+    booking_history_col = mongo_db["bookingHistory"]
 
-    if len(list(reviews_col.find({"CID": current_user.get_id()}))) <= 3:
-        for row in reviews_col.find({"CID": current_user.get_id()}).sort(
-            "CreatedDateTime", -1
-        ):
-            review_list.append(row)
-    else:
-        for row in (
-            reviews_col.find({"CID": current_user.get_id()})
-            .limit(3)
-            .sort("CreatedDateTime", -1)
-        ):
-            review_list.append(row)
-
-    # get top 3 bookings (if available)
-    booking = (
-        Bookings.query.filter(
-            Bookings.cid == current_user.get_id(), Bookings.date < date.today()
-        )
-        .order_by(Bookings.date.desc())
+    for row in (
+        reviews_col.find({"CID": current_user.get_id()})
         .limit(3)
-        .all()
-    )
+        .sort("CreatedDateTime", -1)
+    ):
+        review_list.append(row)
 
-    for b in booking:
-        data = {
-            "bid": b.rid,
-            "date": b.date,
-            "time": b.time,
-            "pax": b.pax,
-            "special_request": b.special_request,
-            "rid": b.rid,
-            "created_at": b.created_at,
-            "updated_at": b.updated_at,
-        }
-        print(data)
-        booking_list.append(data)
+    count = 0
+    for row in booking_history_col.find({"CID": 3}):
+        for r in row["Bookings"]:
+            if count < 3:
+                print(r)
+                booking_list.append(r)
+                count += 1
 
     # get restaurant names
     if booking_list != None:
@@ -126,26 +105,12 @@ def bookings():
     booking_list = []
     restaurant_list = []
 
-    booking = (
-        Bookings.query.filter(
-            Bookings.cid == current_user.get_id(), Bookings.date < date.today()
-        )
-        .order_by(Bookings.date.desc())
-        .all()
-    )
+    booking_history_col = mongo_db["bookingHistory"]
 
-    for b in booking:
-        data = {
-            "bid": b.rid,
-            "date": b.date,
-            "time": b.time,
-            "pax": b.pax,
-            "special_request": b.special_request,
-            "rid": b.rid,
-            "created_at": b.created_at,
-            "updated_at": b.updated_at,
-        }
-        booking_list.append(data)
+    for row in booking_history_col.find({"CID": current_user.get_id()}):
+        for r in row["Bookings"]:
+            print(r)
+            booking_list.append(r)
 
     getRestaurantNames(restaurant_list)
 
@@ -213,11 +178,17 @@ def orderDetails(orid):
     # Get total amount
     total = 0
     for item in eval(o.food_items):
-        total += item['price']
+        total += item["price"]
 
     getRestaurantNames(restaurant_list)
 
-    return render_template("profile/orderDetails.html", user=current_user, order=order_item, total=total, restaurants=restaurant_list)
+    return render_template(
+        "profile/orderDetails.html",
+        user=current_user,
+        order=order_item,
+        total=total,
+        restaurants=restaurant_list,
+    )
 
 
 # get all restaurant names
