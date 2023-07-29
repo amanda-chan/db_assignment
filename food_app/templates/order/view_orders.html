@@ -14,18 +14,22 @@
     </div>
 </div>
 <br>
+{% include 'error.html' %}
+<br>
 <div class="card-deck mt-2">
     {% for o in order_list %}
         <div class="card text-left">
             <div class="card-body">
-            <h5 class="card-title">#{{o['oid']}} - {{o['name']}}</h5>
+            <h5 class="card-title">#{{o['orid']}} - {{o['name']}}</h5>
             <p class="card-text">Pickup: {{o['date']}}, {{o['time']}}</p>
-            <p class="card-text">Order: </p>
-            {% for i in {{o['food_items']}} %}
-                <p class="card-text">{{i['item']}}</p>
-            {% endfor %}
-            <a href="" class="btn btn-primary">Update</a>
-            <a href="" class="btn btn-primary">Delete</a>
+            <p class="card-text">Order:</p>
+            <ul>
+                {% for i in o['food_items'] %}
+                <li><p class="card-text">{{i['item']}} - {{i['quantity']}}</p></li>
+                {% endfor %}
+            </ul>
+            <a href="{{ url_for('order.update', orid=o['orid']) }}" class="btn btn-primary">Update</a>
+            <a href="{{ url_for('order.delete', orid=o['orid']) }}" class="btn btn-primary">Delete</a>
             </div>
         </div>
         <br>

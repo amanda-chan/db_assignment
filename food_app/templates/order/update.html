@@ -1,49 +1,56 @@
 {% extends 'base.html' %}
 
-{% block title %}Make an order{% endblock %}
+{% block title %}Update{% endblock %}
 
 {% block navbar %}{% include 'navbar.html' %}{% endblock %}
 
 {% block content %}
 
 {% include 'error.html' %}
-<div class="card mb-3">
-    <div class="card-body">
-      <h5 class="card-title">{{restaurant.name}}</h5>
-      <p class="card-text">Cuisine: {{restaurant.cuisine}}</p>
-      <p class="card-text">Operating Hours: {{restaurant.operating_hours}}</p>
-      <p class="card-text">Operating Days: {{restaurant.operating_days}}</p>
-      <p class="card-text">Address: {{restaurant.address}}</p>
-      <p class="card-text">Contact: {{restaurant.contact_number}}</p>
-      <p class="card-text">Email: {{restaurant.email}}</p>
-      <p class="card-text"><small class="text-muted">Price: {{restaurant.price}}</small></p>
-    </div>
-</div>
-<br>
 <div class="row">
-    <h4>Order</h4>
+    <h4>Update Order</h4>
 </div>
 <br>
-<form action="{{ url_for('order.create', rid=restaurant['rid'])}}" method="post">
+<form action="{{ url_for('order.update', orid=orid) }}" method="post">
     <div class="card-group">
-        {% for m in menu_items %}
+        {% for m in order_details %}
         <div class="card" style="width: 18rem;">
             <div class="card-body">
             <h5 class="card-title"></h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{m['MenuItem']}}</h6>
-            <p class="card-text">{{m['Description']}}</p>
-            <p class="card-text">${{m['Price']}}</p>
+            <h6 class="card-subtitle mb-2 text-muted">{{m['item']}}</h6>
+            <p class="card-text">{{m['description']}}</p>
+            <p class="card-text">${{m['price']}}</p>
             <div class="form-group row">
                 <div class="col-9">
                     <label for="{{m['item_id']}}" class="form-label">Quantity</label>
                 </div>
                 <div class="col-3">
                     <select name="{{m['item_id']}}" class="form-select">
+                        {% if m['quantity'] == 0 %}
                         <option value="0" selected>0</option>
+                        {% else %}
+                        <option value="0">0</option>
+                        {% endif %}
+                        {% if m['quantity'] == 1 %}
+                        <option value="1" selected>1</option>
+                        {% else %}
                         <option value="1">1</option>
+                        {% endif %}
+                        {% if m['quantity'] == 2 %}
+                        <option value="2" selected>2</option>
+                        {% else %}
                         <option value="2">2</option>
+                        {% endif %}
+                        {% if m['quantity'] == 3 %}
+                        <option value="3" selected>3</option>
+                        {% else %}
                         <option value="3">3</option>
+                        {% endif %}
+                        {% if m['quantity'] == 4 %}
+                        <option value="4" selected>4</option>
+                        {% else %}
                         <option value="4">4</option>
+                        {% endif %}
                     </select>
                 </div>
             </div>
@@ -58,24 +65,28 @@
         </div>
         <div class="mb-3">
             <label for="pickup-date" class="form-label">Pickup Date:</label>
-            <input type="date" class="form-control" id="pickup-date" name="pickup-date" min="{{ date_min }}" max="{{ date_max }}" required>
+            <input type="date" class="form-control" id="pickup-date" name="pickup-date" min="{{ date_min }}" max="{{ date_max }}" value="{{ p_date }}" required>
         </div>
         <div class="mb-3">
             <label for="pickup-time" class="form-label">Pickup Time:</label>
             <select name="pickup-time" class="form-select" required>
                 <option value="" selected></option>
                 {% for time in timings_list %}
+                    {% if time == p_time %}
+                    <option value="{{ time }}" selected>{{ time }}</option>
+                    {% else %}
                     <option value="{{ time }}">{{ time }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
         </div>
         <div class="mb-3">
             <label for="special-request" class="form-label">Special Request</label>
-            <input type="text" class="form-control" name="special-request">
+            <input type="text" class="form-control" name="special-request" value="{{ s_request }}">
         </div>
         <div class="col-12 mt-5">
             <div class="row mx-1">
-                <button type="submit" class="btn btn-primary">Order</button>
+                <button type="submit" class="btn btn-primary">Update</button>
             </div>
         </div>
         </div>

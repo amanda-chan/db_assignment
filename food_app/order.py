@@ -66,7 +66,7 @@ def generate_timings(operating_hours):
 
         # Add 30 mins intervals between the pickup times during operating hours
         interval_time = start_time
-        while interval_time <= end_time:
+        while interval_time < end_time:
             timings_list.append(interval_time.strftime("%I:%M %p"))
             interval_time += timedelta(minutes = 30)
 
@@ -203,10 +203,10 @@ def view_orders():
     # Get restaurant name and order info
     for o in orders:
 
-        # Get restaurant information
+        # Get restaurant information based on rid
         restaurant = Restaurants.query.get(o.rid)
 
-        order_dict = {"oid" : o.orid,
+        order_dict = {"orid" : o.orid,
                       "name" : restaurant.name,
                       "date" : o.date,
                       "time" : o.pickup_time,
@@ -214,12 +214,182 @@ def view_orders():
         
         order_list.append(order_dict)
 
-    
-    for i in order_list:
-        print(type(i['food_items']))
-        for h in i['food_items']:
-            print(h['item'])
-
-
-
     return render_template("order/view_orders.html", order_list=order_list, user = current_user)
+
+@order_bp.route("/update", methods=['GET', 'POST'])
+@login_required
+def update():
+
+    # Get order id
+    orid = request.args.get('orid')
+
+    # Get order information
+    order = Orders.query.get(orid)
+
+    # Get restaurant information
+    restaurant = Restaurants.query.get(order.rid)
+
+    # Get menu collections from the db
+    menu = mongo_db["menu"]
+
+    # Get menu from chosen restaurant
+    query_rid = { "RID" : int(order.rid) }
+    menu_items = menu.find(query_rid)
+    
+    # Get food_item details and quantity from user's order
+    order_details = []
+    for menu in menu_items:
+        not_found = True # See if the menu item is ordered by the customer
+        for food_item in eval(order.food_items):
+            if food_item['item'] == menu['MenuItem']: # Retrieve quanitity from what the customer ordered
+                details = {"item" : food_item['item'],
+                           "description" : menu['Description'],
+                           "price" : menu['Price'],
+                           "quantity" : food_item['quantity'],
+                           "item_id" : menu['item_id']}
+                
+                order_details.append(details)
+                
+                # Manage to find menu item ordered by customer
+                not_found = False
+
+                break
+        
+        if not_found:
+            details = {"item" : menu['MenuItem'],
+                        "description" : menu['Description'],
+                        "price" : menu['Price'],
+                        "quantity" : 0,
+                        "item_id" : menu['item_id']}
+                
+            order_details.append(details)
+
+    # Get pickup time within operating hours
+    timings_list = generate_timings(restaurant.operating_hours)
+
+    # Set pickup date max as 2 weeks from the next day
+    # Set pickup date min to be the next day
+    today = datetime.today()
+    date_min = today + timedelta(days = 1) 
+    date_max = date_min + timedelta(weeks = 2)
+    date_min = date_min.date()
+    date_max = date_max.date()
+
+    p_time = order.pickup_time.strftime("%I:%M %p")
+    p_date = order.date
+    s_request = order.special_request
+    if s_request == None: # No special request
+        s_request = ""
+
+    if request.method == 'POST':
+
+        # Get menu collections from the db
+        menu = mongo_db["menu"]
+
+        # Get menu from chosen restaurant
+        query_rid = { "RID" : int(order.rid) }
+        menu_items = menu.find(query_rid)
+
+        food_items = []
+
+        for m in menu_items:
+            item = m['MenuItem']
+            quantity = int(request.form.get(str(m['item_id'])))
+
+            if quantity > 0: # Customer ordered menu item
+                food_dict = { "item" : item, "quantity" : quantity}
+                food_items.append(food_dict)
+
+        pickup_date = request.form.get("pickup-date")
+        pickup_time = request.form.get("pickup-time")
+        special_request = request.form.get("special-request")
+
+        # Check if date is valid during operating days
+        validity = validate_date(pickup_date, restaurant.operating_days)
+
+        if food_items == []:
+            flash("No food options selected", category = "error")
+
+        elif not validity:
+            flash("Restaurant is not open on that date, please select another date", category = "error")
+
+        else:
+            pickup_time = datetime.strptime(pickup_time, "%I:%M %p").time()
+            # Update order in database
+            order.date = pickup_date
+            order.pickup_time = pickup_time
+            order.food_items = str(food_items)
+            order.special_request = special_request
+            sql_db.session.commit()
+            flash("Order updated successfully!", category = "success")
+
+            return redirect(url_for("order.view_orders"))
+
+    return render_template("order/update.html", order_details = order_details, timings_list = timings_list, date_min = date_min, date_max = date_max, p_time = p_time, p_date = p_date, s_request = s_request, orid = orid, user = current_user)
+
+@order_bp.route("/delete", methods=['GET', 'POST'])
+@login_required
+def delete():
+    # Get order id
+    orid = request.args.get('orid')
+
+    # Get order information
+    order = Orders.query.get(orid)
+
+    # Get restaurant information
+    restaurant = Restaurants.query.get(order.rid)
+
+    # Get menu collections from the db
+    menu = mongo_db["menu"]
+
+    # Get menu from chosen restaurant
+    query_rid = { "RID" : int(order.rid) }
+    menu_items = menu.find(query_rid)
+    
+    # Get food_item details and quantity from user's order
+    order_details = []
+    for menu in menu_items:
+        not_found = True # See if the menu item is ordered by the customer
+        for food_item in eval(order.food_items):
+            if food_item['item'] == menu['MenuItem']: # Retrieve quanitity from what the customer ordered
+                details = {"item" : food_item['item'],
+                           "description" : menu['Description'],
+                           "price" : menu['Price'],
+                           "quantity" : food_item['quantity'],
+                           "item_id" : menu['item_id']}
+                
+                order_details.append(details)
+                
+                # Manage to find menu item ordered by customer
+                not_found = False
+
+                break
+        
+        if not_found:
+            details = {"item" : menu['MenuItem'],
+                        "description" : menu['Description'],
+                        "price" : menu['Price'],
+                        "quantity" : 0,
+                        "item_id" : menu['item_id']}
+                
+            order_details.append(details)
+
+    # Get pickup time within operating hours
+    timings_list = generate_timings(restaurant.operating_hours)
+
+    p_time = order.pickup_time.strftime("%I:%M %p")
+    p_date = order.date
+    s_request = order.special_request
+    if s_request == None: # No special request
+        s_request = ""
+
+    if request.method == 'POST':
+        # Delete the order from the database
+        sql_db.session.delete(order)
+        sql_db.session.commit()
+
+        flash("Order deleted successfully!", category = "success")
+        
+        return redirect(url_for("order.view_orders"))
+
+    return render_template("order/delete.html", order_details = order_details, timings_list = timings_list, p_time = p_time, p_date = p_date, s_request = s_request, orid = orid, user = current_user)
