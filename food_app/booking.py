@@ -45,7 +45,6 @@ def getRestaurantName(restaurant_list, rid):
     
 #View list of Bookings 
 @booking_bp.route("/")
-#@login_required
 def view():
     #List of bookings of a cid
     bookings_list = []
@@ -72,7 +71,6 @@ def view():
 
 #Create a new booking 
 @booking_bp.route("/create", methods=["GET", "POST"])
-#@login_required
 def create():
     rid = request.args.get('rid')
     restaurant_list = []
