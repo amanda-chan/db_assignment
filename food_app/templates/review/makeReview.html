@@ -1,43 +1,66 @@
-
 {% extends 'base.html' %}
 
-{% block title %}Make a Review{% endblock %}
+{% block title %}Booking - Create{% endblock %}
 
 {% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('review.display') }}">View Reviews</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('restaurant.info', rid=rRid) }}">Restaurant Information</a></li>
+        <li class="breadcrumb-item active" aria-current="page">New Booking</li>
+    </ol>
+</nav>
 
-<div class = "container">
-    <h1>My Reviews</h1>
-    <br>
-   
-    <!-- Rate the restruant basing on a scale of 1 to 10 -->
-    
-    <div class="form-floating">
-        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-            <option selected>Open this select menu</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-        </select>
-        <label for="floatingSelect">Rate your exerpience</label>
-    </div>
-    <br></br>
-    <!-- text area to leave review for the resturant -->
-    <div class="form-floating mb-3">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2Disabled" style="height: 100px"></textarea>
-        <label for="floatingTextarea2">Comments</label>
-    </div>
+<h1>Review Visited Restaurant</h1>
+{% include 'error.html' %}
+<div class="container mt-4">
+    {% if user.is_authenticated %}
+        <div class="custom-box">
 
-    <a href="" class="btn btn-primary btn-lg">Make a Review</a>
-    <button type="button" class="btn btn-primary btn-lg">Review</button>
-<!-- <button type="button" class="btn btn-secondary btn-lg">Large button</button> -->
+            <form method="post">
+                <div class="mb-3">
+                    <label for="restaurant" class="form-label">Restaurant Visited</label>
+            
+                    <label for="restaurant" class="form-label">Restaurant</label>
+                    <input type="text" class="form-control" id="restaurant" name="restaurant"
+                        value="{{restaurant.name}}" readonly>
+                    
+                    <!-- <input type="text" class="form-control" id="restaurant" name="restaurant"
+                        value="{{ rName}}" readonly> -->
+                </div>
+             
+                <div class="mb-3">
+                    <label for="review" class="form-label">Comment Review</label>
+                    <textarea class="form-control" id="review"
+                        name="review" rows="4" cols="50"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Ratings</label><br>
+                    <select name="rating" class="form-select">
+                        <option value="" selected>Rate your experience</option>
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5   </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary">Post Review</button>
+                </div>
+            </form>
+        </div>
+    {% else %}
+    <p>Please <a href="{{ url_for('auth.login') }}" class="custom-link">log in</a> 
+        or <a href="{{ url_for('auth.register') }}" class="custom-link">register</a> to start booking.</p>
+    {% endif %}
 </div>
-
-
+<script>
+    const currentDate = new Date();
+    const nextDay = new Date(currentDate);
+    nextDay.setDate(currentDate.getDate() + 1);
+    const nextDayFormatted = nextDay.toISOString().split('T')[0];
+    document.getElementById('date').min = nextDayFormatted;
+</script>
 {% endblock %}
