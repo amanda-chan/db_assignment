@@ -90,9 +90,9 @@
                     <h5 class="card-title">Rating:
                         {% for i in range(5) %}
                             {% if i < review.Rating %}
-                                <i class="fas fa-star"></i>
+                            <i class="fa-solid fa-star" style="color: #ea580c;"></i>
                             {% else %}
-                                <i class="far fa-star"></i>
+                                <i class="far fa-star" style="color: #ea580c;"></i>
                             {% endif %}
                         {% endfor %}
                     </h5>
@@ -116,12 +116,7 @@
                 
             {% endfor %}
         </div>
-        
-        <!-- Debug Section -->
-    <div>
-        <h3>Debug - Reviews</h3>
-        <pre>{{ reviews | tojson }}</pre>
-    </div>
+    
     </div>
 </div>
 

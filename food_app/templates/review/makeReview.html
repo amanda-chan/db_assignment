@@ -7,8 +7,7 @@
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
         <li class="breadcrumb-item"><a href="{{ url_for('review.display') }}">View Reviews</a></li>
-        <li class="breadcrumb-item"><a href="{{ url_for('restaurant.info', rid=rRid) }}">Restaurant Information</a></li>
-        <li class="breadcrumb-item active" aria-current="page">New Booking</li>
+        <li class="breadcrumb-item active" aria-current="page">New Review</li>
     </ol>
 </nav>
 
@@ -18,23 +17,15 @@
     {% if user.is_authenticated %}
         <div class="custom-box">
 
-            <form method="post">
+            <form method="post" action="{{ url_for('review.make')}}>
                 <div class="mb-3">
                     <label for="restaurant" class="form-label">Restaurant Visited</label>
             
                     <label for="restaurant" class="form-label">Restaurant</label>
                     <input type="text" class="form-control" id="restaurant" name="restaurant"
                         value="{{restaurant.name}}" readonly>
-                    
-                    <!-- <input type="text" class="form-control" id="restaurant" name="restaurant"
-                        value="{{ rName}}" readonly> -->
-                </div>
-             
-                <div class="mb-3">
-                    <label for="review" class="form-label">Comment Review</label>
-                    <textarea class="form-control" id="review"
-                        name="review" rows="4" cols="50"></textarea>
-                </div>
+                
+                </br>
                 <div class="mb-3">
                     <label for="rating" class="form-label">Ratings</label><br>
                     <select name="rating" class="form-select">
@@ -43,9 +34,18 @@
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
-                        <option value="5">5   </option>
+                        <option value="5">5</option>
                     </select>
                 </div>
+            </div>
+
+                <br>
+                <div class="mb-3">
+                    <label for="review" class="form-label">Comment Review</label>
+                    <textarea class="form-control" id="review"
+                        name="review" rows="4" cols="50"></textarea>
+                </div>
+                
                 <div class="mb-3">
                     <button class="btn btn-primary">Post Review</button>
                 </div>
