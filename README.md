@@ -70,8 +70,10 @@ pip freeze > requirements.txt
 ```bash
 flask --app food_app --debug run
 ```
-![image](https://github.com/amanda-chan/db_assignment/assets/60087811/82ef4361-1e1a-4c0c-8927-fae9b50ece7d)
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/33148125-5213-4ffd-aa69-d739bfa37c93)
+
 
 ### Copy the address from the terminal into your browser and you should be able to see the application!
-![image](https://github.com/amanda-chan/db_assignment/assets/60087811/695d7a6b-8047-4d5e-b915-1fa1835ecee2)
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/2f86e9e1-abdd-46a7-91ff-43c0144affb4)
+
 
