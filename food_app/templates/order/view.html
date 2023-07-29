@@ -6,18 +6,23 @@
 
 {% block content %}
 <div class="row">
-    <h2>Available Restaurants</h2>
-    <div class="card-deck mt-2">
-        {% for r in restaurant_list %}
-            <div class="card text-left">
-                <div class="card-body">
-                <h5 class="card-title">{{r['name']}}</h5>
-                <p class="card-text">{{r['price']}} {{r['cuisine']}}</p>
-                <a href="#" class="btn btn-primary">Order</a>
-                </div>
-            </div>
-            <br>
-        {% endfor %}
+    <div class="col-8">
+        <h2>Available Restaurants</h2>
     </div>
+    <div class="col-4">
+        <a style="float: right;" href="{{ url_for('order.view_orders')}}" class="btn btn-primary">View Orders</a>
+    </div>
+</div>
+<div class="card-deck mt-2">
+    {% for r in restaurant_list %}
+        <div class="card text-left">
+            <div class="card-body">
+            <h5 class="card-title">{{r['name']}}</h5>
+            <p class="card-text">{{r['price']}} {{r['cuisine']}}</p>
+            <a href="{{ url_for('order.create', rid=r['rid']) }}" class="btn btn-primary">Order</a>
+            </div>
+        </div>
+        <br>
+    {% endfor %}
 </div>
 {% endblock %}

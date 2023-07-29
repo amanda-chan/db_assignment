@@ -249,12 +249,14 @@ def create_app():
     from .restaurant import restaurant_bp
     from .order import order_bp
     from .review import review_bp
+    from .booking import booking_bp
     app.register_blueprint(auth_bp, url_prefix='/')
     app.register_blueprint(home_bp, url_prefix='/')
     app.register_blueprint(profile_bp)
     app.register_blueprint(restaurant_bp)
     app.register_blueprint(order_bp)
     app.register_blueprint(review_bp)
+    app.register_blueprint(booking_bp)
 
 
     # create tables in the db
@@ -266,6 +268,7 @@ def create_app():
         owner_setup(sql_db, Owners)
         restraunt_setup(sql_db, Restaurants)
         customer_setup(sql_db, Customers)
+        #  bookings_setup(sql_db, Bookings)
         menu_setup(mongo_db)
         reviews_setup(mongo_db)
 
