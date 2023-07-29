@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from datetime import datetime
 from .models import Bookings, Restaurants
 from . import sql_db, mongo_db
+from datetime import datetime, timedelta
 
 
 booking_bp = Blueprint("booking", __name__, url_prefix="/booking")
@@ -41,7 +41,81 @@ def getRestaurantName(restaurant_list, rid):
     restaurant = Restaurants.query.get(rid)
     rName = restaurant.name
     return rName
+
+def generate_timings(operating_hours):
     
+    timings_list = []
+
+    # Varying operating hours
+    if ", " in operating_hours:
+        temp = operating_hours.split(", ")
+        for time in temp:
+            # Seperate start and end timings
+            time_temp = time.split("-")
+            start_time = datetime.strptime(time_temp[0], "%I:%M %p")
+            end_time = datetime.strptime(time_temp[1], "%I:%M %p")
+
+            # Add 30 mins intervals between operating hours
+            interval_time = start_time
+            while interval_time <= end_time:
+                timings_list.append(interval_time.strftime("%I:%M %p"))
+                interval_time += timedelta(minutes = 15)
+
+    else:
+        # Seperate start and end timings
+        time_temp = operating_hours.split("-")
+        start_time = datetime.strptime(time_temp[0], "%I:%M %p")
+        end_time = datetime.strptime(time_temp[1], "%I:%M %p")
+        
+        # Check if the ending time is 12:00 AM - if so add one day
+        if end_time.hour == 0 and end_time.minute == 0 and end_time.second == 0:
+            end_time += timedelta(days = 1)
+
+        # Add 30 mins intervals between operating hours
+        interval_time = start_time
+        while interval_time <= end_time:
+            timings_list.append(interval_time.strftime("%I:%M %p"))
+            interval_time += timedelta(minutes = 15)
+
+    return timings_list
+
+def validate_date(book_date, operating_days):
+
+    avail_days = []
+    week_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+    # Get the day of the week by date
+    book_obj = datetime.strptime(book_date, "%Y-%m-%d")
+    book_day = book_obj.weekday()
+    book_day = week_days[book_day]
+
+    # Gather the days opened in a list
+    if ", " in operating_days:
+        temp = operating_days.split(", ")
+        for day in temp:
+            if " - " in day:
+                day_temp = day.split(" - ")
+                index = week_days.index(day_temp[0])
+                while index < len(week_days):
+                    avail_days.append(week_days[index])
+                    index += 1
+
+            else:
+                avail_days.append(day)
+
+    else:
+        day_temp = operating_days.split(" - ")
+        index = week_days.index(day_temp[0])
+        while index < len(week_days):
+            avail_days.append(week_days[index])
+            index += 1
+
+    if book_day in avail_days:
+        return True
+    
+    else:
+        return False
+
     
 #View list of Bookings 
 @booking_bp.route("/")
@@ -73,31 +147,41 @@ def view():
 @booking_bp.route("/create", methods=["GET", "POST"])
 def create():
     rid = request.args.get('rid')
-    restaurant_list = []
-    rName =getRestaurantName(restaurant_list, rid)
+    restaurant = Restaurants.query.get(rid)
+    rName = restaurant.name
+    timings_list = generate_timings(restaurant.operating_hours)
+    days = restaurant.operating_days
 
     if request.method == "POST":
         date = request.form.get("date")
-        time = request.form.get("time")
+        bTime = request.form.get("time")
         pax = request.form.get("pax")
         special_request = request.form.get("special_request")
         restaurant = rid
 
-        new_booking = Bookings(
-            date=date,
-            time=time,
-            pax=pax,
-            special_request = special_request,
-            created_at = datetime.now(),
-            rid = restaurant,
-            cid = current_user.get_id(),
-        )
-        sql_db.session.add(new_booking)
-        sql_db.session.commit()
-        flash("Booked successfully!", category="success")
-        return redirect(url_for("booking.view"))
+        # Validate date
+        validDate = validate_date(date, days)
 
-    return render_template("booking/create.html", rName = rName, rRid=rid, user = current_user)
+        if not validDate:
+            flash("Restaurant is not open on that date, please select another date", category = "error")
+
+        else: 
+            time = datetime.strptime(bTime, "%I:%M %p").time()
+            new_booking = Bookings(
+                date=date,
+                time=time,
+                pax=pax,
+                special_request = special_request,
+                created_at = datetime.now(),
+                rid = restaurant,
+                cid = current_user.get_id(),
+            )
+            sql_db.session.add(new_booking)
+            sql_db.session.commit()
+            flash("Booked successfully!", category="success")
+            return redirect(url_for("booking.view"))
+
+    return render_template("booking/create.html", rName = rName, rRid=rid, timings_list = timings_list, user = current_user)
 
 #Update
 @booking_bp.route("/edit", methods=["GET", "POST"])
@@ -106,27 +190,38 @@ def edit():
     bid = request.args.get('bid')
     rid = request.args.get('rid')
     booking = Bookings.query.get(bid)
-    restaurant_list = []
-    r=getRestaurantName(restaurant_list, rid)
+    restaurant = Restaurants.query.get(rid)
+
+    r = restaurant.name
+    timings_list = generate_timings(restaurant.operating_hours)
+    days = restaurant.operating_days
+
 
     if request.method == "POST":
         date = request.form.get("date")
-        time = request.form.get("time")
+        bTime = request.form.get("time")
         pax = request.form.get("pax")
         special_request = request.form.get("special_request")
         
-        booking = Bookings.query.get(bid)
-        
-        booking.date = date
-        booking.time = time
-        booking.pax = pax
-        booking.special_request = special_request
-        booking.updated_at = datetime.now()
+        # Validate date
+        validDate = validate_date(date, days)
 
-        sql_db.session.commit()
-        flash("Changes saved successfully!", category="success")
-        return redirect(url_for("booking.view"))
-    return render_template("booking/edit.html",booking = booking, rName = r, user = current_user)
+        if not validDate:
+            flash("Restaurant is not open on that date, please select another date", category = "error")
+
+        else: 
+            time = datetime.strptime(bTime, "%I:%M %p").time()
+            booking = Bookings.query.get(bid)
+            booking.date = date
+            booking.time = time
+            booking.pax = pax
+            booking.special_request = special_request
+            booking.updated_at = datetime.now()
+
+            sql_db.session.commit()
+            flash("Changes saved successfully!", category="success")
+            return redirect(url_for("booking.view"))
+    return render_template("booking/edit.html",booking = booking, rName = r, timings_list = timings_list, user = current_user)
 
 #Delete
 @booking_bp.route("/delete", methods=["GET", "POST"])
