@@ -31,18 +31,25 @@
 </div>
 <div class="row">
     <h3>Reviews</h3>
-    <div class="card text-center">
-        <div class="card-header">
-            Featured
-        </div>
+</div>
+{% if count != 0 %}
+    {% for r in reviews %}
+    <div class="card text-left">
         <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-title">{{r['Rating']}} / 5</h5>
+            <p class="card-text">{{r['Review']}}</p>
         </div>
         <div class="card-footer text-muted">
-            2 days ago
+            Reviewed on: {{r['CreatedDateTime']}}
         </div>
     </div>
-</div>
+    <br>
+    {% endfor %}
+{% else %}
+    <div class="card text-center">
+        <div class="card-body">
+            <h5 class="card-title">No reviews created</h5>
+        </div>
+    </div>
+{% endif %}
 {% endblock %}
