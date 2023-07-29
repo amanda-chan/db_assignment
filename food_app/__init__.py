@@ -175,7 +175,7 @@ def reviews_setup(mongo_db):
 
 def booking_history_setup(mongo_db):
 
-    # Create or switch to reviews collection
+    # Create or switch to booking history collection
     bookings = mongo_db["bookingHistory"]
 
     # Get the first document
@@ -188,7 +188,7 @@ def booking_history_setup(mongo_db):
         with open("food_app/data/booking_history_data.json") as file:
             file_data = json.load(file)
 
-        # Insert review data into reviews collection
+        # Insert booking history data into booking history collection
         bookings.insert_many(file_data)
 
 
