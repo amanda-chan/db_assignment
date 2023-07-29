@@ -17,13 +17,9 @@
     <div class="custom-box">
         <form method="post">
             <div class="mb-3">
-                {% for restaurant in restaurants %}
-                    {% if restaurant['rid'] == booking['rid'] %}
-                    <label for="restaurant" class="form-label">Restaurant</label>
-                    <input type="text" class="form-control" id="restaurant" name="restaurant"
-                        value="{{ restaurant['name'] }}" readonly>
-                    {% endif %}
-                {% endfor %}
+                <label for="restaurant" class="form-label">Restaurant</label>
+                <input type="text" class="form-control" id="restaurant" name="restaurant"
+                    value="{{ rName}}" readonly>
             </div>
             <div style="display: flex;">
             <div class="mb-3" style="flex: 1; margin-right: 10%">

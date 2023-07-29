@@ -5,6 +5,13 @@
 {% block navbar %}{% include 'navbar.html' %}{% endblock %}
 
 {% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ url_for('home.home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Restaurants</li>
+    </ol>
+</nav>
+
 <form class="row g-3" action="{{ url_for('restaurant.view')}}" method="post">
     <div class="col-md-4">
         <label for="price" class="form-label">Price Range</label><br>
