@@ -1,73 +1,63 @@
-# db_assignment
+# Team 26: EatWhere – Food Reviews & Reservations Application
 
-### Figma
-<a href="https://www.figma.com/file/U2bY5qkUmypBeqRf6U22C0/db-assignment?type=design&node-id=0%3A1&t=RIGuVeDA5wz7yWGq-1">figma link</a>
+## Pre-requisites
+Before running the application, ensure that you have downloaded the source code in a folder <br>
+The following applications are to be installed and setup:
+<ul>
+  <li><a href="https://code.visualstudio.com/download">Visual Studio Code</a></li>
+  <li><a href="https://dev.mysql.com/downloads/mysql/">MySQL Community Server</a> (Relational Database) </li>
+  <li><a href="https://www.mongodb.com/try/download/community">MongoDB</a> (Non-Relational Database) </li>
+  <li><a href="https://www.python.org/downloads/">Python</a> - during installation ensure to add python to path </li>
+</ul>
 
+## VS Code setup
 
-## Database setup
-### MySQL
-create database (haven't test CRUD, just for connection)
+### Step 1: Open up the Visual Studio Code application
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/c3670d84-cf71-497c-a374-dee4761fa619)
 
-```bash
-CREATE DATABASE IF NOT EXISTS foodappdb;
-```
+### Step 2: Naviagte to extensions and install Python
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/f613609b-1507-4e64-a020-c478d14dcd95)
 
-create user
+### Step 3: Open up the source code folder (File > Open Folder)
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/b48e3385-fdb5-4d6f-a8b7-abbd56b07092)
 
-```bash
-CREATE USER 'db_project'@'localhost' IDENTIFIED BY 'password';
-```
+### Step 4: Create the virtual enviroment 
+#### Open the Command Palette (Ctrl+Shift+P), search for the "Python: Create Environment" command, and select it.
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/2d8e30d6-2476-4ada-a563-44ce0ecc8315)
+#### Select venv
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/67e02a27-7d01-4467-a7b3-6e4792e944b6)
+#### Select the intepreter of the latest python version that you have added to path
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/1d6eb8a7-e55d-43bd-aa37-3971ce101a4e)
+#### On success, when you open a new terminal (Terminal > New Terminal), it will show that the virtual enviroment has been activated
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/819521eb-1161-42bd-9936-4176cb17ad85)
 
-grant permissions
+## Installing relevant libraries & packages
 
-```bash
-GRANT ALL ON foodappdb.* TO 'db_project'@'localhost';
-```
-
-
-## Flask setup
-setup .venv: in vscode, click ctrl + shift + p
-
-install packages from requirements if vscode didn't let you select
-
+### In the terminal type the command below to install the packages (this might take a few minutes)
 ```bash
 pip install -r requirements.txt
 ```
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/82519dad-3d2e-485f-8d70-e85b04c45e63)
 
-if installed any new python packages, update requirements.txt
-
+### If any new packages are added to the requirements.txt file, use
 ```bash
 pip freeze > requirements.txt
 ```
 
-## Update on html
-navbar.html is included in base.html, don't need to add in individual pages anymore!
+## Database setup
 
+### Open the food_app folder and navigate to the file __init__.py
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/2e23972a-cd12-41f2-940f-236ba7d6c905)
 
-## Run app
+### Change line 22 (relational db) and line 42 (non-relational db) accordingly to the credentials and setting of your local databases
+![image](https://github.com/amanda-chan/db_assignment/assets/60087811/ceaedf04-e8cb-475c-98d9-e091f7053e35)
 
+### Save the file (Ctrl + s), after you're done editing
+
+## Running the application
+
+### Head back to the terminal and type the following command
 ```bash
 flask --app food_app --debug run
 ```
 
-
-## Flask Migration
-For new updates to the mysql db model:
-Ensure that you have installed "Flask-Migration"
-
-```bash
-pip install Flask-Migrate
-```
-
-To create a new migration (scan any changes in models.py)
-
-```bash
-flask --app food_app db migrate -m '<migration name>'
-```
-
-Update the db based on the latest migration
-
-```bash
-flask --app food_app db upgrade
-```
-If it does not work, it means you have to manually add the changes into the db yourself TT (or delete the db in sql and run the app again which will initialise everything again) (Even though this was supposed to help with it). Then run upgrade command :D
